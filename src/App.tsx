@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import AuthPage from "./pages/AuthPage";
 import SubmitBusinessPage from "./pages/SubmitBusinessPage";
 import DirectoryPage from "./pages/DirectoryPage";
@@ -21,28 +22,30 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <TooltipProvider>
-        <AuthProvider>
-          <Toaster />
-          <Sonner />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/directory" element={<DirectoryPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/blog" element={<ArticlePage />} />
-            <Route path="/blog/:id" element={<BlogPostDetail />} />
-            <Route 
-              path="/submit" 
-              element={
-                <ProtectedRoute>
-                  <SubmitBusinessPage />
-                </ProtectedRoute>
-              } 
-            />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <Toaster />
+            <Sonner />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/directory" element={<DirectoryPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/blog" element={<ArticlePage />} />
+              <Route path="/blog/:id" element={<BlogPostDetail />} />
+              <Route 
+                path="/submit" 
+                element={
+                  <ProtectedRoute>
+                    <SubmitBusinessPage />
+                  </ProtectedRoute>
+                } 
+              />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
+        </ThemeProvider>
       </TooltipProvider>
     </BrowserRouter>
   </QueryClientProvider>

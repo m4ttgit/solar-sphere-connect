@@ -44,9 +44,9 @@ const AuthPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col dark:bg-gray-900">
       <NavBar />
-      <div className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <div className="flex-grow flex items-center justify-center pt-32 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-md w-full">
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
@@ -55,17 +55,17 @@ const AuthPage: React.FC = () => {
             </TabsList>
 
             <TabsContent value="login">
-              <Card>
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
-                  <CardDescription className="text-center">
+                  <CardTitle className="text-2xl text-center dark:text-white">Welcome back</CardTitle>
+                  <CardDescription className="text-center dark:text-gray-300">
                     Sign in to your SolarHub account
                   </CardDescription>
                 </CardHeader>
                 <form onSubmit={handleSignIn}>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
+                      <Label htmlFor="email" className="dark:text-gray-200">Email</Label>
                       <Input
                         id="email"
                         type="email"
@@ -73,11 +73,12 @@ const AuthPage: React.FC = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       />
                     </div>
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password" className="dark:text-gray-200">Password</Label>
                       </div>
                       <Input
                         id="password"
@@ -85,13 +86,14 @@ const AuthPage: React.FC = () => {
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       />
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-col gap-2">
                     <Button 
                       type="submit" 
-                      className="w-full bg-solar-600 hover:bg-solar-700"
+                      className="w-full bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
@@ -109,17 +111,17 @@ const AuthPage: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="register">
-              <Card>
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-center">Create account</CardTitle>
-                  <CardDescription className="text-center">
+                  <CardTitle className="text-2xl text-center dark:text-white">Create account</CardTitle>
+                  <CardDescription className="text-center dark:text-gray-300">
                     Join SolarHub to submit your business
                   </CardDescription>
                 </CardHeader>
                 <form onSubmit={handleSignUp}>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="register-email">Email</Label>
+                      <Label htmlFor="register-email" className="dark:text-gray-200">Email</Label>
                       <Input
                         id="register-email"
                         type="email"
@@ -127,23 +129,25 @@ const AuthPage: React.FC = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="register-password">Password</Label>
+                      <Label htmlFor="register-password" className="dark:text-gray-200">Password</Label>
                       <Input
                         id="register-password"
                         type="password"
                         required
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       />
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-col gap-2">
                     <Button 
                       type="submit" 
-                      className="w-full bg-solar-600 hover:bg-solar-700"
+                      className="w-full bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (

@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Menu, X, Sun, Moon, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Toggle } from '@/components/ui/toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +20,7 @@ const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
   useEffect(() => {
@@ -39,7 +42,7 @@ const NavBar = () => {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out",
         isScrolled 
-          ? "bg-white/80 backdrop-blur-md shadow-sm py-3" 
+          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm py-3" 
           : "bg-transparent py-5"
       )}
     >
@@ -48,9 +51,9 @@ const NavBar = () => {
           <div className="flex items-center">
             <Link 
               to="/" 
-              className="text-2xl font-medium tracking-tight text-solar-800 transition-colors duration-300"
+              className="text-2xl font-medium tracking-tight text-solar-800 dark:text-white transition-colors duration-300"
             >
-              Solar<span className="text-solar-600">Hub</span>
+              Solar<span className="text-solar-600 dark:text-solar-400">Hub</span>
             </Link>
           </div>
           
@@ -85,22 +88,24 @@ const NavBar = () => {
               </DropdownMenu>
             ) : (
               <Link to="/auth">
-                <Button variant="ghost" className="text-solar-600 hover:text-solar-700">
+                <Button variant="ghost" className="text-solar-600 dark:text-solar-400 hover:text-solar-700 dark:hover:text-solar-300">
                   Login
                 </Button>
               </Link>
             )}
             
-            <button 
-              className="hidden md:flex items-center justify-center rounded-full w-10 h-10 text-gray-700 hover:bg-solar-100 transition-colors duration-300"
+            <Toggle 
+              pressed={theme === 'dark'}
+              onPressedChange={toggleTheme}
               aria-label="Toggle theme"
+              className="rounded-full w-10 h-10 text-gray-700 dark:text-gray-200 hover:bg-solar-100 dark:hover:bg-gray-800 transition-colors duration-300"
             >
-              <Sun size={20} className="text-solar-700" />
-            </button>
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </Toggle>
             
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex items-center justify-center ml-4 text-gray-700"
+              className="md:hidden flex items-center justify-center ml-4 text-gray-700 dark:text-gray-200"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -111,7 +116,7 @@ const NavBar = () => {
       
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg animate-fade-down">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-lg animate-fade-down">
           <nav className="container mx-auto px-4 py-5 flex flex-col space-y-4">
             <MobileNavLink to="/" label="Home" onClick={() => setMobileMenuOpen(false)} />
             <MobileNavLink to="/directory" label="Directory" onClick={() => setMobileMenuOpen(false)} />
@@ -127,7 +132,7 @@ const NavBar = () => {
                   signOut();
                   setMobileMenuOpen(false);
                 }}
-                className="text-gray-700 hover:text-solar-600 font-medium text-lg py-2 border-b border-gray-100 transition-colors duration-300 text-left"
+                className="text-gray-700 dark:text-gray-200 hover:text-solar-600 dark:hover:text-solar-400 font-medium text-lg py-2 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300 text-left"
               >
                 Logout
               </button>
@@ -152,8 +157,8 @@ const NavLink = ({ to, label, currentPath }: NavLinkProps) => {
     <Link 
       to={to} 
       className={cn(
-        "text-gray-700 hover:text-solar-600 font-medium text-sm tracking-wide transition-colors duration-300",
-        isActive && "text-solar-600 font-semibold"
+        "text-gray-700 dark:text-gray-200 hover:text-solar-600 dark:hover:text-solar-400 font-medium text-sm tracking-wide transition-colors duration-300",
+        isActive && "text-solar-600 dark:text-solar-400 font-semibold"
       )}
     >
       {label}
@@ -173,7 +178,7 @@ const MobileNavLink = ({
   return (
     <Link 
       to={to} 
-      className="text-gray-700 hover:text-solar-600 font-medium text-lg py-2 border-b border-gray-100 transition-colors duration-300"
+      className="text-gray-700 dark:text-gray-200 hover:text-solar-600 dark:hover:text-solar-400 font-medium text-lg py-2 border-b border-gray-100 dark:border-gray-800 transition-colors duration-300"
       onClick={onClick}
     >
       {label}

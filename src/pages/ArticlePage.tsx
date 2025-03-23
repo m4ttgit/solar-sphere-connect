@@ -89,7 +89,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post }) => {
   const navigate = useNavigate();
   
   return (
-    <Card className="overflow-hidden h-full flex flex-col">
+    <Card className="overflow-hidden h-full flex flex-col dark:bg-gray-800 dark:border-gray-700">
       <div className="h-48 overflow-hidden">
         <img 
           src={post.image} 
@@ -99,19 +99,19 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post }) => {
       </div>
       <CardHeader className="pb-2">
         <div className="flex items-center gap-2 mb-2">
-          <span className="bg-solar-100 text-solar-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+          <span className="bg-solar-100 text-solar-800 dark:bg-solar-900 dark:text-solar-300 text-xs font-medium px-2.5 py-0.5 rounded-full">
             {post.category}
           </span>
         </div>
-        <CardTitle className="text-xl">{post.title}</CardTitle>
+        <CardTitle className="text-xl dark:text-white">{post.title}</CardTitle>
       </CardHeader>
       <CardContent className="pb-2 flex-grow">
-        <CardDescription className="text-gray-600">
+        <CardDescription className="text-gray-600 dark:text-gray-300">
           {post.excerpt}
         </CardDescription>
       </CardContent>
-      <CardFooter className="flex flex-col items-start border-t pt-4">
-        <div className="flex justify-between w-full mb-3 text-gray-500 text-sm">
+      <CardFooter className="flex flex-col items-start border-t border-gray-200 dark:border-gray-700 pt-4">
+        <div className="flex justify-between w-full mb-3 text-gray-500 dark:text-gray-400 text-sm">
           <div className="flex items-center">
             <CalendarIcon className="h-4 w-4 mr-1" />
             {post.date}
@@ -123,7 +123,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post }) => {
         </div>
         <Button 
           variant="outline" 
-          className="w-full text-solar-600 border-solar-200 hover:bg-solar-50"
+          className="w-full text-solar-600 dark:text-solar-400 border-solar-200 dark:border-solar-800 hover:bg-solar-50 dark:hover:bg-solar-900/30"
           onClick={() => navigate(`/blog/${post.id}`)}
         >
           Read More
@@ -135,13 +135,13 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post }) => {
 
 const ArticlePage: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col dark:bg-gray-900">
       <NavBar />
-      <div className="container mx-auto py-16 px-4 flex-grow">
+      <div className="container mx-auto pt-32 pb-16 px-4 flex-grow">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-solar-800 mb-4">SolarHub Blog</h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <h1 className="text-4xl font-bold text-solar-800 dark:text-white mb-4">SolarHub Blog</h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Discover the latest news, insights, and guides on solar energy, sustainability, and renewable technologies.
             </p>
           </div>
