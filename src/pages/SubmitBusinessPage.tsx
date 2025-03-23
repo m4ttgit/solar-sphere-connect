@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
@@ -9,7 +8,7 @@ import { toast } from 'sonner';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { BusinessCategory } from '@/types/business';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,7 +25,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Switch } from '@/components/ui/switch';
 
 const servicesOptions = [
   { id: 'residential-installation', label: 'Residential Installation' },
@@ -72,7 +70,6 @@ const SubmitBusinessPage: React.FC = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch categories
   const { data: categories, isLoading: isLoadingCategories } = useQuery({
     queryKey: ['businessCategories'],
     queryFn: async () => {
@@ -114,7 +111,6 @@ const SubmitBusinessPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Remove the terms_accepted field as it's not in our database
       const { terms_accepted, ...businessData } = data;
 
       const { error } = await supabase
@@ -122,13 +118,12 @@ const SubmitBusinessPage: React.FC = () => {
         .insert({
           ...businessData,
           user_id: user.id,
-        });
+        } as any);
 
       if (error) throw error;
 
       toast.success('Business submitted successfully! It will be reviewed by our team.');
       form.reset();
-      // Navigate to the directory page after submission
       navigate('/directory');
     } catch (error: any) {
       toast.error(error.message || 'Failed to submit business. Please try again.');
@@ -163,7 +158,6 @@ const SubmitBusinessPage: React.FC = () => {
               <CardContent>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    {/* Basic Information */}
                     <div className="space-y-4">
                       <h3 className="text-lg font-medium">Basic Information</h3>
                       
@@ -235,7 +229,6 @@ const SubmitBusinessPage: React.FC = () => {
                       />
                     </div>
                     
-                    {/* Contact Information */}
                     <div className="space-y-4 pt-4 border-t">
                       <h3 className="text-lg font-medium">Contact Information</h3>
                       
@@ -342,7 +335,6 @@ const SubmitBusinessPage: React.FC = () => {
                       </div>
                     </div>
                     
-                    {/* Services & Certifications */}
                     <div className="space-y-4 pt-4 border-t">
                       <h3 className="text-lg font-medium">Services & Certifications</h3>
                       
@@ -449,7 +441,6 @@ const SubmitBusinessPage: React.FC = () => {
                       />
                     </div>
                     
-                    {/* Terms and Conditions */}
                     <div className="pt-4 border-t">
                       <FormField
                         control={form.control}
