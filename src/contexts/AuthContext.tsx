@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { AuthState } from '@/types/auth';
+import { useQuery } from '@tanstack/react-query';
 
 type AuthContextType = {
   session: Session | null;
@@ -13,6 +14,8 @@ type AuthContextType = {
   signUp: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   isLoading: boolean;
+  isAdmin: boolean;
+  isCheckingAdmin: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,6 +27,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isLoading: true,
   });
   const navigate = useNavigate();
+
+  // Check if user is an admin
+  const { data: isAdmin, isLoading: isCheckingAdmin } = useQuery({
+    queryKey: ['isAdmin', authState.user?.id],
+    queryFn: async () => {
+      if (!authState.user) return false;
+      
+      const { data, error } = await supabase
+        .from('admins')
+        .select('id')
+        .eq('id', authState.user.id)
+        .maybeSingle();
+      
+      if (error) {
+        console.error('Error checking admin status:', error);
+        return false;
+      }
+      
+      return !!data;
+    },
+    enabled: !!authState.user,
+  });
 
   useEffect(() => {
     // Set up the auth state listener
@@ -102,6 +127,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         signUp,
         signOut,
         isLoading: authState.isLoading,
+        isAdmin: !!isAdmin,
+        isCheckingAdmin,
       }}
     >
       {children}

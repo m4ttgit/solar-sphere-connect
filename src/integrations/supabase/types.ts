@@ -9,13 +9,86 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      admins: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      blog_posts: {
+        Row: {
+          author: string
+          author_image: string | null
+          author_title: string | null
+          category: string
+          content: string
+          created_at: string
+          date: string
+          excerpt: string
+          id: string
+          image: string
+          published: boolean
+          read_time: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          author_image?: string | null
+          author_title?: string | null
+          category: string
+          content: string
+          created_at?: string
+          date?: string
+          excerpt: string
+          id?: string
+          image: string
+          published?: boolean
+          read_time: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          author_image?: string | null
+          author_title?: string | null
+          category?: string
+          content?: string
+          created_at?: string
+          date?: string
+          excerpt?: string
+          id?: string
+          image?: string
+          published?: boolean
+          read_time?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: {
+          user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

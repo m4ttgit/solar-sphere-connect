@@ -15,6 +15,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AboutPage from "./pages/AboutPage";
 import ArticlePage from "./pages/ArticlePage";
 import BlogPostDetail from "./pages/BlogPostDetail";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import BlogPostsList from "./pages/admin/BlogPostsList";
+import BlogPostForm from "./pages/admin/BlogPostForm";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +45,41 @@ const App = () => (
                   </ProtectedRoute>
                 } 
               />
+              
+              {/* Admin Routes */}
+              <Route 
+                path="/admin" 
+                element={
+                  <AdminProtectedRoute>
+                    <AdminDashboard />
+                  </AdminProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/posts" 
+                element={
+                  <AdminProtectedRoute>
+                    <BlogPostsList />
+                  </AdminProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/posts/new" 
+                element={
+                  <AdminProtectedRoute>
+                    <BlogPostForm />
+                  </AdminProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/posts/edit/:id" 
+                element={
+                  <AdminProtectedRoute>
+                    <BlogPostForm />
+                  </AdminProtectedRoute>
+                } 
+              />
+              
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
