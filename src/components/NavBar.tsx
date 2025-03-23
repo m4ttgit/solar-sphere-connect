@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Menu, X, Sun, Moon, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,6 +18,7 @@ const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +28,11 @@ const NavBar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close mobile menu when changing routes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
 
   return (
     <header 
@@ -49,10 +55,11 @@ const NavBar = () => {
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
-            <NavLink to="/" label="Home" />
-            <NavLink to="/directory" label="Directory" />
-            <NavLink to="/submit" label="Submit Business" />
-            <NavLink to="/about" label="About" />
+            <NavLink to="/" label="Home" currentPath={location.pathname} />
+            <NavLink to="/directory" label="Directory" currentPath={location.pathname} />
+            <NavLink to="/blog" label="Blog" currentPath={location.pathname} />
+            <NavLink to="/about" label="About" currentPath={location.pathname} />
+            <NavLink to="/submit" label="Submit Business" currentPath={location.pathname} />
           </nav>
           
           <div className="flex items-center space-x-4">
@@ -108,8 +115,9 @@ const NavBar = () => {
           <nav className="container mx-auto px-4 py-5 flex flex-col space-y-4">
             <MobileNavLink to="/" label="Home" onClick={() => setMobileMenuOpen(false)} />
             <MobileNavLink to="/directory" label="Directory" onClick={() => setMobileMenuOpen(false)} />
-            <MobileNavLink to="/submit" label="Submit Business" onClick={() => setMobileMenuOpen(false)} />
+            <MobileNavLink to="/blog" label="Blog" onClick={() => setMobileMenuOpen(false)} />
             <MobileNavLink to="/about" label="About" onClick={() => setMobileMenuOpen(false)} />
+            <MobileNavLink to="/submit" label="Submit Business" onClick={() => setMobileMenuOpen(false)} />
             {!user && (
               <MobileNavLink to="/auth" label="Login / Register" onClick={() => setMobileMenuOpen(false)} />
             )}
@@ -131,11 +139,22 @@ const NavBar = () => {
   );
 };
 
-const NavLink = ({ to, label }: { to: string; label: string }) => {
+interface NavLinkProps {
+  to: string;
+  label: string;
+  currentPath: string;
+}
+
+const NavLink = ({ to, label, currentPath }: NavLinkProps) => {
+  const isActive = currentPath === to || (to !== '/' && currentPath.startsWith(to));
+  
   return (
     <Link 
       to={to} 
-      className="text-gray-700 hover:text-solar-600 font-medium text-sm tracking-wide transition-colors duration-300"
+      className={cn(
+        "text-gray-700 hover:text-solar-600 font-medium text-sm tracking-wide transition-colors duration-300",
+        isActive && "text-solar-600 font-semibold"
+      )}
     >
       {label}
     </Link>

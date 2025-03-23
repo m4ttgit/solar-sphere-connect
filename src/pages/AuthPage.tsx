@@ -88,7 +88,7 @@ const AuthPage: React.FC = () => {
                       />
                     </div>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="flex flex-col gap-2">
                     <Button 
                       type="submit" 
                       className="w-full bg-solar-600 hover:bg-solar-700"
@@ -140,7 +140,7 @@ const AuthPage: React.FC = () => {
                       />
                     </div>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter className="flex flex-col gap-2">
                     <Button 
                       type="submit" 
                       className="w-full bg-solar-600 hover:bg-solar-700"

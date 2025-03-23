@@ -11,6 +11,9 @@ import AuthPage from "./pages/AuthPage";
 import SubmitBusinessPage from "./pages/SubmitBusinessPage";
 import DirectoryPage from "./pages/DirectoryPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AboutPage from "./pages/AboutPage";
+import ArticlePage from "./pages/ArticlePage";
+import BlogPostDetail from "./pages/BlogPostDetail";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/directory" element={<DirectoryPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/blog" element={<ArticlePage />} />
+            <Route path="/blog/:id" element={<BlogPostDetail />} />
             <Route 
               path="/submit" 
               element={
