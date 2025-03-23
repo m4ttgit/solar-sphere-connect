@@ -107,11 +107,25 @@ const BlogPostForm: React.FC = () => {
 
   const onSubmit = async (values: FormValues) => {
     try {
+      // Ensure all required fields are present
+      const blogPostData = {
+        title: values.title,
+        excerpt: values.excerpt,
+        content: values.content,
+        author: values.author,
+        author_title: values.author_title || null,
+        author_image: values.author_image || null,
+        read_time: values.read_time,
+        category: values.category,
+        image: values.image,
+        published: values.published
+      };
+      
       if (isEditMode) {
         // Update existing post
         const { error } = await supabase
           .from('blog_posts')
-          .update(values)
+          .update(blogPostData)
           .eq('id', id);
         
         if (error) throw error;
@@ -121,7 +135,7 @@ const BlogPostForm: React.FC = () => {
         // Create new post - Fixed: Insert a single object, not an array of objects
         const { error } = await supabase
           .from('blog_posts')
-          .insert(values);
+          .insert(blogPostData);
         
         if (error) throw error;
         
