@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 
 const DirectoryPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   
   // Fetch categories for the filter
   const { data: categories, isLoading: isLoadingCategories } = useQuery({
@@ -44,7 +44,7 @@ const DirectoryPage: React.FC = () => {
         `)
         .eq('approved', true);
       
-      if (selectedCategory) {
+      if (selectedCategory && selectedCategory !== 'all') {
         query = query.eq('category_id', selectedCategory);
       }
       
@@ -109,7 +109,7 @@ const DirectoryPage: React.FC = () => {
                           </div>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">All Categories</SelectItem>
+                          <SelectItem value="all">All Categories</SelectItem>
                           {categories?.map((category) => (
                             <SelectItem key={category.id} value={category.id}>
                               {category.name}
@@ -159,7 +159,7 @@ const DirectoryPage: React.FC = () => {
                       variant="outline" 
                       onClick={() => {
                         setSearchTerm('');
-                        setSelectedCategory('');
+                        setSelectedCategory('all');
                       }}
                     >
                       Clear Filters
