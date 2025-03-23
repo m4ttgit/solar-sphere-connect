@@ -102,7 +102,7 @@ const BlogPostForm: React.FC = () => {
       
       return data;
     },
-    enabled: isEditMode,
+    enabled: !!isEditMode, // Fixed: Convert string to boolean with !!
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -118,10 +118,10 @@ const BlogPostForm: React.FC = () => {
         
         toast.success('Blog post updated successfully');
       } else {
-        // Create new post
+        // Create new post - Fixed: Insert a single object, not an array of objects
         const { error } = await supabase
           .from('blog_posts')
-          .insert([values]);
+          .insert(values);
         
         if (error) throw error;
         

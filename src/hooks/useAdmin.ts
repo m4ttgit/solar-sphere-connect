@@ -26,7 +26,7 @@ export const useAdmin = () => {
       
       return !!data;
     },
-    enabled: !!user,
+    enabled: !!user, // Make sure this is a boolean
   });
 
   return {
