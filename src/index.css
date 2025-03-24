@@ -95,7 +95,7 @@
 
 @layer components {
   .glass-panel {
-    @apply bg-white/60 backdrop-blur-md border border-white/20 rounded-lg shadow-sm;
+    @apply bg-white/60 dark:bg-gray-800/60 backdrop-blur-md border border-white/20 dark:border-gray-700/20 rounded-lg shadow-sm;
   }
   
   .animate-in {
@@ -103,7 +103,7 @@
   }
   
   .highlight-text {
-    @apply text-solar-600 font-medium;
+    @apply text-solar-600 dark:text-solar-400 font-medium;
   }
   
   .btn-primary {
@@ -111,7 +111,7 @@
   }
   
   .btn-secondary {
-    @apply bg-white border border-solar-200 hover:border-solar-300 text-solar-700 px-4 py-2 rounded-md transition-all duration-300 ease-in-out hover:shadow-sm;
+    @apply bg-white dark:bg-gray-800 border border-solar-200 dark:border-solar-700 hover:border-solar-300 dark:hover:border-solar-600 text-solar-700 dark:text-solar-400 px-4 py-2 rounded-md transition-all duration-300 ease-in-out hover:shadow-sm;
   }
 }
 

@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { supabase } from '@/lib/supabase';
@@ -13,14 +14,24 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Phone, Mail, Globe, Search, Filter } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const ITEMS_PER_PAGE = 10;
 
 const DirectoryPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialSearchTerm = searchParams.get('search') || '';
+  const initialLocation = searchParams.get('location') || '';
+  
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const [locationTerm, setLocationTerm] = useState(initialLocation);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Reset to page 1 when search parameters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [initialSearchTerm, initialLocation]);
   
   // Fetch categories for the filter
   const { data: categories, isLoading: isLoadingCategories } = useQuery({
@@ -59,15 +70,24 @@ const DirectoryPage: React.FC = () => {
     },
   });
 
-  // Filter businesses based on search term
+  // Filter businesses based on search terms
   const filteredBusinesses = businesses?.filter(business => {
     const searchLower = searchTerm.toLowerCase();
-    return (
+    const locationLower = locationTerm.toLowerCase();
+    
+    const matchesSearch = searchTerm === '' || 
       business.name.toLowerCase().includes(searchLower) ||
       business.description.toLowerCase().includes(searchLower) ||
-      business.city.toLowerCase().includes(searchLower) ||
-      business.state.toLowerCase().includes(searchLower)
-    );
+      (business.services && business.services.some(service => 
+        service.toLowerCase().includes(searchLower)
+      ));
+      
+    const matchesLocation = locationTerm === '' || 
+      business.city.toLowerCase().includes(locationLower) ||
+      business.state.toLowerCase().includes(locationLower) ||
+      business.zip_code.includes(locationLower);
+      
+    return matchesSearch && matchesLocation;
   });
 
   // Calculate pagination
@@ -79,7 +99,8 @@ const DirectoryPage: React.FC = () => {
   );
 
   // Handle search
-  const handleSearch = () => {
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
     setCurrentPage(1); // Reset to first page when searching
   };
 
@@ -92,7 +113,7 @@ const DirectoryPage: React.FC = () => {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-10">
               <h1 className="text-3xl md:text-4xl font-bold mb-4">Solar Business Directory</h1>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
                 Find trusted solar professionals in your area. Browse our comprehensive directory of solar installers, manufacturers, and consultants.
               </p>
             </div>
@@ -101,56 +122,70 @@ const DirectoryPage: React.FC = () => {
             <div className="mb-10">
               <Card>
                 <CardContent className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="col-span-1 md:col-span-2">
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                        <Input
-                          placeholder="Search by name, description, or location..."
-                          className="pl-10"
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+                  <form onSubmit={handleSearch}>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="col-span-1 md:col-span-1">
+                        <div className="relative">
+                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                          <Input
+                            placeholder="Search businesses..."
+                            className="pl-10"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="col-span-1 md:col-span-1">
+                        <div className="relative">
+                          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                          <Input
+                            placeholder="City, state, or zip code..."
+                            className="pl-10"
+                            value={locationTerm}
+                            onChange={(e) => setLocationTerm(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Select
+                          value={selectedCategory}
+                          onValueChange={setSelectedCategory}
+                        >
+                          <SelectTrigger className="flex-1">
+                            <div className="flex items-center">
+                              <Filter className="mr-2 h-4 w-4" />
+                              <SelectValue placeholder="All Categories" />
+                            </div>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="all">All Categories</SelectItem>
+                            {categories?.map((category) => (
+                              <SelectItem key={category.id} value={category.id}>
+                                {category.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        
+                        <Button 
+                          type="submit"
+                          className="bg-solar-600 hover:bg-solar-700"
+                        >
+                          <Search size={18} className="mr-2" />
+                          Search
+                        </Button>
                       </div>
                     </div>
-                    
-                    <div className="flex gap-2">
-                      <Select
-                        value={selectedCategory}
-                        onValueChange={setSelectedCategory}
-                      >
-                        <SelectTrigger className="flex-1">
-                          <div className="flex items-center">
-                            <Filter className="mr-2 h-4 w-4" />
-                            <SelectValue placeholder="All Categories" />
-                          </div>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All Categories</SelectItem>
-                          {categories?.map((category) => (
-                            <SelectItem key={category.id} value={category.id}>
-                              {category.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      
-                      <Button 
-                        className="bg-solar-600 hover:bg-solar-700"
-                        onClick={handleSearch}
-                      >
-                        <Search size={18} />
-                        Search
-                      </Button>
-                    </div>
-                  </div>
+                  </form>
                 </CardContent>
               </Card>
             </div>
             
             {/* Results Count */}
             <div className="mb-6 flex justify-between items-center">
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-300">
                 {isLoading ? (
                   'Loading businesses...'
                 ) : (
