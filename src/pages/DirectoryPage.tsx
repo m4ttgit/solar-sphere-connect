@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { SolarBusiness, BusinessCategory } from '@/types/business';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,11 +12,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Phone, Mail, Globe, Search, Filter } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { Link } from 'react-router-dom';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
+const ITEMS_PER_PAGE = 10;
 
 const DirectoryPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
   
   // Fetch categories for the filter
   const { data: categories, isLoading: isLoadingCategories } = useQuery({
@@ -65,6 +70,19 @@ const DirectoryPage: React.FC = () => {
     );
   });
 
+  // Calculate pagination
+  const totalItems = filteredBusinesses?.length || 0;
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const paginatedBusinesses = filteredBusinesses?.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Handle search
+  const handleSearch = () => {
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -96,12 +114,12 @@ const DirectoryPage: React.FC = () => {
                       </div>
                     </div>
                     
-                    <div>
+                    <div className="flex gap-2">
                       <Select
                         value={selectedCategory}
                         onValueChange={setSelectedCategory}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="flex-1">
                           <div className="flex items-center">
                             <Filter className="mr-2 h-4 w-4" />
                             <SelectValue placeholder="All Categories" />
@@ -116,6 +134,14 @@ const DirectoryPage: React.FC = () => {
                           ))}
                         </SelectContent>
                       </Select>
+                      
+                      <Button 
+                        className="bg-solar-600 hover:bg-solar-700"
+                        onClick={handleSearch}
+                      >
+                        <Search size={18} />
+                        Search
+                      </Button>
                     </div>
                   </div>
                 </CardContent>
@@ -128,17 +154,11 @@ const DirectoryPage: React.FC = () => {
                 {isLoading ? (
                   'Loading businesses...'
                 ) : (
-                  `Showing ${filteredBusinesses?.length || 0} ${
-                    filteredBusinesses?.length === 1 ? 'business' : 'businesses'
+                  `Showing ${paginatedBusinesses?.length || 0} of ${totalItems} ${
+                    totalItems === 1 ? 'business' : 'businesses'
                   }`
                 )}
               </p>
-              
-              <Link to="/submit">
-                <Button className="bg-solar-600 hover:bg-solar-700">
-                  Add Your Business
-                </Button>
-              </Link>
             </div>
             
             {/* Business Listings */}
@@ -166,9 +186,41 @@ const DirectoryPage: React.FC = () => {
                   </CardContent>
                 </Card>
               ) : (
-                filteredBusinesses?.map((business) => (
+                paginatedBusinesses?.map((business) => (
                   <BusinessCard key={business.id} business={business} />
                 ))
+              )}
+              
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <Pagination className="mt-8">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      />
+                    </PaginationItem>
+                    
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                      <PaginationItem key={i}>
+                        <PaginationLink
+                          onClick={() => setCurrentPage(i + 1)}
+                          isActive={currentPage === i + 1}
+                        >
+                          {i + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               )}
             </div>
           </div>
