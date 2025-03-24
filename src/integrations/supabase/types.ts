@@ -78,6 +78,95 @@ export type Database = {
         }
         Relationships: []
       }
+      business_categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      solar_businesses: {
+        Row: {
+          address: string
+          approved: boolean
+          category_id: string | null
+          certifications: string[] | null
+          city: string
+          created_at: string
+          description: string
+          email: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          phone: string | null
+          services: string[] | null
+          state: string
+          updated_at: string
+          user_id: string
+          website: string | null
+          zip_code: string
+        }
+        Insert: {
+          address: string
+          approved?: boolean
+          category_id?: string | null
+          certifications?: string[] | null
+          city: string
+          created_at?: string
+          description: string
+          email?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          phone?: string | null
+          services?: string[] | null
+          state: string
+          updated_at?: string
+          user_id: string
+          website?: string | null
+          zip_code: string
+        }
+        Update: {
+          address?: string
+          approved?: boolean
+          category_id?: string | null
+          certifications?: string[] | null
+          city?: string
+          created_at?: string
+          description?: string
+          email?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          phone?: string | null
+          services?: string[] | null
+          state?: string
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+          zip_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "solar_businesses_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "business_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

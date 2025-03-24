@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { SolarBusiness, BusinessCategory } from '@/types/business';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -21,7 +21,6 @@ const DirectoryPage: React.FC = () => {
   const { data: categories, isLoading: isLoadingCategories } = useQuery({
     queryKey: ['businessCategories'],
     queryFn: async () => {
-      // Using type assertion to bypass TypeScript errors
       const { data, error } = await supabase
         .from('business_categories')
         .select('*')
@@ -36,7 +35,6 @@ const DirectoryPage: React.FC = () => {
   const { data: businesses, isLoading } = useQuery({
     queryKey: ['businesses', selectedCategory],
     queryFn: async () => {
-      // Using type assertion to bypass TypeScript errors
       let query = supabase
         .from('solar_businesses')
         .select(`

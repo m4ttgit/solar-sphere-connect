@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 import { BusinessCategory } from '@/types/business';
 import { Button } from '@/components/ui/button';
 import {
@@ -55,7 +55,7 @@ const businessFormSchema = z.object({
   phone: z.string().optional(),
   email: z.string().email({ message: 'Invalid email address.' }).optional().or(z.literal('')),
   website: z.string().url({ message: 'Invalid website URL.' }).optional().or(z.literal('')),
-  category_id: z.string().min(1, { message: 'Please select a category.' }),
+  category_id: z.string().optional(),
   services: z.array(z.string()).optional(),
   certifications: z.array(z.string()).optional(),
   terms_accepted: z.boolean().refine(val => val === true, {
@@ -95,6 +95,7 @@ const SubmitBusinessPage: React.FC = () => {
       phone: '',
       email: '',
       website: '',
+      category_id: undefined,
       services: [],
       certifications: [],
       terms_accepted: false,
@@ -118,7 +119,7 @@ const SubmitBusinessPage: React.FC = () => {
         .insert({
           ...businessData,
           user_id: user.id,
-        } as any);
+        });
 
       if (error) throw error;
 
@@ -199,14 +200,14 @@ const SubmitBusinessPage: React.FC = () => {
                       name="category_id"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Business Category*</FormLabel>
+                          <FormLabel>Business Category (Optional)</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select a category" />
+                                <SelectValue placeholder="Select a category (optional)" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -221,6 +222,9 @@ const SubmitBusinessPage: React.FC = () => {
                               )}
                             </SelectContent>
                           </Select>
+                          <FormDescription>
+                            Select a category that best describes your business (optional).
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
