@@ -96,66 +96,66 @@ export type Database = {
         }
         Relationships: []
       }
-      solar_businesses: {
+      solar_contacts: {
         Row: {
-          address: string
-          approved: boolean
-          category_id: string | null
-          certifications: string[] | null
-          city: string
-          created_at: string
-          description: string
-          email: string | null
           id: string
-          logo_url: string | null
           name: string
-          phone: string | null
-          services: string[] | null
+          description: string
+          address: string
+          city: string
           state: string
-          updated_at: string
-          user_id: string
-          website: string | null
           zip_code: string
+          phone: string
+          email: string | null
+          website: string | null
+          logo_url: string | null
+          user_id: string
+          category_id: string | null
+          services: Json[] | null
+          certifications: Json[] | null
+          approved: boolean
+          created_at: string
+          updated_at: string
         }
         Insert: {
-          address: string
-          approved?: boolean
-          category_id?: string | null
-          certifications?: string[] | null
-          city: string
-          created_at?: string
-          description: string
-          email?: string | null
           id?: string
-          logo_url?: string | null
           name: string
-          phone?: string | null
-          services?: string[] | null
+          description: string
+          address: string
+          city: string
           state: string
-          updated_at?: string
-          user_id: string
-          website?: string | null
           zip_code: string
+          phone: string
+          email?: string | null
+          website?: string | null
+          logo_url?: string | null
+          user_id: string
+          category_id?: string | null
+          services?: Json[] | null
+          certifications?: Json[] | null
+          approved?: boolean
+          created_at?: string
+          updated_at?: string
         }
         Update: {
-          address?: string
-          approved?: boolean
-          category_id?: string | null
-          certifications?: string[] | null
-          city?: string
-          created_at?: string
-          description?: string
-          email?: string | null
           id?: string
-          logo_url?: string | null
           name?: string
-          phone?: string | null
-          services?: string[] | null
+          description?: string
+          address?: string
+          city?: string
           state?: string
-          updated_at?: string
-          user_id?: string
-          website?: string | null
           zip_code?: string
+          phone?: string
+          email?: string | null
+          website?: string | null
+          logo_url?: string | null
+          user_id?: string
+          category_id?: string | null
+          services?: Json[] | null
+          certifications?: Json[] | null
+          approved?: boolean
+          created_at?: string
+          updated_at?: string
         }
         Relationships: [
           {

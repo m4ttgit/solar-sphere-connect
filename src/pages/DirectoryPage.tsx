@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLocation } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { supabase } from '@/lib/supabase';
-import { SolarBusiness, BusinessCategory } from '@/types/business';
+import { SolarBusiness } from '@/types/business';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -43,21 +42,17 @@ const DirectoryPage: React.FC = () => {
         .order('name');
       
       if (error) throw error;
-      return data as BusinessCategory[];
+      return data;
     },
   });
   
   // Fetch businesses with their categories
   const { data: businesses, isLoading } = useQuery({
-    queryKey: ['businesses', selectedCategory],
+    queryKey: ['contacts', selectedCategory],
     queryFn: async () => {
       let query = supabase
-        .from('solar_businesses')
-        .select(`
-          *,
-          category:business_categories(id, name)
-        `)
-        .eq('approved', true);
+        .from('solar_contacts')
+        .select(`*`);
       
       if (selectedCategory && selectedCategory !== 'all') {
         query = query.eq('category_id', selectedCategory);
@@ -66,9 +61,17 @@ const DirectoryPage: React.FC = () => {
       const { data, error } = await query.order('name');
       
       if (error) throw error;
-      return data as (SolarBusiness & { category: BusinessCategory })[];
+      // Removed artificial delay
+      return data.map(item => ({
+        ...item,
+        phone: item.phone ? Number(item.phone) : null
+      }));
     },
   });
+
+  useEffect(() => {
+    console.log('Businesses data:', businesses);
+  }, [businesses]);
 
   // Filter businesses based on search terms
   const filteredBusinesses = businesses?.filter(business => {
@@ -79,7 +82,7 @@ const DirectoryPage: React.FC = () => {
       business.name.toLowerCase().includes(searchLower) ||
       business.description.toLowerCase().includes(searchLower) ||
       (business.services && business.services.some(service => 
-        service.toLowerCase().includes(searchLower)
+        String(service).toLowerCase().includes(searchLower)
       ));
       
     const matchesLocation = locationTerm === '' || 
@@ -267,7 +270,7 @@ const DirectoryPage: React.FC = () => {
   );
 };
 
-const BusinessCard: React.FC<{ business: SolarBusiness & { category: BusinessCategory } }> = ({ business }) => {
+const BusinessCard: React.FC<{ business: SolarBusiness }> = ({ business }) => {
   return (
     <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300">
       <CardHeader className="pb-4">
@@ -280,9 +283,9 @@ const BusinessCard: React.FC<{ business: SolarBusiness & { category: BusinessCat
             </div>
           </div>
           
-          {business.category && (
+          {business.category_id && (
             <Badge variant="outline" className="bg-solar-50 text-solar-800 border-solar-200">
-              {business.category.name}
+              {business.category_id}
             </Badge>
           )}
         </div>
@@ -297,7 +300,7 @@ const BusinessCard: React.FC<{ business: SolarBusiness & { category: BusinessCat
             <div className="flex flex-wrap gap-2">
               {business.services.map((service, index) => (
                 <Badge key={index} variant="secondary" className="bg-gray-100">
-                  {service}
+                  {typeof service === 'string' ? service : ''}
                 </Badge>
               ))}
             </div>
@@ -310,7 +313,7 @@ const BusinessCard: React.FC<{ business: SolarBusiness & { category: BusinessCat
             <div className="flex flex-wrap gap-2">
               {business.certifications.map((cert, index) => (
                 <Badge key={index} variant="outline" className="border-solar-200 text-solar-800">
-                  {cert}
+                  {typeof cert === 'string' ? cert : ''}
                 </Badge>
               ))}
             </div>
@@ -323,7 +326,7 @@ const BusinessCard: React.FC<{ business: SolarBusiness & { category: BusinessCat
       <CardFooter className="pt-4">
         <div className="w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           <div className="flex flex-wrap gap-4">
-            {business.phone && (
+            {business.phone != null && (
               <a href={`tel:${business.phone}`} className="flex items-center text-sm text-gray-600 hover:text-solar-600">
                 <Phone size={14} className="mr-1" />
                 {business.phone}
