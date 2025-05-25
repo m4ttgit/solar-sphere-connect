@@ -45,3 +45,5 @@ This file contains the current work focus, recent changes, active decisions, imp
 
 *   When updating Supabase table schemas, it's important to update the corresponding TypeScript types and queries to ensure type safety and prevent runtime errors.
 *   When dealing with `Json` types in Supabase, it's important to handle the different possible values that can be stored in the `Json` field.
+*   The `animate-fade-in` class was not being applied correctly to the hero section in `src/pages/Index.tsx`. The class name was corrected to `animate-in` to match the definition in `src/index.css`.
+*   The About and Features sections were disappearing after the page loaded due to the `opacity-0` class being applied to their respective `<section>` elements in `src/pages/Index.tsx`. The `opacity-0` class was removed to make the sections visible.

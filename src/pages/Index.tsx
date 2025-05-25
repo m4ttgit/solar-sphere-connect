@@ -54,9 +54,9 @@ const Index = () => {
       <NavBar />
       
       {/* Hero Section - Fixed to be visible on load */}
-      <section 
+      <section
         ref={heroRef}
-        className="pt-40 pb-20 md:pt-44 md:pb-28"
+        className="pt-40 pb-20 md:pt-44 md:pb-28 animate-in"
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
@@ -80,7 +80,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Search Section - Fixed text color for dark mode and linked to directory */}
       <section className="pb-20">
         <div className="container mx-auto px-4 md:px-6">
@@ -115,11 +115,11 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
+
       {/* About Section */}
-      <section 
+      <section
         ref={aboutRef}
-        className="py-20 bg-gray-50 dark:bg-gray-900 opacity-0"
+        className="py-20 bg-gray-50 dark:bg-gray-900"
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center mb-12">
@@ -128,19 +128,19 @@ const Index = () => {
               SolarHub is the premier directory connecting homeowners and businesses with trusted solar professionals. We make it easy to find, compare, and connect with solar installers, manufacturers, and consultants in your area.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <FeatureCard 
+            <FeatureCard
               icon={<Search className="text-solar-600" size={24} />}
               title="Find Professionals"
               description="Easily search and filter solar businesses based on your specific needs and location."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<Star className="text-solar-600" size={24} />}
               title="Read Reviews"
               description="See ratings and reviews from verified customers to make informed decisions."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<BookOpen className="text-solar-600" size={24} />}
               title="Get Educated"
               description="Access resources and guides to learn about solar technology and benefits."
@@ -148,11 +148,11 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Features Section */}
-      <section 
+      <section
         ref={featuresRef}
-        className="py-20 dark:bg-gray-800 opacity-0"
+        className="py-20 dark:bg-gray-800"
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center mb-12">
@@ -161,7 +161,7 @@ const Index = () => {
               SolarHub is designed to make your solar journey as smooth as possible with these key features.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all duration-300 h-full">
               <div className="flex items-start">
@@ -176,7 +176,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all duration-300 h-full">
               <div className="flex items-start">
                 <div className="mr-4 bg-solar-100 p-3 rounded-lg">
@@ -190,7 +190,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all duration-300 h-full">
               <div className="flex items-start">
                 <div className="mr-4 bg-solar-100 p-3 rounded-lg">
@@ -204,7 +204,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center hover:shadow-md transition-all duration-300 h-full">
               <div className="flex items-start">
                 <div className="mr-4 bg-solar-100 p-3 rounded-lg">
@@ -221,7 +221,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
       <section className="py-20 bg-solar-50 dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
@@ -241,7 +241,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
+
       <Footer />
     </div>
   );
