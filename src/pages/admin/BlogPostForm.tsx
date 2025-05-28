@@ -33,6 +33,11 @@ import {
   Briefcase,
   CalendarIcon
 } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth'; // Corrected import path for useAuth
+import { blogPostSchema } from '../../types/blog'; // Corrected import path for blogPostSchema
+import { Database } from '@/integrations/supabase/types'; // Import Database type
+
+type BlogPostInsert = Database['public']['Tables']['blog_posts']['Insert'];
 
 // Form schema
 const formSchema = z.object({
@@ -51,12 +56,13 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const BlogPostForm: React.FC = () => {
+  const { id } = useParams<{ id: string }>(); // Removed 'action', ensure 'id' is typed
   const navigate = useNavigate();
-  const { id, action } = useParams<{ id?: string; action?: string }>();
-  const isEditMode = action === 'edit' && id;
+  const { user } = useAuth();
 
-  // Initialize form
-  const form = useForm<FormValues>({
+  const isEditMode = !!id; // Determine edit mode based on presence of id
+
+  const form = useForm<z.infer<typeof blogPostSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: '',
@@ -105,37 +111,39 @@ const BlogPostForm: React.FC = () => {
     enabled: !!isEditMode, // Fixed: Convert string to boolean with !!
   });
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (values: z.infer<typeof blogPostSchema>) => {
     try {
-      // Ensure all required fields are present
-      const blogPostData = {
-        title: values.title,
-        excerpt: values.excerpt,
-        content: values.content,
-        author: values.author,
-        author_title: values.author_title || null,
-        author_image: values.author_image || null,
-        read_time: values.read_time,
-        category: values.category,
-        image: values.image,
-        published: values.published
-      };
-      
-      if (isEditMode) {
-        // Update existing post
+      if (isEditMode && id) { // Use the updated isEditMode and ensure id is present for update
         const { error } = await supabase
           .from('blog_posts')
-          .update(blogPostData)
+          .update({ ...values, updated_at: new Date().toISOString() })
           .eq('id', id);
         
         if (error) throw error;
         
         toast.success('Blog post updated successfully');
       } else {
-        // Create new post - Fixed: Insert a single object, not an array of objects
-        const { error } = await supabase
+        // Create new post
+        const postToInsert: BlogPostInsert = {
+          title: values.title,
+          excerpt: values.excerpt,
+          content: values.content,
+          author: values.author,
+          category: values.category,
+          image: values.image,
+          read_time: values.read_time,
+          published: values.published,
+          author_title: values.author_title || null,
+          author_image: values.author_image || null,
+          date: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        };
+
+        const { data: newPost, error } = await supabase
           .from('blog_posts')
-          .insert(blogPostData);
+          .insert([postToInsert])
+          .select(); // Select the newly created post to get its ID
         
         if (error) throw error;
         
@@ -151,19 +159,14 @@ const BlogPostForm: React.FC = () => {
   
   return (
     <AdminLayout>
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <Button 
-            variant="ghost" 
-            className="mr-4" 
-            onClick={() => navigate('/admin/posts')}
-          >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Posts
-          </Button>
-          <h1 className="text-3xl font-bold dark:text-white">
+      <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             {isEditMode ? 'Edit Blog Post' : 'Create New Blog Post'}
           </h1>
+          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            {isEditMode ? 'Update the details of your blog post.' : 'Fill in the details to create a new blog post.'}
+          </p>
         </div>
         
         <Button

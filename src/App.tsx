@@ -21,6 +21,9 @@ import BlogPostsList from "./pages/admin/BlogPostsList";
 import BlogPostForm from "./pages/admin/BlogPostForm";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import CompanyDetailPage from "./pages/CompanyDetailPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // Added for forgot password
+import ResetPasswordPage from "./pages/ResetPasswordPage"; // Added for reset password
+import UpdatePasswordPage from "./pages/UpdatePasswordPage"; // Added for update password page
 // Add this import
 import ProfilePage from "./pages/ProfilePage";
 
@@ -53,6 +56,9 @@ const App = () => (
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/blog" element={<ArticlePage />} />
                 <Route path="/blog/:id" element={<BlogPostDetail />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+                <Route path="/update-password" element={<UpdatePasswordPage />} />
                 <Route 
                   path="/submit" 
                   element={
