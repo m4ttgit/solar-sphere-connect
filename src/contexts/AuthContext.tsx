@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { AuthState } from '@/types/auth';
 import { useQuery } from '@tanstack/react-query';
-import { AuthContext, useAuth } from '@/hooks/useAuth';
+import { AuthContext } from '@/hooks/useAuth';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({

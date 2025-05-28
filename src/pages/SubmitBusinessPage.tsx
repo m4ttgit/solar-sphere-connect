@@ -7,9 +7,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
-import { BusinessCategory } from '@/types/business';
+import { TablesInsert } from '@/integrations/supabase/types';
+
+interface BusinessCategory {
+  id: string;
+  name: string;
+}
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -112,22 +117,38 @@ const SubmitBusinessPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const { terms_accepted, ...businessData } = data;
+      const { terms_accepted, ...formData } = data;
+
+      // Ensure all required fields for insert are present and correctly typed
+      const businessData: TablesInsert<'solar_businesses'> = {
+        name: formData.name,
+        description: formData.description,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip_code: formData.zip_code,
+        user_id: user.id,
+        // Optional fields
+        phone: formData.phone || null,
+        email: formData.email || null,
+        website: formData.website || null,
+        category_id: formData.category_id || null,
+        services: formData.services || null,
+        certifications: formData.certifications || null,
+      };
 
       const { error } = await supabase
         .from('solar_businesses')
-        .insert({
-          ...businessData,
-          user_id: user.id,
-        });
+        .insert(businessData);
 
       if (error) throw error;
 
       toast.success('Business submitted successfully! It will be reviewed by our team.');
       form.reset();
       navigate('/directory');
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to submit business. Please try again.');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+      toast.error(errorMessage || 'Failed to submit business. Please try again.');
       console.error('Error submitting business:', error);
     } finally {
       setIsSubmitting(false);
