@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,19 +9,32 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { toast } from 'sonner';
 
 const AuthPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (user) {
       navigate('/');
     }
   }, [user, navigate]);
+
+  useEffect(() => {
+    // Check for verification success in URL
+    const params = new URLSearchParams(location.search);
+    const verification = params.get('verification');
+    if (verification === 'success') {
+      setVerificationStatus('success');
+      toast.success('Email verified successfully! You can now sign in.');
+    }
+  }, [location]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +61,14 @@ const AuthPage: React.FC = () => {
       <NavBar />
       <div className="flex-grow flex items-center justify-center pt-32 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-md w-full">
+          {verificationStatus === 'success' && (
+            <div className="mb-4 p-4 bg-green-50 dark:bg-green-900 rounded-md">
+              <p className="text-green-700 dark:text-green-300 text-center">
+                Your email has been verified successfully! Please sign in.
+              </p>
+            </div>
+          )}
+          
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
               <TabsTrigger value="login">Login</TabsTrigger>

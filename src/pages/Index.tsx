@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import { ArrowRight, Search, BookOpen, MapPin, CheckCircle, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Index = () => {
   // Refs for scroll animations
@@ -11,9 +12,12 @@ const Index = () => {
   const aboutRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   
-  // State for search inputs
+  // Enhanced state for search inputs
+  // Enhanced state for search inputs
+  // Remove the searchLocation state variable
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchLocation, setSearchLocation] = useState('');
+  const [searchField, setSearchField] = useState('all');
+  // Remove this line: const [searchLocation, setSearchLocation] = useState('');
   
   // Navigation
   const navigate = useNavigate();
@@ -43,17 +47,21 @@ const Index = () => {
     return () => observer.disconnect();
   }, []);
   
-  // Handle search submission
+  // Enhanced search submission
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/directory?search=${encodeURIComponent(searchTerm)}&location=${encodeURIComponent(searchLocation)}`);
+    const params = new URLSearchParams();
+    if (searchTerm) params.set('search', searchTerm);
+    if (searchField && searchField !== 'all') params.set('field', searchField);
+    // Remove this line: if (searchLocation) params.set('location', searchLocation);
+    navigate(`/directory?${params.toString()}`);
   };
   
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
       
-      {/* Hero Section - Fixed to be visible on load */}
+      {/* Hero Section */}
       <section
         ref={heroRef}
         className="pt-40 pb-20 md:pt-44 md:pb-28 animate-in"
@@ -81,35 +89,44 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Search Section - Fixed text color for dark mode and linked to directory */}
+      {/* Enhanced Search Section */}
       <section className="pb-20">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSearch} className="glass-panel p-4 md:p-6">
-              <div className="flex flex-col md:flex-row gap-3">
-                <div className="relative flex-grow">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    placeholder="Search for solar businesses..."
-                    className="w-full py-3 pl-10 pr-4 border border-gray-200 rounded-md bg-white/80 dark:bg-gray-800/80 dark:border-gray-700 dark:text-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-solar-500 focus:border-transparent transition-all"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+              <div className="flex flex-col gap-4">
+                {/* Search term, field selection and button in one row */}
+                <div className="flex flex-col md:flex-row gap-3">
+                  <div className="relative flex-grow">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                    <input
+                      type="text"
+                      placeholder="Search for solar businesses..."
+                      className="w-full py-3 pl-10 pr-4 border border-gray-200 rounded-md bg-white/80 dark:bg-gray-800/80 dark:border-gray-700 dark:text-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-solar-500 focus:border-transparent transition-all"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
+                  <div className="w-full md:w-48">
+                    <Select value={searchField} onValueChange={setSearchField}>
+                      <SelectTrigger className="h-12 bg-white/80 dark:bg-gray-800/80 dark:border-gray-700 dark:text-white">
+                        <SelectValue placeholder="Search in..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Fields</SelectItem>
+                        <SelectItem value="name">Name</SelectItem>
+                        <SelectItem value="description">Description</SelectItem>
+                        <SelectItem value="city">City</SelectItem>
+                        <SelectItem value="state">State</SelectItem>
+                        <SelectItem value="zip">Zip Code</SelectItem>
+                        <SelectItem value="services">Services</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <button type="submit" className="btn-primary whitespace-nowrap px-8">
+                    Search
+                  </button>
                 </div>
-                <div className="relative md:w-1/3">
-                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
-                    placeholder="Location"
-                    className="w-full py-3 pl-10 pr-4 border border-gray-200 rounded-md bg-white/80 dark:bg-gray-800/80 dark:border-gray-700 dark:text-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-solar-500 focus:border-transparent transition-all"
-                    value={searchLocation}
-                    onChange={(e) => setSearchLocation(e.target.value)}
-                  />
-                </div>
-                <button type="submit" className="btn-primary whitespace-nowrap">
-                  Search
-                </button>
               </div>
             </form>
           </div>

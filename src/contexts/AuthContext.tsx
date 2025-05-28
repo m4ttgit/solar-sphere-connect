@@ -1,24 +1,12 @@
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { AuthState } from '@/types/auth';
 import { useQuery } from '@tanstack/react-query';
-
-type AuthContextType = {
-  session: Session | null;
-  user: User | null;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string) => Promise<void>;
-  signOut: () => Promise<void>;
-  isLoading: boolean;
-  isAdmin: boolean;
-  isCheckingAdmin: boolean;
-};
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { AuthContext, useAuth } from '@/hooks/useAuth';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -90,19 +78,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       navigate('/');
-    } catch (error: any) {
-      toast.error(error.message || 'Error signing in');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      toast.error(errorMessage || 'Error signing in');
       console.error('Error signing in:', error);
     }
   };
 
   const signUp = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signUp({ email, password });
+      // Update to use confirmationURL option
+      const { error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth?verification=success`
+        } 
+      });
       if (error) throw error;
       toast.success('Registration successful! Please check your email for verification.');
-    } catch (error: any) {
-      toast.error(error.message || 'Error signing up');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      toast.error(errorMessage || 'Error signing up');
       console.error('Error signing up:', error);
     }
   };
@@ -112,8 +109,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       navigate('/auth');
-    } catch (error: any) {
-      toast.error(error.message || 'Error signing out');
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      toast.error(errorMessage || 'Error signing out');
       console.error('Error signing out:', error);
     }
   };
@@ -134,12 +132,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
 };

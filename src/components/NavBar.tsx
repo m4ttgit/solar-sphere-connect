@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Menu, X, SunMoon, Moon, User, LogOut } from 'lucide-react';
 import { useAdmin } from '@/hooks/useAdmin';
@@ -65,9 +65,19 @@ const NavBar = () => {
                 <Moon className="h-5 w-5 text-gray-500 hover:text-gray-700" />
               )}
             </Button>
-            
+
+            {/* In the desktop menu section where user is signed in */}
             {user ? (
               <div className="flex items-center space-x-2">
+                <Link to="/profile">
+                  <Button
+                    variant="outline"
+                    className="flex items-center space-x-2 border-gray-300 dark:border-gray-700 dark:text-white"
+                  >
+                    <User className="h-4 w-4" />
+                    <span>Profile</span>
+                  </Button>
+                </Link>
                 <Button
                   variant="outline"
                   className="flex items-center space-x-2 border-gray-300 dark:border-gray-700 dark:text-white"
@@ -79,13 +89,15 @@ const NavBar = () => {
               </div>
             ) : (
               <Link to="/auth">
-                <Button className="bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600">
-                  <User className="h-4 w-4 mr-2" />
+                <Button variant="default" className="bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600">
                   Sign In
                 </Button>
               </Link>
             )}
           </div>
+          
+          
+          
           <div className="flex items-center md:hidden">
             <Button
               variant="ghost"
@@ -139,23 +151,31 @@ const NavBar = () => {
               Admin
             </Link>
           )}
-          <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-            {user ? (
+          {user ? (
+            <>
+              <Link
+                to="/profile"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400"
+              >
+                Profile
+              </Link>
               <button
                 onClick={signOut}
                 className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400"
               >
                 Sign Out
               </button>
-            ) : (
-              <Link
-                to="/auth"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400"
+            </>
+          ) : (
+            <Link to="/auth">
+              <Button
+                variant="default"
+                className="w-full text-left bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600"
               >
                 Sign In
-              </Link>
-            )}
-          </div>
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

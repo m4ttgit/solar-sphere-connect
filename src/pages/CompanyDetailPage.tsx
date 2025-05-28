@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import { fetchSolarContactById } from '@/lib/utils';
+import { fetchSolarContactById, fetchAndSaveWebsiteScreenshot } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 const CompanyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null);
+  const [screenshotLoading, setScreenshotLoading] = useState<boolean>(false);
+  const [screenshotError, setScreenshotError] = useState<boolean>(false);
   
   const { data: company, isLoading, error } = useQuery({
     queryKey: ['solarContact', id],
@@ -35,6 +38,48 @@ const CompanyDetailPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Add this useEffect to fetch or generate the screenshot
+  // Update the useEffect hook (around line 40-70)
+  useEffect(() => {
+    if (company?.website && id) {
+      const getScreenshot = async () => {
+        try {
+          setScreenshotLoading(true);
+          setScreenshotError(false);
+          
+          // Use local screenshot file based on company name
+          const screenshotFileName = `${company.name.replace(/\s+/g, '_').replace(/[&/\\#,+()$~%.'":*?<>{}]/g, '')}.jpg`;
+          const localScreenshotPath = `/processed_screenshots/${screenshotFileName}`;
+          
+          setScreenshotUrl(localScreenshotPath);
+          setScreenshotLoading(false);
+        } catch (error) {
+          console.error('Error with screenshot:', error);
+          setScreenshotError(true);
+          setScreenshotLoading(false);
+        }
+      };
+      
+      getScreenshot();
+    }
+  }, [company, id]);
+
+  // Format phone number for display
+  const formatPhoneNumber = (phone: string | number | null) => {
+    // Ensure phone is a string
+    if (!phone || typeof phone !== 'string') {
+      return '';
+    }
+    
+    const cleaned = phone.replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+    return phone;
+  };
+
+  // Render loading state
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -47,6 +92,7 @@ const CompanyDetailPage: React.FC = () => {
     );
   }
 
+  // Render error state
   if (error || !company) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -70,32 +116,7 @@ const CompanyDetailPage: React.FC = () => {
     );
   }
 
-  // Format phone number for display
-  // Format phone number for display
-  const formatPhoneNumber = (phone: string | number | null) => {
-    // Ensure phone is a string
-    if (!phone || typeof phone !== 'string') {
-      return '';
-    }
-    
-    const cleaned = phone.replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-    return phone;
-  };
-
-  // Make sure all JSX elements have a single parent wrapper
-  // For example, if you have something like:
-  
-  // Instead of:
-  // return (
-  //   <Element1 />
-  //   <Element2 />
-  // );
-  
-  // Use:
+  // Render main content
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
@@ -178,6 +199,38 @@ const CompanyDetailPage: React.FC = () => {
                   <CardContent>
                     <p className="whitespace-pre-line mb-6">{company.description}</p>
                     
+                    {/* Company Website Image */}
+            
+                    {company.website && (
+                      <div className="mb-6 overflow-hidden rounded-lg border border-gray-200">
+                        {screenshotLoading && (
+                          <div className="flex justify-center items-center h-40 bg-gray-100">
+                            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-solar-600"></div>
+                          </div>
+                        )}
+                        
+                        {!screenshotLoading && !screenshotError && (
+                          <div className="relative">
+                            <img 
+                              src={screenshotUrl} 
+                              alt={`${company.name} website preview`} 
+                              className="w-full h-auto object-cover"
+                              onError={(e) => {
+                                console.error('Image failed to load:', screenshotUrl);
+                                setScreenshotError(true);
+                              }}
+                            />
+                          </div>
+                        )}
+                        
+                        {!screenshotLoading && screenshotError && (
+                          <div className="flex justify-center items-center h-40 bg-gray-100 text-gray-500">
+                            <p>Website preview not available</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
                     {/* Services */}
                     {company.services && Array.isArray(company.services) && company.services.length > 0 && (
                       <div className="mb-6">
@@ -224,10 +277,11 @@ const CompanyDetailPage: React.FC = () => {
                   <CardContent>
                     {/* Contact Information */}
                     <div className="mb-6">
-                      <h3 className="text-lg font-medium flex items-center mb-3">
+                      {/* Remove this duplicated heading */}
+                      {/* <h3 className="text-lg font-medium flex items-center mb-3">
                         <MapPin className="mr-2 h-5 w-5 text-solar-600" />
                         Contact Information
-                      </h3>
+                      </h3> */}
                       
                       {/* Address */}
                       <div className="mb-4">

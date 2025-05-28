@@ -21,6 +21,8 @@ import BlogPostsList from "./pages/admin/BlogPostsList";
 import BlogPostForm from "./pages/admin/BlogPostForm";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import CompanyDetailPage from "./pages/CompanyDetailPage";
+// Add this import
+import ProfilePage from "./pages/ProfilePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -96,6 +98,16 @@ const App = () => (
                 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
+                
+                // Then add this route inside your Routes component
+                <Route 
+                  path="/profile" 
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  } 
+                />
               </Routes>
             </AuthProvider>
           </ThemeProvider>

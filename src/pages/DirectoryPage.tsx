@@ -8,12 +8,16 @@ import { Button } from '@/components/ui/button';
 import { Search, MapPin, Filter } from 'lucide-react';
 import { fetchSolarContacts } from '../lib/utils';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const DirectoryPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchField, setSearchField] = useState('all');
+  // Get search parameters from URL
+  const [searchParams] = useSearchParams();
+  
+  // Initialize state with URL parameters if available
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
+  const [searchField, setSearchField] = useState(searchParams.get('field') || 'all');
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
   
@@ -31,6 +35,15 @@ const DirectoryPage: React.FC = () => {
     retryDelay: 1000,
   });
 
+  // Update search parameters when URL changes
+  useEffect(() => {
+    const search = searchParams.get('search');
+    const field = searchParams.get('field');
+    
+    if (search) setSearchTerm(search);
+    if (field) setSearchField(field);
+  }, [searchParams]);
+
   // Enhanced filter function to search by multiple fields
   const filteredContacts = contacts?.filter(contact => {
     if (!searchTerm) return true;
@@ -40,11 +53,11 @@ const DirectoryPage: React.FC = () => {
     // Search in all fields
     if (searchField === 'all') {
       return (
-        (contact.name?.toLowerCase().includes(term) || false) ||
-        (contact.description?.toLowerCase().includes(term) || false) ||
-        (contact.city?.toLowerCase().includes(term) || false) ||
-        (contact.state?.toLowerCase().includes(term) || false) ||
-        (contact.zip_code?.toLowerCase().includes(term) || false) ||
+        (typeof contact.name === 'string' && contact.name.toLowerCase().includes(term)) ||
+        (typeof contact.description === 'string' && contact.description.toLowerCase().includes(term)) ||
+        (typeof contact.city === 'string' && contact.city.toLowerCase().includes(term)) ||
+        (typeof contact.state === 'string' && contact.state.toLowerCase().includes(term)) ||
+        (typeof contact.zip_code === 'string' && contact.zip_code.toLowerCase().includes(term)) ||
         (Array.isArray(contact.services) && contact.services.some(service => 
           typeof service === 'string' && service.toLowerCase().includes(term)
         ))
@@ -54,15 +67,15 @@ const DirectoryPage: React.FC = () => {
     // Search in specific fields
     switch (searchField) {
       case 'name':
-        return contact.name?.toLowerCase().includes(term) || false;
+        return typeof contact.name === 'string' && contact.name.toLowerCase().includes(term);
       case 'description':
-        return contact.description?.toLowerCase().includes(term) || false;
+        return typeof contact.description === 'string' && contact.description.toLowerCase().includes(term);
       case 'city':
-        return contact.city?.toLowerCase().includes(term) || false;
+        return typeof contact.city === 'string' && contact.city.toLowerCase().includes(term);
       case 'state':
-        return contact.state?.toLowerCase().includes(term) || false;
+        return typeof contact.state === 'string' && contact.state.toLowerCase().includes(term);
       case 'zip':
-        return contact.zip_code?.toLowerCase().includes(term) || false;
+        return typeof contact.zip_code === 'string' && contact.zip_code.toLowerCase().includes(term);
       case 'services':
         return Array.isArray(contact.services) && contact.services.some(service => 
           typeof service === 'string' && service.toLowerCase().includes(term)
@@ -202,11 +215,43 @@ const DirectoryPage: React.FC = () => {
                 ))
               )}
             </div>
+            
+            {/* Add pagination controls here, inside the main content area */}
+            <div className="mt-8 flex justify-between items-center">
+              <Button 
+                variant="outline" 
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                  <path d="m15 18-6-6 6-6"/>
+                </svg>
+                Previous
+              </Button>
+              
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Page {currentPage} of {totalPages || 1}
+              </div>
+              
+              <Button 
+                variant="outline" 
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage >= totalPages || totalPages === 0}
+                className="flex items-center gap-2"
+              >
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </Button>
+            </div>
           </div>
         </div>
       </main>
       
       <Footer />
+      {/* Remove the pagination controls that were incorrectly placed here */}
     </div>
   );
 };
