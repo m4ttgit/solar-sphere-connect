@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Button } from '@/components/ui/button';
@@ -114,13 +114,16 @@ const BlogPostsList: React.FC = () => {
         .update({ published: !currentStatus })
         .eq('id', id);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error toggling publish status:', JSON.stringify(error, null, 2));
+        throw error;
+      }
       
       refetch();
       toast.success(`Post ${currentStatus ? 'unpublished' : 'published'} successfully`);
     } catch (error) {
       console.error('Error toggling publish status:', error);
-      toast.error('Failed to update post status');
+      toast.error('Failed to update post status. Check console for details.');
     }
   };
 
@@ -139,7 +142,10 @@ const BlogPostsList: React.FC = () => {
         .delete()
         .eq('id', postToDelete);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error deleting post:', JSON.stringify(error, null, 2));
+        throw error;
+      }
       
       setDeleteDialogOpen(false);
       setPostToDelete(null);
@@ -147,7 +153,7 @@ const BlogPostsList: React.FC = () => {
       toast.success('Post deleted successfully');
     } catch (error) {
       console.error('Error deleting post:', error);
-      toast.error('Failed to delete post');
+      toast.error('Failed to delete post. Check console for details.');
     }
   };
 

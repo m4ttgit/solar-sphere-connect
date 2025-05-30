@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { makeUserAdmin } from '@/utils/adminUtils';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 
 const UserAdminManager: React.FC = () => {
   const [userId, setUserId] = useState('');

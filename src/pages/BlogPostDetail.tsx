@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { CalendarIcon, Clock, ArrowLeft, Share2, Bookmark } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 
 const BlogPostDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();

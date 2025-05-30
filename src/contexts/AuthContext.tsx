@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { AuthState } from '@/types/auth';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '@/hooks/useAuth';
+import { useQueryClient } from '@tanstack/react-query'; // Import useQueryClient
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
@@ -15,25 +16,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isLoading: true,
   });
   const navigate = useNavigate();
+  const queryClient = useQueryClient(); // Initialize useQueryClient
 
   // Check if user is an admin
   const { data: isAdmin, isLoading: isCheckingAdmin } = useQuery({
     queryKey: ['isAdmin', authState.user?.id],
     queryFn: async () => {
       if (!authState.user) return false;
-      
+      // Query the admins table for the current user's ID
       const { data, error } = await supabase
         .from('admins')
         .select('id')
         .eq('id', authState.user.id)
-        .maybeSingle();
-      
-      if (error) {
-        console.error('Error checking admin status:', error);
-        return false;
-      }
-      
-      return !!data;
+        .single();
+      if (error || !data) return false;
+      return true;
     },
     enabled: !!authState.user,
   });
@@ -52,8 +49,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Show toast notifications for auth events
         if (event === 'SIGNED_IN') {
           toast.success('Successfully signed in!');
+          queryClient.invalidateQueries({ queryKey: ['isAdmin'] }); // Invalidate isAdmin query on sign-in
         } else if (event === 'SIGNED_OUT') {
           toast.info('You have been signed out.');
+          queryClient.invalidateQueries({ queryKey: ['isAdmin'] }); // Invalidate isAdmin query on sign-out
         }
       }
     );

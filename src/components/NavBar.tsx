@@ -4,14 +4,11 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Menu, X, SunMoon, Moon, User, LogOut } from 'lucide-react';
-import { useAdmin } from '@/hooks/useAdmin';
-
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAdmin, isCheckingAdmin } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
-  const { isAdmin, isLoading: isCheckingAdmin } = useAdmin();
 
   // Close menu when route changes
   useEffect(() => {
