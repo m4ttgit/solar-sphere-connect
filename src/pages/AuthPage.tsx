@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -100,9 +100,6 @@ const AuthPage: React.FC = () => {
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <Label htmlFor="password" className="dark:text-gray-200">Password</Label>
-                        <Link to="/forgot-password" className="text-sm text-solar-600 hover:underline dark:text-solar-500">
-                          Forgot password?
-                        </Link>
                       </div>
                       <Input
                         id="password"
