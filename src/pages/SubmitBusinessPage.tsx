@@ -120,7 +120,7 @@ const SubmitBusinessPage: React.FC = () => {
       const { terms_accepted, ...formData } = data;
 
       // Ensure all required fields for insert are present and correctly typed
-      const businessData: TablesInsert<'solar_businesses'> = {
+      const businessData: TablesInsert<'solar_contacts'> = {
         name: formData.name,
         description: formData.description,
         address: formData.address,
@@ -138,7 +138,7 @@ const SubmitBusinessPage: React.FC = () => {
       };
 
       const { error } = await supabase
-        .from('solar_businesses')
+        .from('solar_contacts')
         .insert(businessData);
 
       if (error) throw error;

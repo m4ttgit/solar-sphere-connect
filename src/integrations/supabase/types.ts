@@ -199,9 +199,13 @@ export type Database = {
           phone: string | null
           services: Json | null
           state: string | null
+          uuid_id: string // Added uuid_id
           website: string | null
           website_screenshot_url: string | null
           zip_code: number | null
+          name_slug: string | null // Added name_slug
+          logo_url: string | null // Added logo_url
+          certifications: string[] | null // Added certifications
         }
         Insert: {
           address?: string | null
@@ -213,9 +217,13 @@ export type Database = {
           phone?: string | null
           services?: Json | null
           state?: string | null
+          uuid_id?: string // Added uuid_id
           website?: string | null
           website_screenshot_url?: string | null
           zip_code?: number | null
+          name_slug?: string | null // Added name_slug
+          logo_url?: string | null // Added logo_url
+          certifications?: string[] | null // Added certifications
         }
         Update: {
           address?: string | null
@@ -227,11 +235,51 @@ export type Database = {
           phone?: string | null
           services?: Json | null
           state?: string | null
+          uuid_id?: string // Added uuid_id
           website?: string | null
           website_screenshot_url?: string | null
           zip_code?: number | null
+          name_slug?: string | null // Added name_slug
+          logo_url?: string | null // Added logo_url
+          certifications?: string[] | null // Added certifications
         }
         Relationships: []
+      }
+      user_favorites: {
+        Row: {
+          id: string
+          user_id: string
+          company_id: string // Changed to string (UUID)
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          company_id: string // Changed to string (UUID)
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          company_id?: string // Changed to string (UUID)
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_favorites_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "solar_contacts" // Changed to solar_contacts
+            referencedColumns: ["uuid_id"] // Changed to uuid_id
+          }
+        ]
       }
     }
     Views: {

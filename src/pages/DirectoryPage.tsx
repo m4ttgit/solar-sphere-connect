@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, MapPin, Filter } from 'lucide-react';
-import { fetchSolarContacts } from '../lib/utils';
+import { Search, MapPin, ArrowRight } from 'lucide-react';
+import { fetchSolarContacts, slugify } from '../lib/utils';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label'; // Added Label import
+import { toast } from 'sonner';
 
-const DirectoryPage: React.FC = () => {
-  // Get search parameters from URL
+interface DirectoryPageProps {
+  // Add a dummy prop to satisfy the linter
+  dummy?: string;
+}
+
+const DirectoryPage: React.FC<DirectoryPageProps> = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   
-  // Initialize state with URL parameters if available
   const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
   const [searchField, setSearchField] = useState(searchParams.get('field') || 'all');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedCompanies, setSelectedCompanies] = useState<string[]>([]); // State for comparison
   const ITEMS_PER_PAGE = 10;
   
-  // Use React Query to fetch solar contacts with retry and better error handling
   const { data: contacts, isLoading, error } = useQuery({
     queryKey: ['solarContacts'],
     queryFn: async () => {
@@ -35,7 +42,6 @@ const DirectoryPage: React.FC = () => {
     retryDelay: 1000,
   });
 
-  // Update search parameters when URL changes
   useEffect(() => {
     const search = searchParams.get('search');
     const field = searchParams.get('field');
@@ -44,48 +50,44 @@ const DirectoryPage: React.FC = () => {
     if (field) setSearchField(field);
   }, [searchParams]);
 
-  // Enhanced filter function to search by multiple fields
   const filteredContacts = contacts?.filter(contact => {
     if (!searchTerm) return true;
     
     const term = searchTerm.toLowerCase();
     
-    // Search in all fields
     if (searchField === 'all') {
       return (
-        (typeof contact.name === 'string' && contact.name.toLowerCase().includes(term)) ||
-        (typeof contact.description === 'string' && contact.description.toLowerCase().includes(term)) ||
-        (typeof contact.city === 'string' && contact.city.toLowerCase().includes(term)) ||
-        (typeof contact.state === 'string' && contact.state.toLowerCase().includes(term)) ||
-        (typeof contact.zip_code === 'string' && contact.zip_code.toLowerCase().includes(term)) ||
+        (typeof contact.name === 'string' && String(contact.name).toLowerCase().includes(term)) ||
+        (typeof contact.description === 'string' && String(contact.description).toLowerCase().includes(term)) ||
+        (typeof contact.city === 'string' && String(contact.city).toLowerCase().includes(term)) ||
+        (typeof contact.state === 'string' && String(contact.state).toLowerCase().includes(term)) ||
+        (typeof contact.zip_code === 'string' && String(contact.zip_code).toLowerCase().includes(term)) ||
         (Array.isArray(contact.services) && contact.services.some(service => 
-          typeof service === 'string' && service.toLowerCase().includes(term)
+          typeof service === 'string' && service?.toLowerCase().includes(term)
         ))
       );
     }
     
-    // Search in specific fields
     switch (searchField) {
       case 'name':
-        return typeof contact.name === 'string' && contact.name.toLowerCase().includes(term);
+        return typeof contact.name === 'string' && String(contact.name).toLowerCase().includes(term);
       case 'description':
-        return typeof contact.description === 'string' && contact.description.toLowerCase().includes(term);
+        return typeof contact.description === 'string' && String(contact.description).toLowerCase().includes(term);
       case 'city':
-        return typeof contact.city === 'string' && contact.city.toLowerCase().includes(term);
+        return typeof contact.city === 'string' && String(contact.city).toLowerCase().includes(term);
       case 'state':
-        return typeof contact.state === 'string' && contact.state.toLowerCase().includes(term);
+        return typeof contact.state === 'string' && String(contact.state).toLowerCase().includes(term);
       case 'zip':
-        return typeof contact.zip_code === 'string' && contact.zip_code.toLowerCase().includes(term);
+        return typeof contact.zip_code === 'string' && String(contact.zip_code).toLowerCase().includes(term);
       case 'services':
         return Array.isArray(contact.services) && contact.services.some(service => 
-          typeof service === 'string' && service.toLowerCase().includes(term)
+          typeof service === 'string' && service?.toLowerCase().includes(term)
         );
       default:
         return false;
     }
   }) || [];
 
-  // Calculate pagination
   const totalItems = filteredContacts.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const paginatedContacts = filteredContacts.slice(
@@ -93,10 +95,40 @@ const DirectoryPage: React.FC = () => {
     currentPage * ITEMS_PER_PAGE
   );
 
-  // Reset to first page when search changes
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, searchField]);
+
+  const handleCompareChange = (companyId: string, isChecked: boolean) => {
+    setSelectedCompanies(prevSelected => {
+      if (isChecked) {
+        if (prevSelected.length < 3) {
+          return [...prevSelected, companyId];
+        } else {
+          toast.info('You can compare up to 3 companies at a time.');
+          return prevSelected; // Do not add if already 3 selected
+        }
+      } else {
+        return prevSelected.filter(id => id !== companyId);
+      }
+    });
+  };
+
+  const handleCompareClick = () => {
+    if (selectedCompanies.length < 2) {
+      toast.error('Please select at least 2 companies to compare.');
+      return;
+    }
+    navigate(`/compare?ids=${selectedCompanies.join(',')}`);
+  };
+
+  const goToPreviousPage = useCallback(() => {
+    setCurrentPage(Math.max(currentPage - 1, 1));
+  }, [currentPage]);
+
+  const goToNextPage = useCallback(() => {
+    setCurrentPage(Math.min(currentPage + 1, totalPages));
+  }, [currentPage, totalPages]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -147,8 +179,8 @@ const DirectoryPage: React.FC = () => {
               </Card>
             </div>
             
-            {/* Results Count */}
-            <div className="mb-6">
+            {/* Results Count and Compare Button */}
+            <div className="mb-6 flex justify-between items-center">
               <p className="text-gray-600 dark:text-gray-300">
                 {isLoading ? (
                   'Loading contacts...'
@@ -156,6 +188,16 @@ const DirectoryPage: React.FC = () => {
                   `Showing ${paginatedContacts.length} of ${totalItems} contacts`
                 )}
               </p>
+              {selectedCompanies.length >= 1 && (
+                <Button 
+                  onClick={handleCompareClick} 
+                  disabled={selectedCompanies.length < 2}
+                  className="bg-solar-600 hover:bg-solar-700"
+                >
+                  Compare Selected ({`${selectedCompanies.length}`})
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              )}
             </div>
             
             {/* Contacts Listing */}
@@ -169,7 +211,9 @@ const DirectoryPage: React.FC = () => {
                   <CardContent className="p-8 text-center">
                     <h3 className="text-xl font-medium mb-2 text-red-600">Error loading contacts</h3>
                     <p className="text-gray-500 mb-4">
-                      There was a problem connecting to the database.
+                    {error?.message || 'There was a problem connecting to the database.'}
+                    <br />
+                    Please try again later.
                     </p>
                     <Button 
                       variant="outline" 
@@ -179,29 +223,24 @@ const DirectoryPage: React.FC = () => {
                     </Button>
                   </CardContent>
                 </Card>
-              ) : filteredContacts.length === 0 ? (
-                <Card>
-                  <CardContent className="p-8 text-center">
-                    <h3 className="text-xl font-medium mb-2">No contacts found</h3>
-                    <p className="text-gray-500 mb-4">
-                      We couldn't find any contacts matching your search.
-                    </p>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setSearchTerm('')}
-                    >
-                      Clear Search
-                    </Button>
-                  </CardContent>
-                </Card>
               ) : (
                 paginatedContacts.map((contact) => (
-                  <Link to={`/directory/${contact.id}`} key={contact.id} className="block">
-                    <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300">
-                      <CardHeader>
-                        <CardTitle>{contact.name}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
+                  <Card key={contact.id} className="overflow-hidden hover:shadow-md transition-shadow duration-300">
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+<Link to={`/directory/${contact.name_slug}`} className="block flex-grow">
+                        <CardTitle className="text-lg font-semibold">{contact.name}</CardTitle>
+                      </Link>
+<Checkbox
+                        id={`compare-${contact.id}`}
+                        checked={selectedCompanies.includes(String(contact.id))}
+                        onCheckedChange={(checked) => handleCompareChange(String(contact.id), checked as boolean)}
+                        disabled={selectedCompanies.length >= 3 && !selectedCompanies.includes(String(contact.id))}
+                        className="ml-4"
+                      />
+                      <Label htmlFor={`compare-${contact.id}`} className="sr-only">Compare {contact.name}</Label>
+                    </CardHeader>
+                    <CardContent>
+                      <Link to={`/directory/${contact.name_slug}`} className="block">
                         <p className="line-clamp-2">{contact.description}</p>
                         <div className="mt-2 text-sm text-gray-500">
                           <span className="flex items-center">
@@ -209,9 +248,9 @@ const DirectoryPage: React.FC = () => {
                             {contact.city}, {contact.state}
                           </span>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
+                      </Link>
+                    </CardContent>
+                  </Card>
                 ))
               )}
             </div>
@@ -220,7 +259,7 @@ const DirectoryPage: React.FC = () => {
             <div className="mt-8 flex justify-between items-center">
               <Button 
                 variant="outline" 
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                onClick={goToPreviousPage}
                 disabled={currentPage === 1}
                 className="flex items-center gap-2"
               >
@@ -236,7 +275,7 @@ const DirectoryPage: React.FC = () => {
               
               <Button 
                 variant="outline" 
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                onClick={goToNextPage}
                 disabled={currentPage >= totalPages || totalPages === 0}
                 className="flex items-center gap-2"
               >
@@ -244,6 +283,7 @@ const DirectoryPage: React.FC = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
                   <path d="m9 18 6-6-6-6"/>
                 </svg>
+                Next
               </Button>
             </div>
           </div>

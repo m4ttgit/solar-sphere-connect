@@ -1,0 +1,4 @@
+CREATE OR REPLACE FUNCTION public.slugify(value TEXT) RETURNS TEXT AS $$
+  SELECT trim(both '-' from lower(regexp_replace(regexp_replace(regexp_replace(value, '[^a-zA-Z0-9]+', '-', 'g'), '-{2,}', '-', 'g'), '^-|-$', '', 'g')));
+$$
+LANGUAGE sql STRICT IMMUTABLE;

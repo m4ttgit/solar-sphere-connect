@@ -4,11 +4,14 @@ import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client'; // Corrected import path
+import { Tables } from '@/integrations/supabase/types'; // Import Tables type
 
 const ProfilePage: React.FC = () => {
   const { user, signOut } = useAuth();
@@ -18,7 +21,10 @@ const ProfilePage: React.FC = () => {
   // Load user profile data
   React.useEffect(() => {
     const loadProfile = async () => {
-      if (!user) return;
+      // Only proceed if user is authenticated
+      if (!user || !user.id) {
+        return;
+      }
       
       try {
         const { data, error } = await supabase
@@ -27,35 +33,104 @@ const ProfilePage: React.FC = () => {
           .eq('id', user.id)
           .single();
           
-        if (error) throw error;
+        if (error) {
+          console.error('Database error loading profile:', error);
+          toast.error('Unable to load your profile information. Please try again later.');
+          return;
+        }
+        
         if (data) {
           setDisplayName(data.display_name || '');
+        } else {
+          // Create a new profile if one doesn't exist
+          console.log('No profile found, creating a new one');
         }
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
         console.error('Error loading profile:', error);
+        toast.error(`Error loading profile: ${errorMessage}`);
       }
     };
     
-    loadProfile();
+    if (user) {
+      loadProfile();
+    }
   }, [user]);
+
+  // Fetch favorited companies
+  const { data: favoritedCompanies, isLoading: isLoadingFavorites, error: favoritesError } = useQuery<Tables<'solar_contacts'>[]>({
+    queryKey: ['favoritedCompanies', user?.id],
+    queryFn: async () => {
+      // Verify user is authenticated with an ID
+      if (!user || !user.id) {
+        return [];
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('user_favorites')
+          .select('company_id, solar_contacts(*)')
+          .eq('user_id', user.id);
+
+        if (error) {
+          console.error('Database error fetching favorited companies:', error);
+          throw new Error('Unable to load your favorite companies. Please try again later.');
+        }
+        
+        if (!data || !Array.isArray(data)) {
+          console.warn('No data returned from favorites query or invalid format');
+          return [];
+        }
+        
+        // Extract the solar_contacts objects from the join and filter out any null values
+        return data
+          .map(fav => fav.solar_contacts)
+          .filter(Boolean) as Tables<'solar_contacts'>[];
+      } catch (err) {
+        console.error('Exception fetching favorited companies:', err);
+        throw err; // Let React Query handle the error
+      }
+    },
+    enabled: !!user?.id, // Only enable the query when user ID is available
+    retry: 2, // Retry failed requests up to 2 times
+    staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+  });
   
   const updateProfile = async () => {
-    if (!user) return;
+    // Verify user is authenticated
+    if (!user || !user.id) {
+      toast.error('You must be logged in to update your profile');
+      return;
+    }
+    
+    // Validate input if needed
+    if (displayName.trim() === '') {
+      toast.warning('Display name cannot be empty');
+      return;
+    }
     
     setIsUpdating(true);
     try {
+      // Format the timestamp as ISO string for database compatibility
+      const timestamp = new Date().toISOString();
+      
       const { error } = await supabase
         .from('profiles')
         .upsert({
           id: user.id,
-          display_name: displayName,
-          updated_at: new Date().toISOString(),
+          display_name: displayName.trim(),
+          updated_at: timestamp,
         });
         
-      if (error) throw error;
+      if (error) {
+        console.error('Database error updating profile:', error);
+        throw new Error('Unable to update profile. Please try again.');
+      }
+      
       toast.success('Profile updated successfully');
     } catch (error: unknown) {
-      toast.error((error as Error).message || 'Error updating profile');
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      toast.error(errorMessage);
       console.error('Error updating profile:', error);
     } finally {
       setIsUpdating(false);
@@ -71,12 +146,17 @@ const ProfilePage: React.FC = () => {
       <NavBar />
       <div className="flex-grow flex items-center justify-center pt-32 pb-12 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-md w-full">
-          <Card className="dark:bg-gray-800 dark:border-gray-700">
+          <Card className="dark:bg-gray-800 dark:border-gray-700 mb-8">
             <CardHeader className="text-center">
               <div className="flex justify-center mb-4">
                 <Avatar className="h-24 w-24">
-                  <AvatarImage src={`https://ui-avatars.com/api/?name=${user.email?.charAt(0)}&background=random`} />
-                  <AvatarFallback>{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
+                  <AvatarImage 
+                    src={`https://ui-avatars.com/api/?name=${user.email ? user.email.charAt(0) : 'U'}&background=random`} 
+                    alt="User avatar"
+                  />
+                  <AvatarFallback>
+                    {user.email ? user.email.charAt(0).toUpperCase() : 'U'}
+                  </AvatarFallback>
                 </Avatar>
               </div>
               <CardTitle className="text-2xl dark:text-white">Your Profile</CardTitle>
@@ -117,6 +197,48 @@ const ProfilePage: React.FC = () => {
                 {isUpdating ? 'Updating...' : 'Update Profile'}
               </Button>
             </CardFooter>
+          </Card>
+
+          {/* Saved Favorites Section */}
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-2xl dark:text-white">Saved Favorites</CardTitle>
+              <CardDescription className="dark:text-gray-300">
+                Your bookmarked solar companies
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoadingFavorites ? (
+                <div className="flex justify-center items-center h-20">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-solar-600"></div>
+                </div>
+              ) : favoritedCompanies && favoritedCompanies.length > 0 ? (
+                <div className="grid gap-4">
+                  {favoritedCompanies.map((company) => (
+                    <Link to={`/company/${company.id}`} key={company.id} className="block">
+                      <div className="flex items-center p-3 border rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        {company.logo_url && (
+                          <img src={company.logo_url} alt={`${company.name} logo`} className="w-10 h-10 object-contain mr-4 rounded-sm" />
+                        )}
+                        <div>
+                          <h3 className="font-semibold text-lg dark:text-white">{company.name}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{company.city}, {company.state}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-gray-500 dark:text-gray-400">
+                  You haven't favorited any companies yet.
+                </p>
+              )}
+              {favoritesError && (
+                <p className="text-center text-red-500 dark:text-red-400 mt-4">
+                  Error loading favorites: {favoritesError.message}
+                </p>
+              )}
+            </CardContent>
           </Card>
         </div>
       </div>
