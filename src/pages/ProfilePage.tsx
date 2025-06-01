@@ -13,6 +13,11 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client'; // Corrected import path
 import { Tables } from '@/integrations/supabase/types'; // Import Tables type
 
+// Extend the Tables type to include logo_url
+interface SolarContacts extends Tables<'solar_contacts'> {
+  logo_url?: string;
+}
+
 const ProfilePage: React.FC = () => {
   const { user, signOut } = useAuth();
   const [isUpdating, setIsUpdating] = useState(false);
@@ -42,8 +47,8 @@ const ProfilePage: React.FC = () => {
         if (data) {
           setDisplayName(data.display_name || '');
         } else {
-          // Create a new profile if one doesn't exist
-          console.log('No profile found, creating a new one');
+          // No profile found
+          setDisplayName('No profile data found');
         }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -51,14 +56,14 @@ const ProfilePage: React.FC = () => {
         toast.error(`Error loading profile: ${errorMessage}`);
       }
     };
-    
+
     if (user) {
       loadProfile();
     }
   }, [user]);
 
   // Fetch favorited companies
-  const { data: favoritedCompanies, isLoading: isLoadingFavorites, error: favoritesError } = useQuery<Tables<'solar_contacts'>[]>({
+  const { data: favoritedCompanies, isLoading: isLoadingFavorites, error: favoritesError } = useQuery<SolarContacts[]>({
     queryKey: ['favoritedCompanies', user?.id],
     queryFn: async () => {
       // Verify user is authenticated with an ID
@@ -84,8 +89,11 @@ const ProfilePage: React.FC = () => {
         
         // Extract the solar_contacts objects from the join and filter out any null values
         return data
-          .map(fav => fav.solar_contacts)
-          .filter(Boolean) as Tables<'solar_contacts'>[];
+          .map(fav => {
+            if (!fav.solar_contacts) return null;
+            return fav.solar_contacts as unknown as SolarContacts;
+          })
+          .filter(Boolean) as SolarContacts[];
       } catch (err) {
         console.error('Exception fetching favorited companies:', err);
         throw err; // Let React Query handle the error
@@ -217,7 +225,7 @@ const ProfilePage: React.FC = () => {
                   {favoritedCompanies.map((company) => (
                     <Link to={`/company/${company.id}`} key={company.id} className="block">
                       <div className="flex items-center p-3 border rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        {company.logo_url && (
+                        {company.website_screenshot_url && (
                           <img src={company.logo_url} alt={`${company.name} logo`} className="w-10 h-10 object-contain mr-4 rounded-sm" />
                         )}
                         <div>

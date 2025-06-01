@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { supabase } from './supabase';
-import { Tables } from '@/integrations/supabase/types'; // Import Tables type
+import { Tables } from '@/integrations/supabase/types.ts'; // Import Tables type
 import unidecode from 'unidecode';
 
 export function cn(...inputs: ClassValue[]) {

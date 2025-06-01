@@ -14,7 +14,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Tables, Database } from '@/integrations/supabase/types';
+import { Tables, Database } from "@/integrations/supabase/types";
 import { getAllSolarContacts } from '@/lib/utils'; // Import Tables type
 
 type CompanyDetailPageProps = object;
