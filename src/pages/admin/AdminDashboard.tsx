@@ -11,7 +11,7 @@ import AdminLayout from '@/components/admin/AdminLayout';
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, refreshAdminStatus } = useAuth();
 
   // Fetch blog posts count
   const { data: postsCount } = useQuery({
@@ -47,6 +47,7 @@ const AdminDashboard: React.FC = () => {
         <p className="text-gray-500 dark:text-gray-400 mt-2">
           Welcome back, {user?.email}
         </p>
+        <Button onClick={() => refreshAdminStatus()}>Refresh Admin Status</Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

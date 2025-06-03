@@ -4,11 +4,65 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Menu, X, SunMoon, Moon, User, LogOut } from 'lucide-react';
+import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, signOut, isAdmin, isCheckingAdmin } = useAuth();
+  const { user, signOut, isAdmin, isCheckingAdmin, refreshAdminStatus } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  
+  // Log auth state for debugging
+  useEffect(() => {
+    console.log('NavBar auth state:', { 
+      user: user ? { id: user.id, email: user.email } : null, 
+      isAdmin, 
+      isCheckingAdmin 
+    });
+    
+    // Show toast notification when admin access is granted
+    if (isAdmin) {
+      toast.success('Admin access granted', {
+        position: 'bottom-right',
+        duration: 2000, // Changed autoClose to duration
+      });
+    }
+    
+    // If user exists but isAdmin is false or isCheckingAdmin is true, perform a direct admin check
+    if (user && (!isAdmin || isCheckingAdmin)) {
+      const checkAdminStatus = async () => {
+        console.log('NavBar: Starting admin status check for user ID:', user.id);
+        
+        try {
+          // Use the refreshAdminStatus function from useAuth
+          const isUserAdmin = await refreshAdminStatus();
+          
+          console.log('NavBar: Admin status check result:', { 
+            isUserAdmin, 
+            userId: user.id,
+            isAdminInContext: isAdmin,
+            isCheckingAdmin: isCheckingAdmin
+          });
+          
+          if (isUserAdmin && !isAdmin && !isCheckingAdmin) {
+            console.log('NavBar: Direct check found admin but context did not, refreshing...');
+            // Wait a moment for the query invalidation to take effect
+            setTimeout(() => {
+              // If the admin status still hasn't updated, force a refresh
+              if (!isAdmin) {
+                console.log('NavBar: Admin status still not updated, forcing page refresh');
+                window.location.reload();
+              }
+            }, 1000);
+          }
+        } catch (err) {
+          console.error('NavBar: Exception during admin status check:', err);
+        }
+      };
+      
+      checkAdminStatus();
+    }
+  }, [user, isAdmin, isCheckingAdmin, refreshAdminStatus]);
 
   // Close menu when route changes
   useEffect(() => {
@@ -42,9 +96,16 @@ const NavBar = () => {
                 </Link>
               )}
               {isAdmin && (
-                <Link to="/admin" className={`${location.pathname.startsWith('/admin') ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
-                  Admin
-                </Link>
+              <Link to="/admin/dashboard" className={`${location.pathname.startsWith('/admin') ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
+                <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
+                Admin
+              </Link>
+            )}
+              {user && !isAdmin && isCheckingAdmin && (
+                <div className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-400 dark:text-gray-500">
+                  <span className="mr-1 inline-block h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                  Checking...
+                </div>
               )}
             </div>
           </div>
@@ -144,9 +205,54 @@ const NavBar = () => {
             </Link>
           )}
           {isAdmin && (
-            <Link to="/admin" className={`${location.pathname.startsWith('/admin') ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
+            <Link to="/admin" className={`${location.pathname.startsWith('/admin') ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} flex items-center px-3 py-2 rounded-md font-medium`}>
+              <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
               Admin
             </Link>
+          )}
+          {user && !isAdmin && isCheckingAdmin && (
+            <div className="px-3 py-2 font-medium text-gray-400 dark:text-gray-500 flex items-center">
+              <span className="mr-1 inline-block h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></span>
+              Checking Admin Status...
+            </div>
+          )}
+          {user && !isAdmin && !isCheckingAdmin && (
+            <button 
+              onClick={async () => {
+                try {
+                  toast.info('Refreshing admin status...', {
+                    position: 'bottom-right',
+                    duration: 2000, // Changed autoClose to duration
+                  });
+                  const isUserAdmin = await refreshAdminStatus();
+                  if (isUserAdmin) {
+                    toast.success('Admin status confirmed!', {
+                      position: 'bottom-right',
+                      duration: 2000, // Changed autoClose to duration
+                    });
+                    // Force a refresh if the status doesn't update automatically
+                    setTimeout(() => {
+                      if (!isAdmin) window.location.reload();
+                    }, 1000);
+                  } else {
+                    toast.error('Not an admin user', {
+                      position: 'bottom-right',
+                      duration: 2000, // Changed autoClose to duration
+                    });
+                  }
+                } catch (error) {
+                  console.error('Error refreshing admin status:', error);
+                  toast.error('Error checking admin status', {
+                    position: 'bottom-right',
+                    duration: 2000, // Changed autoClose to duration
+                  });
+                }
+              }}
+              className="px-3 py-2 font-medium text-gray-400 dark:text-gray-500 hover:text-solar-600 dark:hover:text-solar-400 flex items-center"
+            >
+              <span className="mr-1 inline-block h-2 w-2 rounded-full bg-gray-500"></span>
+              Refresh Admin Status
+            </button>
           )}
           {user ? (
             <>

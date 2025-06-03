@@ -52,8 +52,8 @@ type FormValues = z.infer<typeof formSchema>;
 
 const BlogPostForm: React.FC = () => {
   const navigate = useNavigate();
-  const { id, action } = useParams<{ id?: string; action?: string }>();
-  const isEditMode = action === 'edit' && id;
+  const { id } = useParams<{ id?: string }>();
+  const isEditMode = !!id;
 
   // Initialize form
   const form = useForm<FormValues>({
@@ -81,7 +81,7 @@ const BlogPostForm: React.FC = () => {
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
-        .eq('id', id)
+        .eq('id', String(id))
         .single();
       
       if (error) throw error;

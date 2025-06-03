@@ -223,7 +223,7 @@ const ProfilePage: React.FC = () => {
               ) : favoritedCompanies && favoritedCompanies.length > 0 ? (
                 <div className="grid gap-4">
                   {favoritedCompanies.map((company) => (
-                    <Link to={`/company/${company.id}`} key={company.id} className="block">
+                    <Link to={`/directory/${company.name_slug}`} key={company.id} className="block">
                       <div className="flex items-center p-3 border rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                         {company.website_screenshot_url && (
                           <img src={company.logo_url} alt={`${company.name} logo`} className="w-10 h-10 object-contain mr-4 rounded-sm" />

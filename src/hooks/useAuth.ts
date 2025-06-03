@@ -1,6 +1,8 @@
 import { createContext, useContext } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { AuthState } from '@/types/auth';
+import { supabase } from '@/lib/supabase';
+import { useQueryClient } from '@tanstack/react-query';
 
 type AuthContextType = {
   session: Session | null;
@@ -11,6 +13,7 @@ type AuthContextType = {
   isLoading: boolean;
   isAdmin: boolean;
   isCheckingAdmin: boolean;
+  refreshAdminStatus: () => Promise<boolean>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

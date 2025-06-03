@@ -2,8 +2,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
 interface AdminProtectedRouteProps {
@@ -11,30 +9,8 @@ interface AdminProtectedRouteProps {
 }
 
 const AdminProtectedRoute: React.FC<AdminProtectedRouteProps> = ({ children }) => {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, isAdmin, isCheckingAdmin } = useAuth();
   const navigate = useNavigate();
-
-  // Check if user is an admin
-  const { data: isAdmin, isLoading: isCheckingAdmin } = useQuery({
-    queryKey: ['isAdmin', user?.id],
-    queryFn: async () => {
-      if (!user) return false;
-      
-      const { data, error } = await supabase
-        .from('admins')
-        .select('id')
-        .eq('id', user.id)
-        .maybeSingle();
-      
-      if (error) {
-        console.error('Error checking admin status:', error);
-        return false;
-      }
-      
-      return !!data;
-    },
-    enabled: !!user, // Make sure this is a boolean
-  });
 
   useEffect(() => {
     // If authentication is not loading and user is not logged in, redirect to login

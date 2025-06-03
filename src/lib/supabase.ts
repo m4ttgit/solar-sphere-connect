@@ -8,6 +8,7 @@ console.log('Initializing Supabase client with URL:', supabaseUrl);
 
 if (!supabaseUrl || !supabaseAnonKey) {
   console.error('Missing Supabase environment variables!');
+  throw new Error('Missing Supabase environment variables. Please check your .env file.');
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -24,4 +25,6 @@ supabase.auth.getSession().then(({ data, error }) => {
   } else {
     console.log('Supabase connection initialized successfully');
   }
+}).catch(err => {
+  console.error('Failed to initialize Supabase connection:', err);
 });
