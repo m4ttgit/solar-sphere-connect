@@ -13,6 +13,16 @@ import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client'; // Corrected import path
 import { Tables } from '@/integrations/supabase/types'; // Import Tables type
 
+interface SavedBlogPosts {
+  post_id: string;
+  blog_posts: {
+    id: string | null;
+    title: string | null;
+    slug: string | null;
+    image: string | null;
+  };
+}
+
 // Extend the Tables type to include logo_url
 interface SolarContacts extends Tables<'solar_contacts'> {
   logo_url?: string;
@@ -22,7 +32,7 @@ const ProfilePage: React.FC = () => {
   const { user, signOut } = useAuth();
   const [isUpdating, setIsUpdating] = useState(false);
   const [displayName, setDisplayName] = useState('');
-  
+
   // Load user profile data
   React.useEffect(() => {
     const loadProfile = async () => {
@@ -30,20 +40,20 @@ const ProfilePage: React.FC = () => {
       if (!user || !user.id) {
         return;
       }
-      
+
       try {
         const { data, error } = await supabase
           .from('profiles')
           .select('display_name')
           .eq('id', user.id)
           .single();
-          
+
         if (error) {
           console.error('Database error loading profile:', error);
           toast.error('Unable to load your profile information. Please try again later.');
           return;
         }
-        
+
         if (data) {
           setDisplayName(data.display_name || '');
         } else {
@@ -70,7 +80,7 @@ const ProfilePage: React.FC = () => {
       if (!user || !user.id) {
         return [];
       }
-      
+
       try {
         const { data, error } = await supabase
           .from('user_favorites')
@@ -81,12 +91,12 @@ const ProfilePage: React.FC = () => {
           console.error('Database error fetching favorited companies:', error);
           throw new Error('Unable to load your favorite companies. Please try again later.');
         }
-        
+
         if (!data || !Array.isArray(data)) {
           console.warn('No data returned from favorites query or invalid format');
           return [];
         }
-        
+
         // Extract the solar_contacts objects from the join and filter out any null values
         return data
           .map(fav => {
@@ -103,7 +113,55 @@ const ProfilePage: React.FC = () => {
     retry: 2, // Retry failed requests up to 2 times
     staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
   });
-  
+
+  // Fetch saved blog posts
+  const { data: savedBlogPosts, isLoading: isLoadingBlogPosts, error: blogPostsError } = useQuery<SavedBlogPosts[]>({
+    queryKey: ['savedBlogPosts', user?.id],
+    queryFn: async () => {
+      if (!user || !user.id) {
+        return [];
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('saved_blog_posts')
+          .select('post_id, blog_posts(id, title, slug, image)')
+          .eq('user_id', user.id);
+
+        if (error) {
+          console.error('Database error fetching saved blog posts:', error);
+          throw new Error('Unable to load your saved blog posts. Please try again later.');
+        }
+
+        if (!data || !Array.isArray(data)) {
+          console.warn('No data returned from saved blog posts query or invalid format');
+          return [];
+        }
+
+        return data.map(item => ({
+          ...item,
+          blog_posts: item.blog_posts ? {
+            id: item.blog_posts.id?.toString() || '',
+            title: item.blog_posts.title?.toString() || '',
+            slug: item.blog_posts.slug?.toString() || '',
+            image: item.blog_posts.image?.toString() || '',
+          } : {
+            id: '',
+            title: '',
+            slug: '',
+            image: '',
+          }
+        }));
+      } catch (err) {
+        console.error('Exception fetching saved blog posts:', err);
+        throw err;
+      }
+    },
+    enabled: !!user?.id,
+    retry: 2,
+    staleTime: 5 * 60 * 1000,
+  });
+
   const updateProfile = async () => {
     // Verify user is authenticated
     if (!user || !user.id) {
@@ -244,6 +302,47 @@ const ProfilePage: React.FC = () => {
               {favoritesError && (
                 <p className="text-center text-red-500 dark:text-red-400 mt-4">
                   Error loading favorites: {favoritesError.message}
+                </p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Saved Blog Posts Section */}
+          <Card className="dark:bg-gray-800 dark:border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-2xl dark:text-white">Saved Blog Posts</CardTitle>
+              <CardDescription className="dark:text-gray-300">
+                Your saved blog posts
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoadingBlogPosts ? (
+                <div className="flex justify-center items-center h-20">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-solar-600"></div>
+                </div>
+              ) : savedBlogPosts && savedBlogPosts.length > 0 ? (
+                <div className="grid gap-4">
+                  {savedBlogPosts.map((savedPost) => (
+                    <Link to={`/blog/${savedPost.blog_posts.slug}`} key={savedPost.post_id} className="block">
+                      <div className="flex items-center p-3 border rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        {savedPost.blog_posts.image && (
+                          <img src={savedPost.blog_posts.image} alt={`${savedPost.blog_posts.title} image`} className="w-10 h-10 object-cover mr-4 rounded-sm" />
+                        )}
+                        <div>
+                          <h3 className="font-semibold text-lg dark:text-white">{savedPost.blog_posts.title}</h3>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-gray-500 dark:text-gray-400">
+                  You haven't saved any blog posts yet.
+                </p>
+              )}
+              {blogPostsError && (
+                <p className="text-center text-red-500 dark:text-red-400 mt-4">
+                  Error loading saved blog posts: {blogPostsError.message}
                 </p>
               )}
             </CardContent>

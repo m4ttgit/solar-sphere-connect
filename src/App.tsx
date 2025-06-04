@@ -22,6 +22,8 @@ import BlogPostForm from "./pages/admin/BlogPostForm";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import CompanyDetailPage from "./pages/CompanyDetailPage";
 import ProfilePage from "./pages/ProfilePage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import ComparisonPage from "./pages/ComparisonPage"; // Add this import
 
 const queryClient = new QueryClient({
@@ -56,7 +58,7 @@ const App = () => {
                   <Route path="/directory/:name_slug" element={<CompanyDetailPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/blog" element={<ArticlePage />} />
-                  <Route path="/blog/:id" element={<BlogPostDetail />} />
+                  <Route path="/blog/:slug" element={<BlogPostDetail />} />
                   <Route 
                     path="/submit" 
                     element={
@@ -92,7 +94,7 @@ const App = () => {
                     } 
                   />
                   <Route 
-                    path="/admin/posts/edit/:id" 
+                    path="/admin/posts/edit/:slug" 
                     element={
                       <AdminProtectedRoute>
                         <BlogPostForm />
@@ -100,6 +102,10 @@ const App = () => {
                     } 
                   />
                   
+                  {/* Password Reset Routes */}
+                  <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                  <Route path="/update-password" element={<UpdatePasswordPage />} />
+
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="/compare" element={<ComparisonPage />} /> {/* Add this route */}
                   <Route path="*" element={<NotFound />} />

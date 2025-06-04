@@ -167,6 +167,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const resetPasswordForEmail = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/update-password`,
+      });
+      if (error) throw error;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred";
+      toast.error(errorMessage || "Error sending password reset email");
+      console.error("Error sending password reset email:", error);
+      throw error; // Re-throw to be caught by the calling component
+    }
+  };
+
   // Function to manually refresh admin status
   const refreshAdminStatus = React.useCallback(async () => {
     console.log('AuthContext: Manually refreshing admin status for user ID:', authState.user?.id);
@@ -211,6 +226,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         signIn,
         signUp,
         signOut,
+        resetPasswordForEmail, // Add this line
         isLoading: authState.isLoading,
         isAdmin: !!isAdmin,
         isCheckingAdmin,

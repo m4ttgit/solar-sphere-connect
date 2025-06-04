@@ -11,14 +11,15 @@ const NavBar = () => {
   const { user, signOut, isAdmin, isCheckingAdmin, refreshAdminStatus } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
-  
-  // Log auth state for debugging
+
+  // Log auth state and path for debugging
   useEffect(() => {
-    console.log('NavBar auth state:', { 
-      user: user ? { id: user.id, email: user.email } : null, 
-      isAdmin, 
-      isCheckingAdmin 
+    console.log('NavBar auth state:', {
+      user: user ? { id: user.id, email: user.email } : null,
+      isAdmin,
+      isCheckingAdmin
     });
+    console.log('Current pathname:', location.pathname);
     
     // Show toast notification when admin access is granted
     if (isAdmin) {
@@ -62,7 +63,7 @@ const NavBar = () => {
       
       checkAdminStatus();
     }
-  }, [user, isAdmin, isCheckingAdmin, refreshAdminStatus]);
+  }, [user, isAdmin, isCheckingAdmin, refreshAdminStatus, location.pathname]);
 
   // Close menu when route changes
   useEffect(() => {
@@ -70,46 +71,45 @@ const NavBar = () => {
   }, [location.pathname]);
 
   return (
-    <nav className="fixed w-full z-50 bg-white dark:bg-gray-900 shadow-md">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between h-16">
+    <nav className="fixed w-full z-50 bg-white dark:bg-gray-900 shadow-md px-4">
+        <div className="flex justify-between h-16 w-full">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <span className="text-2xl font-bold text-solar-600 dark:text-solar-400">SolarHub</span>
             </Link>
-            <div className="hidden md:ml-10 md:flex md:space-x-8">
-              <Link to="/" className={`${location.pathname === '/' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
+            <div className="hidden md:flex md:space-x-4 flex-grow flex-shrink">
+              <Link to="/" className={`${location.pathname === '/' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                 Home
               </Link>
-              <Link to="/directory" className={`${location.pathname === '/directory' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
+              <Link to="/directory" className={`${location.pathname === '/directory' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                 Directory
               </Link>
-              <Link to="/blog" className={`${location.pathname === '/blog' || location.pathname.startsWith('/blog/') ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
+              <Link to="/blog" className={`inline-flex items-center pt-1 border-b-2 ${location.pathname === '/blog' || location.pathname.startsWith('/blog/') ? 'text-solar-600 dark:text-solar-400 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400 border-transparent'}`}>
                 Blog
               </Link>
-              <Link to="/about" className={`${location.pathname === '/about' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
+              <Link to="/about" className={`${location.pathname === '/about' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                 About
               </Link>
               {user && (
-                <Link to="/submit" className={`${location.pathname === '/submit' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
+                <Link to="/submit" className={`${location.pathname === '/submit' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                   Submit Business
                 </Link>
               )}
               {isAdmin && (
-              <Link to="/admin/dashboard" className={`${location.pathname.startsWith('/admin') ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center px-1 pt-1 border-b-2 border-transparent`}>
+              <Link to="/admin/dashboard" className={`${location.pathname.startsWith('/admin') ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                 <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
                 Admin
               </Link>
             )}
               {user && !isAdmin && isCheckingAdmin && (
-                <div className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-400 dark:text-gray-500">
+                <div className="inline-flex items-center pt-1 text-sm font-medium text-gray-400 dark:text-gray-500">
                   <span className="mr-1 inline-block h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></span>
                   Checking...
                 </div>
               )}
             </div>
           </div>
-          <div className="hidden md:flex md:items-center md:space-x-3">
+          <div className="hidden md:flex md:items-center md:space-x-2 flex-shrink">
             <Button
               variant="ghost"
               size="icon"
@@ -182,7 +182,6 @@ const NavBar = () => {
             </button>
           </div>
         </div>
-      </div>
 
       {/* Mobile menu */}
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-white dark:bg-gray-900 shadow-lg`}>
@@ -193,7 +192,7 @@ const NavBar = () => {
           <Link to="/directory" className={`${location.pathname === '/directory' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
             Directory
           </Link>
-          <Link to="/blog" className={`${location.pathname === '/blog' || location.pathname.startsWith('/blog/') ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
+          <Link to="/blog" className={`block px-3 py-2 rounded-md font-medium ${location.pathname === '/blog' || location.pathname.startsWith('/blog/') ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'}`}>
             Blog
           </Link>
           <Link to="/about" className={`${location.pathname === '/about' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>

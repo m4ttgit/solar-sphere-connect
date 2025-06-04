@@ -109,6 +109,11 @@ const AuthPage: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       />
+                      <div className="text-right text-sm mt-2">
+                        <a href="/forgot-password" className="text-solar-600 hover:underline dark:text-solar-400">
+                          Forgot password?
+                        </a>
+                      </div>
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-col gap-2">

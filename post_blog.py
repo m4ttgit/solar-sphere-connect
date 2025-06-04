@@ -2,12 +2,20 @@ import os
 from supabase import create_client, Client
 import uuid
 from datetime import datetime
+import re
 from getpass import getpass # For secure password input
 
 # Supabase credentials - Replace with your actual project URL and anon key
 # It's recommended to use environment variables for sensitive information
 SUPABASE_URL = "https://vtjpbsfogcwqvgbllsqe.supabase.co"
 SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0anBic2ZvZ2N3cXZnYmxsc3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2Mzk3MjQsImV4cCI6MjA1ODIxNTcyNH0.5bU4C32vLSlHW-mmVcXIg1vMZb_o3_k-u5OIdpUxNLk"
+
+def slugify(text):
+    text = text.lower()
+    text = re.sub(r'[^\w\s-]', '', text)  # Remove all non-word chars
+    text = re.sub(r'[\s_-]+', '-', text)  # Replace spaces and underscores with a single dash
+    text = text.strip('-') # Remove leading/trailing dashes
+    return text
 
 def post_article(title: str, excerpt: str, content: str, author: str, read_time: str, category: str, image_url: str, email: str, password: str, published: bool = True):
     """
@@ -35,6 +43,9 @@ def post_article(title: str, excerpt: str, content: str, author: str, read_time:
             print(f"User '{auth_response.user.email}' authenticated successfully.")
             # The client is automatically updated with the session
             
+            # Generate slug
+            article_slug = slugify(title)
+
             data = {
                 "title": title,
                 "excerpt": excerpt,
@@ -45,13 +56,14 @@ def post_article(title: str, excerpt: str, content: str, author: str, read_time:
                 "image": image_url,
                 "published": published,
                 "created_at": datetime.now().isoformat(),
-                "updated_at": datetime.now().isoformat()
+                "updated_at": datetime.now().isoformat(),
+                "slug": article_slug # Add the generated slug
             }
 
             response = supabase.table("blog_posts").insert(data).execute()
 
             if response.data:
-                print(f"Successfully posted article: '{title}'")
+                print(f"Successfully posted article: '{title}' with slug: '{article_slug}'")
                 print("Response data:", response.data)
             else:
                 print(f"Failed to post article: '{title}'")
@@ -66,31 +78,31 @@ def post_article(title: str, excerpt: str, content: str, author: str, read_time:
 if __name__ == "__main__":
     # Example usage:
     # You can replace these with dynamic content generation or user input
-    article_title = "Understanding Solar Panel Efficiency"
-    article_excerpt = "A deep dive into what makes solar panels efficient and how to maximize their performance."
+    article_title = "Benefits of Residential Solar Power"
+    article_excerpt = "Discover the environmental and financial advantages of installing solar panels at home."
     article_content = """
-    ### Maximizing Your Solar Panel Efficiency
+    ### Why Go Solar at Home?
 
-    Solar panel efficiency is a key factor in how much electricity your system will generate. It refers to the percentage of sunlight that hits the panel and is converted into usable electricity.
+    Residential solar power offers numerous advantages for homeowners looking to reduce their carbon footprint and save on electricity bills.
 
-    **Factors Affecting Efficiency:**
-    *   **Panel Type:** Monocrystalline panels are generally more efficient than polycrystalline or thin-film panels.
-    *   **Temperature:** Solar panels perform best in cooler temperatures. High temperatures can reduce efficiency.
-    *   **Shading:** Even partial shading can significantly reduce the output of an entire string of panels.
-    *   **Orientation and Tilt:** Panels facing true south (in the Northern Hemisphere) with an optimal tilt angle will capture the most sunlight.
-    *   **Cleanliness:** Dust, dirt, and debris on the panels can block sunlight and reduce efficiency. Regular cleaning is recommended.
+    **Key Benefits:**
+    *   **Reduced Electricity Bills:** Generate your own power and significantly lower or even eliminate your monthly electricity costs.
+    *   **Environmental Impact:** Reduce reliance on fossil fuels, contributing to a cleaner environment and combating climate change.
+    *   **Increased Home Value:** Homes with solar panels often sell faster and at a premium.
+    *   **Energy Independence:** Lessen your dependence on the grid and protect yourself from rising energy prices.
+    *   **Government Incentives:** Take advantage of tax credits, rebates, and other incentives that make solar more affordable.
 
-    **Tips for Maximizing Efficiency:**
-    1.  **Regular Cleaning:** Keep your panels free from dirt, dust, and bird droppings.
-    2.  **Optimal Placement:** Ensure panels are installed in a location with maximum sun exposure throughout the day.
-    3.  **Shade Mitigation:** Trim trees or remove obstructions that might cast shadows on your panels.
-    4.  **Monitoring System:** Use a monitoring system to track your panel's performance and identify any issues quickly.
-    5.  **Professional Maintenance:** Schedule periodic inspections and maintenance with a qualified solar technician.
+    **Getting Started:**
+    1.  **Assess Your Needs:** Determine your energy consumption and roof suitability.
+    2.  **Get Quotes:** Contact multiple solar installers for competitive bids.
+    3.  **Understand Financing:** Explore options like cash purchase, solar loans, or leases.
+    4.  **Installation:** Professional installation ensures optimal performance and safety.
+    5.  **Monitor Performance:** Track your system's output to ensure it's meeting your energy goals.
     """
-    article_author = "Solar Energy Expert"
-    article_read_time = "5 min read"
-    article_category = "Technology"
-    article_image_url = "https://unsplash.com/photos/solar-panels-on-a-roof-during-daytime-d_y_S_9_Y_g"
+    article_author = "SolarHub Team"
+    article_read_time = "7 min read"
+    article_category = "Home Improvement"
+    article_image_url = "https://images.unsplash.com/photo-1508919801863-f7014a811008?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
     # Prompt for user credentials
     user_email = input("Enter your Supabase registered email: ")

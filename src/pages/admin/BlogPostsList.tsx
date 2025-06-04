@@ -35,6 +35,7 @@ import {
 
 type BlogPost = {
   id: string;
+  slug: string; // Added slug
   title: string;
   category: string;
   author: string;
@@ -290,7 +291,7 @@ const BlogPostsList: React.FC = () => {
                           variant="outline"
                           size="sm"
                           className="h-8 w-8 p-0 dark:border-gray-700"
-                          onClick={() => navigate(`/admin/posts/edit/${post.id}`)}
+                          onClick={() => navigate(`/admin/posts/edit/${post.slug}`)}
                           title="Edit"
                         >
                           <Edit className="h-4 w-4" />

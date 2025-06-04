@@ -15,7 +15,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Tables, Database } from "@/integrations/supabase/types";
-import { getAllSolarContacts } from '@/lib/utils'; // Import Tables type
+import { getAllSolarContacts } from '@/lib/utils';
+import CompanyImage from '@/components/CompanyImage'; // Import CompanyImage component
 
 type CompanyDetailPageProps = object;
 
@@ -232,7 +233,7 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
 
       <main className="flex-grow pt-28 pb-20">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto"> {/* Changed from max-w-4xl to max-w-6xl for wider content area */}
             {/* Back to directory link */}
             <div className="mb-6">
               <Link to="/directory" className="inline-flex items-center text-solar-600 hover:text-solar-700">
@@ -274,39 +275,15 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
               )}
             </div>
 
-            {/* Main content */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Left column - Company details */}
-              <div className="md:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>About {company?.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="whitespace-pre-line mb-6">{company?.description}</p>
-
-                    {/* Services */}
-                    {company?.services && Array.isArray(company.services) && company.services.length > 0 && (
-                      <div className="mb-6">
-                        <h3 className="text-lg font-medium flex items-center mb-3">
-                          <Briefcase className="mr-2 h-5 w-5 text-solar-600" />
-                          Services
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                          {company.services.map((service: string, index: number) => (
-                            <Badge key={index} variant="secondary" className="bg-gray-100 dark:bg-gray-700 dark:text-gray-100">
-                              {service}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+            {/* Main content - Image on left, Contact Info on right, About below */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-8"> {/* Grid remains 5 columns */}
+              {/* Left Part: Image */}
+              <div className="md:col-span-3"> {/* Changed from md:col-span-2 to md:col-span-3 for a larger image */}
+                <CompanyImage companyName={company?.name} nameSlug={company?.name_slug} />
               </div>
 
-              {/* Right column - Contact information */}
-              <div>
+              {/* Right Part: Contact Information */}
+              <div className="md:col-span-2"> {/* Changed from md:col-span-3 to md:col-span-2 for a smaller contact card */}
                 <Card>
                   <CardHeader>
                     <CardTitle>Contact Information</CardTitle>
@@ -374,6 +351,34 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+
+            {/* About Section - Full Width Below Image and Contact */}
+            <div className="mt-8">
+              <Card>
+                <CardHeader>
+                  <CardTitle>About {company?.name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="whitespace-pre-line mb-6">{company?.description}</p>
+                  {/* Services */}
+                  {company?.services && Array.isArray(company.services) && company.services.length > 0 && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-medium flex items-center mb-3">
+                        <Briefcase className="mr-2 h-5 w-5 text-solar-600" />
+                        Services
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {company.services.map((service: string, index: number) => (
+                          <Badge key={index} variant="secondary" className="bg-gray-100 dark:bg-gray-700 dark:text-gray-100">
+                            {service}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>

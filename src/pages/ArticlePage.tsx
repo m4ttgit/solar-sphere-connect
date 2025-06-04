@@ -13,6 +13,7 @@ import { supabase } from '@/lib/supabase';
 interface BlogPostCardProps {
   post: {
     id: string;
+    slug: string;
     title: string;
     excerpt: string;
     author: string;
@@ -72,7 +73,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post }) => {
         <Button 
           variant="outline" 
           className="w-full text-solar-600 dark:text-solar-400 border-solar-200 dark:border-solar-800 hover:bg-solar-50 dark:hover:bg-solar-900/30"
-          onClick={() => navigate(`/blog/${post.id}`)}
+          onClick={() => navigate(`/blog/${post.slug}`)}
         >
           Read More
         </Button>

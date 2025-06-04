@@ -37,6 +37,7 @@ import {
 // Form schema
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
+  slug: z.string().optional(), // Add slug to schema
   excerpt: z.string().min(20, "Excerpt must be at least 20 characters"),
   content: z.string().min(50, "Content must be at least 50 characters"),
   author: z.string().min(2, "Author name is required"),
@@ -51,9 +52,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const BlogPostForm: React.FC = () => {
-  const navigate = useNavigate();
-  const { id } = useParams<{ id?: string }>();
-  const isEditMode = !!id;
+   const navigate = useNavigate();
+  const { slug } = useParams<{ slug?: string }>(); // Use slug instead of id
+  const isEditMode = !!slug; // Check for slug existence
 
   // Initialize form
   const form = useForm<FormValues>({
@@ -74,14 +75,14 @@ const BlogPostForm: React.FC = () => {
 
   // Fetch post data if editing
   const { isLoading } = useQuery({
-    queryKey: ['blog-post', id],
+    queryKey: ['blog-post', slug],
     queryFn: async () => {
-      if (!id) return null;
+      if (!slug) return null;
       
       const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
-        .eq('id', String(id))
+        .eq('slug', slug) // Fetch by slug
         .single();
       
       if (error) throw error;
@@ -126,7 +127,7 @@ const BlogPostForm: React.FC = () => {
         const { error } = await supabase
           .from('blog_posts')
           .update(blogPostData)
-          .eq('id', id);
+          .eq('slug', slug); // Update by slug
         
         if (error) throw error;
         
