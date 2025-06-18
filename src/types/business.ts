@@ -1,6 +1,4 @@
-import { Json } from '@/integrations/supabase/types';
-
-export type SolarBusiness = {
+export interface Business {
   id: string;
   name: string;
   description: string;
@@ -8,18 +6,16 @@ export type SolarBusiness = {
   city: string;
   state: string;
   zip_code: string;
-  phone: string | null; 
-  email: string | null;
-  website: string | null;
-  logo_url: string | null;
-  website_screenshot_url: string | null; // New field for storing website screenshots
+  phone: string;
+  email: string;
+  website: string;
+  logo_url: string;
   user_id: string;
-  category_id: string | null;
-  services: Json[] | null;
-  certifications: Json[] | null;
+  category_id: string;
+  services: string[];
+  certifications: string[];
   approved: boolean;
   created_at: string;
   updated_at: string;
-};
-
-export type BusinessFormData = Omit<SolarBusiness, 'id' | 'user_id' | 'approved' | 'created_at' | 'updated_at'>;
+  business_categories?: { name: string }; // For the joined category name
+}

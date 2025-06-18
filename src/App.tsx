@@ -19,6 +19,9 @@ import BlogPostDetail from "./pages/BlogPostDetail";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import BlogPostsList from "./pages/admin/BlogPostsList";
 import BlogPostForm from "./pages/admin/BlogPostForm";
+import BusinessListPage from "./pages/admin/BusinessListPage";
+import BusinessDetailsPage from "./pages/admin/BusinessDetailsPage";
+import ContactsListPage from "./pages/admin/ContactsListPage";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import CompanyDetailPage from "./pages/CompanyDetailPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -101,7 +104,30 @@ const App = () => {
                       </AdminProtectedRoute>
                     } 
                   />
-                  
+                  <Route 
+                    path="/admin/businesses" 
+                    element={
+                      <AdminProtectedRoute>
+                        <BusinessListPage />
+                      </AdminProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/admin/businesses/:id" 
+                    element={
+                      <AdminProtectedRoute>
+                        <BusinessDetailsPage />
+                      </AdminProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/admin/contacts" 
+                    element={
+                      <AdminProtectedRoute>
+                        <ContactsListPage />
+                      </AdminProtectedRoute>
+                    } 
+                  />
                   {/* Password Reset Routes */}
                   <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                   <Route path="/update-password" element={<UpdatePasswordPage />} />

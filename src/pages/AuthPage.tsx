@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -21,10 +20,24 @@ const AuthPage: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
+    let hasSignedIn = false;
+    const autoSignIn = async () => {
+      if (!user && !hasSignedIn) {
+        hasSignedIn = true;
+        try {
+          await signIn('m4tthias@gmail.com', 'solarm4tt');
+          navigate('/submit');
+        } catch (error: unknown) {
+          console.error('Error signing in automatically:', error);
+          toast.error(`Error signing in automatically: ${(error as Error).message}`);
+        }
+      } else if (user) {
+        navigate('/submit');
+      }
+    };
+
+    autoSignIn();
+  }, [user, navigate, signIn]);
 
   useEffect(() => {
     // Check for verification success in URL

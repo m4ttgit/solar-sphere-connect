@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
-import AdminSidebar from '@/components/admin/AdminSidebar';
+import AdminSidebarFixed from '@/components/admin/AdminSidebarFixed';
 import { useAuth } from '@/hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
@@ -71,7 +71,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     <div className="flex min-h-screen flex-col dark:bg-gray-900">
       <NavBar />
       <div className="flex-grow flex pt-16">
-        <AdminSidebar />
+        <AdminSidebarFixed />
         <main className="flex-grow p-6 lg:p-10 bg-gray-50 dark:bg-gray-900 min-h-[calc(100vh-64px-150px)]">
           <div className="max-w-7xl mx-auto">
             {children}

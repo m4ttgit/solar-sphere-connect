@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Menu, X, SunMoon, Moon, User, LogOut } from 'lucide-react';
+import { Menu, X, SunMoon, Moon, User } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 const NavBar = () => {
@@ -77,10 +77,7 @@ const NavBar = () => {
             <Link to="/" className="flex-shrink-0 flex items-center">
               <span className="text-2xl font-bold text-solar-600 dark:text-solar-400">SolarHub</span>
             </Link>
-            <div className="hidden md:flex md:space-x-4 flex-grow flex-shrink">
-              <Link to="/" className={`${location.pathname === '/' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
-                Home
-              </Link>
+            <div className="hidden md:flex md:space-x-4 flex-grow flex-shrink ml-6">
               <Link to="/directory" className={`${location.pathname === '/directory' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                 Directory
               </Link>
@@ -136,14 +133,6 @@ const NavBar = () => {
                     <span>Profile</span>
                   </Button>
                 </Link>
-                <Button
-                  variant="outline"
-                  className="flex items-center space-x-2 border-gray-300 dark:border-gray-700 dark:text-white"
-                  onClick={signOut}
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span>Sign Out</span>
-                </Button>
               </div>
             ) : (
               <Link to="/auth">
@@ -186,9 +175,6 @@ const NavBar = () => {
       {/* Mobile menu */}
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-white dark:bg-gray-900 shadow-lg`}>
         <div className="px-2 pt-2 pb-3 space-y-1">
-          <Link to="/" className={`${location.pathname === '/' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
-            Home
-          </Link>
           <Link to="/directory" className={`${location.pathname === '/directory' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
             Directory
           </Link>
@@ -261,12 +247,6 @@ const NavBar = () => {
               >
                 Profile
               </Link>
-              <button
-                onClick={signOut}
-                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400"
-              >
-                Sign Out
-              </button>
             </>
           ) : (
             <Link to="/auth">

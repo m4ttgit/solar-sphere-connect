@@ -120,25 +120,26 @@ const SubmitBusinessPage: React.FC = () => {
       const { terms_accepted, ...formData } = data;
 
       // Ensure all required fields for insert are present and correctly typed
-      const businessData: TablesInsert<'solar_contacts'> = {
+      const businessData: TablesInsert<'solar_businesses'> = {
         name: formData.name,
         description: formData.description,
-        address: formData.address,
-        city: formData.city,
-        state: formData.state,
-        zip_code: formData.zip_code,
         user_id: user.id,
+        approved: false, // New businesses are not approved by default
         // Optional fields
         phone: formData.phone || null,
         email: formData.email || null,
         website: formData.website || null,
         category_id: formData.category_id || null,
-        services: formData.services || null,
-        certifications: formData.certifications || null,
+        services: formData.services && formData.services.length > 0 ? formData.services : null,
+        certifications: formData.certifications && formData.certifications.length > 0 ? formData.certifications : null,
+        address: formData.address || null,
+        city: formData.city || null,
+        state: formData.state || null,
+        zip_code: formData.zip_code || null, // zip_code is string in solar_businesses
       };
 
       const { error } = await supabase
-        .from('solar_contacts')
+        .from('solar_businesses')
         .insert(businessData);
 
       if (error) throw error;

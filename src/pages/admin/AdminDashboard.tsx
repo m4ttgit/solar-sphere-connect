@@ -40,6 +40,20 @@ const AdminDashboard: React.FC = () => {
     }
   });
 
+  // Fetch unapproved businesses count
+  const { data: unapprovedBusinessesCount } = useQuery({
+    queryKey: ['unapproved-businesses-count'],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from('solar_businesses')
+        .select('*', { count: 'exact', head: true })
+        .eq('approved', false);
+
+      if (error) throw error;
+      return count || 0;
+    }
+  });
+
   return (
     <AdminLayout>
       <div className="mb-8">
@@ -91,6 +105,21 @@ const AdminDashboard: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+
+        <Card className="dark:bg-gray-800 dark:border-gray-700">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl dark:text-white">Pending Businesses</CardTitle>
+            <CardDescription className="dark:text-gray-400">Businesses awaiting approval</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="text-3xl font-bold dark:text-white">
+                {unapprovedBusinessesCount || 0}
+              </div>
+              <Users className="h-8 w-8 text-yellow-600 dark:text-yellow-400" />
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -107,6 +136,23 @@ const AdminDashboard: React.FC = () => {
             >
               <FileText className="h-4 w-4 mr-2" />
               Manage Posts
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="dark:bg-gray-800 dark:border-gray-700">
+          <CardHeader>
+            <CardTitle className="text-xl dark:text-white">Submitted Businesses</CardTitle>
+            <CardDescription className="dark:text-gray-400">Review and approve new business submissions</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <p className="dark:text-gray-300">View and manage businesses that have been submitted for review.</p>
+            <Button 
+              className="bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600 mt-2"
+              onClick={() => navigate('/admin/businesses')}
+            >
+              <Users className="h-4 w-4 mr-2" />
+              Review Businesses
             </Button>
           </CardContent>
         </Card>
