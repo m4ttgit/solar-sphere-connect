@@ -25,8 +25,9 @@ const AuthPage: React.FC = () => {
       if (!user && !hasSignedIn) {
         hasSignedIn = true;
         try {
-          await signIn('m4tthias@gmail.com', 'solarm4tt');
-          navigate('/submit');
+          // Comment out or remove the automatic sign-in
+          // await signIn('m4tthias@gmail.com', 'solarm4tt');
+          // navigate('/submit');
         } catch (error: unknown) {
           console.error('Error signing in automatically:', error);
           toast.error(`Error signing in automatically: ${(error as Error).message}`);

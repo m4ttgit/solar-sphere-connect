@@ -87,6 +87,9 @@ const NavBar = () => {
               <Link to="/about" className={`${location.pathname === '/about' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                 About
               </Link>
+              <Link to="/solar-tools" className={`${location.pathname === '/solar-tools' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
+                Solar Tools
+              </Link>
               {user && (
                 <Link to="/submit" className={`${location.pathname === '/submit' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                   Submit Business
@@ -106,7 +109,7 @@ const NavBar = () => {
               )}
             </div>
           </div>
-          <div className="hidden md:flex md:items-center md:space-x-2 flex-shrink">
+          <div className="hidden md:flex md:items-center md:space-x-2">
             <Button
               variant="ghost"
               size="icon"
@@ -133,6 +136,13 @@ const NavBar = () => {
                     <span>Profile</span>
                   </Button>
                 </Link>
+                <Button
+                  variant="ghost"
+                  onClick={signOut}
+                  className="text-gray-500 hover:text-red-600 dark:text-gray-300 dark:hover:text-red-400"
+                >
+                  Sign Out
+                </Button>
               </div>
             ) : (
               <Link to="/auth">
@@ -183,6 +193,9 @@ const NavBar = () => {
           </Link>
           <Link to="/about" className={`${location.pathname === '/about' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
             About
+          </Link>
+          <Link to="/solar-tools" className={`${location.pathname === '/solar-tools' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
+            Solar Tools
           </Link>
           {user && (
             <Link to="/submit" className={`${location.pathname === '/submit' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
@@ -247,6 +260,12 @@ const NavBar = () => {
               >
                 Profile
               </Link>
+              <button
+                onClick={signOut}
+                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-red-600 dark:hover:text-red-400"
+              >
+                Sign Out
+              </button>
             </>
           ) : (
             <Link to="/auth">

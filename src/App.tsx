@@ -27,7 +27,8 @@ import CompanyDetailPage from "./pages/CompanyDetailPage";
 import ProfilePage from "./pages/ProfilePage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import UpdatePasswordPage from "./pages/UpdatePasswordPage";
-import ComparisonPage from "./pages/ComparisonPage"; // Add this import
+import ComparisonPage from "./pages/ComparisonPage";
+import SolarSystemToolsPage from "./pages/SolarSystemToolsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -134,7 +135,8 @@ const App = () => {
 
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="/compare" element={<ComparisonPage />} /> {/* Add this route */}
-                  <Route path="*" element={<NotFound />} />
+  <Route path="/solar-tools" element={<SolarSystemToolsPage />} />
+  <Route path="*" element={<NotFound />} />
                   
                   <Route 
                     path="/profile" 
