@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#f0f8ff"/>
+  
+  <!-- Background with night sky -->
+  <rect x="0" y="0" width="300" height="200" fill="#1a1a3a"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="150" width="300" height="50" fill="#3a5f0b"/>
+  
+  <!-- Wall or fence -->
+  <rect x="50" y="50" width="200" height="100" fill="#8b8b8b" stroke="#000" stroke-width="1"/>
+  
+  <!-- Light fixture base -->
+  <rect x="110" y="80" width="80" height="20" fill="#444" stroke="#000" stroke-width="1"/>
+  
+  <!-- Light heads -->
+  <g>
+    <!-- Left light -->
+    <rect x="90" y="70" width="30" height="20" rx="2" fill="#333" stroke="#000" stroke-width="1"/>
+    <rect x="95" y="75" width="20" height="10" fill="#ffff99" stroke="#000" stroke-width="1"/>
+    
+    <!-- Middle light -->
+    <rect x="135" y="60" width="30" height="20" rx="2" fill="#333" stroke="#000" stroke-width="1"/>
+    <rect x="140" y="65" width="20" height="10" fill="#ffff99" stroke="#000" stroke-width="1"/>
+    
+    <!-- Right light -->
+    <rect x="180" y="70" width="30" height="20" rx="2" fill="#333" stroke="#000" stroke-width="1"/>
+    <rect x="185" y="75" width="20" height="10" fill="#ffff99" stroke="#000" stroke-width="1"/>
+  </g>
+  
+  <!-- Light beams -->
+  <polygon points="105,80 70,150 140,150" fill="#ffff99" fill-opacity="0.3" stroke="none"/>
+  <polygon points="150,70 100,150 200,150" fill="#ffff99" fill-opacity="0.3" stroke="none"/>
+  <polygon points="195,80 160,150 230,150" fill="#ffff99" fill-opacity="0.3" stroke="none"/>
+  
+  <!-- Solar panel on top -->
+  <rect x="125" y="40" width="50" height="15" fill="#1e90ff" stroke="#000" stroke-width="1"/>
+  <line x1="135" y1="40" x2="135" y2="55" stroke="#000" stroke-width="0.5"/>
+  <line x1="145" y1="40" x2="145" y2="55" stroke="#000" stroke-width="0.5"/>
+  <line x1="155" y1="40" x2="155" y2="55" stroke="#000" stroke-width="0.5"/>
+  <line x1="165" y1="40" x2="165" y2="55" stroke="#000" stroke-width="0.5"/>
+  
+  <!-- Motion sensor -->
+  <circle cx="150" cy="90" r="5" fill="#ff0000" stroke="#000" stroke-width="0.5"/>
+  
+  <!-- Stars in the sky -->
+  <circle cx="30" y="30" r="1" fill="white"/>
+  <circle cx="60" y="20" r="1" fill="white"/>
+  <circle cx="90" y="40" r="1" fill="white"/>
+  <circle cx="220" y="30" r="1" fill="white"/>
+  <circle cx="250" y="20" r="1" fill="white"/>
+  <circle cx="270" y="40" r="1" fill="white"/>
+  
+  <!-- Product name -->
+  <text x="150" y="180" font-family="Arial" font-size="14" text-anchor="middle" fill="white">WdtPro 2025 Solar Lights Outdoor</text>
+</svg>

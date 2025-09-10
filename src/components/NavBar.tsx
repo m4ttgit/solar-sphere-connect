@@ -90,17 +90,24 @@ const NavBar = () => {
               <Link to="/solar-tools" className={`${location.pathname === '/solar-tools' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                 Solar Tools
               </Link>
-              {user && (
+              <Link to="/shop" className={`${location.pathname === '/shop' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
+                Shop
+              </Link>
+              {user && (user.role === 'business' || user.role === 'admin') && (
                 <Link to="/submit" className={`${location.pathname === '/submit' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
                   Submit Business
                 </Link>
               )}
-              {isAdmin && (
-              <Link to="/admin/dashboard" className={`${location.pathname.startsWith('/admin') ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
-                <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
-                Admin
+              <Link to="/eia-data" className={`${location.pathname === '/eia-data' ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
+                EIA Data
               </Link>
-            )}
+              {isAdmin && (
+                <Link to="/admin/dashboard" className={`${location.pathname.startsWith('/admin') ? 'text-solar-600 dark:text-solar-400 border-b-2 border-solar-500' : 'text-gray-500 dark:text-gray-300 hover:text-solar-600 dark:hover:text-solar-400'} inline-flex items-center pt-1 border-b-2 border-transparent`}>
+                  <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
+                  Admin
+                </Link>
+              )}
+  
               {user && !isAdmin && isCheckingAdmin && (
                 <div className="inline-flex items-center pt-1 text-sm font-medium text-gray-400 dark:text-gray-500">
                   <span className="mr-1 inline-block h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></span>
@@ -197,11 +204,17 @@ const NavBar = () => {
           <Link to="/solar-tools" className={`${location.pathname === '/solar-tools' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
             Solar Tools
           </Link>
-          {user && (
+          <Link to="/shop" className={`${location.pathname === '/shop' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
+            Shop
+          </Link>
+          {user && (user.role === 'business' || user.role === 'admin') && (
             <Link to="/submit" className={`${location.pathname === '/submit' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
               Submit Business
             </Link>
           )}
+          <Link to="/eia-data" className={`${location.pathname === '/eia-data' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
+            EIA Data
+          </Link>
           {isAdmin && (
             <Link to="/admin" className={`${location.pathname.startsWith('/admin') ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} flex items-center px-3 py-2 rounded-md font-medium`}>
               <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>

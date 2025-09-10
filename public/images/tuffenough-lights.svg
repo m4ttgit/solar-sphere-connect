@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+  <rect width="300" height="200" fill="#f0f8ff"/>
+  
+  <!-- Background with night sky -->
+  <rect x="0" y="0" width="300" height="200" fill="#1a1a3a"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="150" width="300" height="50" fill="#3a5f0b"/>
+  
+  <!-- Light fixture base -->
+  <rect x="120" y="130" width="60" height="20" fill="#444" stroke="#000" stroke-width="1"/>
+  
+  <!-- Light fixture pole -->
+  <rect x="145" y="80" width="10" height="50" fill="#555" stroke="#000" stroke-width="1"/>
+  
+  <!-- Light heads -->
+  <g>
+    <!-- Left light -->
+    <rect x="100" y="70" width="30" height="20" rx="5" fill="#333" stroke="#000" stroke-width="1"/>
+    <rect x="105" y="75" width="20" height="10" fill="#ffff99" stroke="#000" stroke-width="1"/>
+    <line x1="90" y1="60" x2="115" y2="80" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    <line x1="90" y1="80" x2="115" y2="80" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    <line x1="90" y1="100" x2="115" y2="80" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    
+    <!-- Middle light -->
+    <rect x="135" y="60" width="30" height="20" rx="5" fill="#333" stroke="#000" stroke-width="1"/>
+    <rect x="140" y="65" width="20" height="10" fill="#ffff99" stroke="#000" stroke-width="1"/>
+    <line x1="150" y1="40" x2="150" y2="65" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    <line x1="130" y1="50" x2="150" y2="65" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    <line x1="170" y1="50" x2="150" y2="65" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    
+    <!-- Right light -->
+    <rect x="170" y="70" width="30" height="20" rx="5" fill="#333" stroke="#000" stroke-width="1"/>
+    <rect x="175" y="75" width="20" height="10" fill="#ffff99" stroke="#000" stroke-width="1"/>
+    <line x1="210" y1="60" x2="185" y2="80" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    <line x1="210" y1="80" x2="185" y2="80" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+    <line x1="210" y1="100" x2="185" y2="80" stroke="#ffff99" stroke-width="1" opacity="0.7"/>
+  </g>
+  
+  <!-- Solar panel on top -->
+  <rect x="135" y="40" width="30" height="15" fill="#1e90ff" stroke="#000" stroke-width="1"/>
+  
+  <!-- Stars in the sky -->
+  <circle cx="30" y="30" r="1" fill="white"/>
+  <circle cx="60" y="50" r="1" fill="white"/>
+  <circle cx="90" y="20" r="1" fill="white"/>
+  <circle cx="220" y="40" r="1" fill="white"/>
+  <circle cx="250" y="30" r="1" fill="white"/>
+  <circle cx="270" y="60" r="1" fill="white"/>
+  
+  <!-- Product name -->
+  <text x="150" y="180" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Tuffenough Solar Outdoor Lights</text>
+</svg>

@@ -42,13 +42,13 @@ const BusinessDetailsPage: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['unapproved-businesses-count'] });
       toast.success('Business approved successfully!');
 
-      // Insert approved business into solar_contacts
+      // Insert approved business into solarhub_db
       if (business) {
         try {
             const { error: insertError } = await supabase
-              .from('solar_contacts')
+              .from('solarhub_db')
               .insert({
-                uuid_id: business.id,
+                id: business.id,
                 name: business.name,
                 description: business.description,
                 address: business.address,
@@ -59,17 +59,17 @@ const BusinessDetailsPage: React.FC = () => {
                 email: business.email,
                 website: business.website,
                 services: business.services,
-                certification: business.certifications,
+                certifications: business.certifications,
                 approved: true,
                 name_slug: business.name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
               });
 
           if (insertError) {
-            console.error('Error inserting into solar_contacts:', insertError);
-            toast.error(`Error inserting into solar_contacts: ${insertError.message}`);
+            console.error('Error inserting into solarhub_db:', insertError);
+            toast.error(`Error inserting into solarhub_db: ${insertError.message}`);
           } else {
-            console.log('Successfully inserted into solar_contacts');
-            toast.success('Successfully inserted into solar_contacts');
+            console.log('Successfully inserted into solarhub_db');
+            toast.success('Successfully inserted into solarhub_db');
           }
         } catch (error: unknown) {
           console.error('Error during insertion:', error);
@@ -105,11 +105,11 @@ const BusinessDetailsPage: React.FC = () => {
 
 const deleteFromDirectoryMutation = useMutation({
   mutationFn: async () => {
-    // First delete from solar_contacts
+    // First delete from solarhub_db
     const { error: contactsError } = await supabase
-      .from('solar_contacts')
+      .from('solarhub_db')
       .delete()
-      .eq('uuid_id', id);
+      .eq('id', id);
     
     if (contactsError) throw contactsError;
     

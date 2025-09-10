@@ -28,6 +28,13 @@ const ComparisonPage: React.FC = () => {
   const isLoading = companyQueries.some(query => query.isLoading);
   const isError = companyQueries.some(query => query.isError);
 
+  // Log services data for debugging
+  companies.forEach(company => {
+    if (company) {
+      console.log(`Services for ${company.name}:`, company.services);
+    }
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -157,21 +164,37 @@ const ComparisonPage: React.FC = () => {
                       <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">No certifications listed.</p>
                     )}
 
+
+
                     <h3 className="font-semibold mb-2">Contact</h3>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 flex items-center mb-1">
-                      <Phone size={14} className="mr-2" />
-                      {formatPhoneNumber(company.phone)}
-                    </p>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 flex items-center mb-1">
-                      <Mail size={14} className="mr-2" />
-                      {company.email || 'N/A'}
-                    </p>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 flex items-center mb-4">
-                      <Globe size={14} className="mr-2" />
-                      <a href={company.website} target="_blank" rel="noopener noreferrer" className="text-solar-600 hover:underline">
-                        {company.website || 'N/A'}
-                      </a>
-                    </p>
+                    {company.phone || company.email || company.website ? (
+                      <>
+                        {company.telephone && (
+                          <p className="text-sm text-gray-700 dark:text-gray-300 flex items-center mb-1">
+                            <Phone size={14} className="mr-2" />
+                            {formatPhoneNumber(company.telephone)}
+                          </p>
+                        )}
+                        {company.email1 && (
+                          <p className="text-sm text-gray-700 dark:text-gray-300 flex items-center mb-1">
+                            <Mail size={14} className="mr-2" />
+                            {company.email1}
+                          </p>
+                        )}
+                        {company.website && (
+                          <p className="text-sm text-gray-700 dark:text-gray-300 flex items-center mb-4">
+                            <Globe size={14} className="mr-2" />
+                            <a href={company.website} target="_blank" rel="noopener noreferrer" className="text-solar-600 hover:underline">
+                              {company.website}
+                            </a>
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">No contact information available.</p>
+                    )}
+
+
                     <Link to={`/directory/${company.id}`} className="w-full">
                       <Button className="w-full bg-solar-600 hover:bg-solar-700">View Details</Button>
                     </Link>

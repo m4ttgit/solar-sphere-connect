@@ -15,7 +15,6 @@ interface Contact {
   email: string | null;
   phone: string | null;
   created_at: string;
-  uuid_id: string;
 }
 
 const ContactsListPage: React.FC = () => {
@@ -23,10 +22,10 @@ const ContactsListPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const { data: contacts, isLoading, error, refetch } = useQuery<Contact[]>({
-    queryKey: ['solar_contacts'],
+    queryKey: ['solarhub_db'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('solar_contacts')
+        .from('solarhub_db')
         .select('*');
       
       if (error) throw error;
@@ -34,14 +33,14 @@ const ContactsListPage: React.FC = () => {
     }
   });
 
-  const deleteContact = async (uuid_id: string) => {
+  const deleteContact = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this contact? This action cannot be undone.')) return;
     
     try {
       await supabase
-        .from('solar_contacts')
+        .from('solarhub_db')
         .delete()
-        .eq('uuid_id', uuid_id);
+        .eq('id', id);
       
       refetch();
     } catch (error) {
@@ -106,7 +105,7 @@ const ContactsListPage: React.FC = () => {
             </TableHeader>
             <TableBody>
               {filteredContacts?.map((contact: Contact) => (
-                <TableRow key={contact.uuid_id}>
+                <TableRow key={contact.id}>
                   <TableCell className="font-medium">{contact.name || 'N/A'}</TableCell>
                   <TableCell>{contact.email || 'N/A'}</TableCell>
                   <TableCell>{contact.phone || 'N/A'}</TableCell>
@@ -115,7 +114,7 @@ const ContactsListPage: React.FC = () => {
                     <Button 
                       variant="destructive" 
                       size="sm" 
-                      onClick={() => deleteContact(contact.uuid_id)}
+                      onClick={() => deleteContact(contact.id)}
                     >
                       Delete
                     </Button>

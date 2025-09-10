@@ -20,8 +20,8 @@ import CompanyImage from '@/components/CompanyImage'; // Import CompanyImage com
 
 type CompanyDetailPageProps = object;
 
-// Define the SolarContact type based on the solar_contacts table
-type SolarContact = Database['public']['Tables']['solar_contacts']['Row'];
+// Define the SolarContact type based on the solarhub_db table
+type SolarContact = Database['public']['Tables']['solarhub_db']['Row'];
 
 const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
   const { name_slug } = useParams<{ name_slug: string }>();
@@ -59,14 +59,14 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
   console.log('Error state:', error);
 
   const { data: isCompanyFavorited, refetch: refetchCompanyFavoriteStatus } = useQuery({
-    queryKey: ['favoriteStatus', user?.id, company?.uuid_id],
+    queryKey: ['favoriteStatus', user?.id, company?.id],
     queryFn: async () => {
-      if (!user?.id || !company?.uuid_id) return false;
+      if (!user?.id || !company?.id) return false;
       const { data, error } = await supabase
         .from('user_favorites')
         .select('*')
         .eq('user_id', user.id)
-        .eq('company_id', company.uuid_id)
+        .eq('company_id', company.id)
         .single();
       if (error && error.code !== 'PGRST116') {
         console.error('Error fetching favorite status:', error);
@@ -74,7 +74,7 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
       }
       return !!data;
     },
-    enabled: !!user?.id && !!company?.uuid_id,
+    enabled: !!user?.id && !!company?.id,
   });
 
   console.log('isCompanyFavorited state:', isCompanyFavorited);
@@ -87,7 +87,7 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
     }
 
     // Check if company data is available
-    if (!company?.uuid_id) {
+    if (!company?.id) {
       toast.error('Company information is not available. Please try again later.');
       return;
     }
@@ -99,7 +99,7 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
           .from('user_favorites')
           .delete()
           .eq('user_id', user.id)
-          .eq('company_id', company.uuid_id);
+          .eq('company_id', company.id);
 
         if (error) {
           console.error('Database error removing favorite:', error);
@@ -111,7 +111,7 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
         // Add to favorites
         const { error } = await supabase
           .from('user_favorites')
-          .insert({ user_id: String(user.id), company_id: String(company.uuid_id) });
+          .insert({ user_id: String(user.id), company_id: String(company.id) });
 
         if (error) {
           console.error('Database error adding favorite:', error);
@@ -279,7 +279,7 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8"> {/* Grid remains 5 columns */}
               {/* Left Part: Image */}
               <div className="md:col-span-3"> {/* Changed from md:col-span-2 to md:col-span-3 for a larger image */}
-                <CompanyImage companyName={company?.name} nameSlug={company?.name_slug} />
+                <CompanyImage companyName={company?.name} nameSlug={company?.name_slug} imageName={company?.image_name} />
               </div>
 
               {/* Right Part: Contact Information */}
@@ -315,14 +315,30 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
                       )}
 
                       {/* Website */}
-                      {company?.website && (
-                        <div className="mb-4">
-                          <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Website</h4>
-                          <a href={company?.website} target="_blank" rel="noopener noreferrer" className="text-solar-600 hover:text-solar-700 dark:text-solar-400">
-                            {company?.website}
-                          </a>
-                        </div>
-                      )}
+                  {company?.website && (
+                    <div className="mb-4">
+                      <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Website</h4>
+                      <a href={company?.website} target="_blank" rel="noopener noreferrer" className="text-solar-600 hover:text-solar-700 dark:text-solar-400">
+                        {company?.website}
+                      </a>
+                    </div>
+                  )}
+                  {/* Telephone */}
+                  {company?.telephone && (
+                    <div className="mb-4">
+                      <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Telephone</h4>
+                      <p className="text-gray-800 dark:text-gray-200">{formatPhoneNumber(company?.telephone)}</p>
+                    </div>
+                  )}
+                  {/* Email */}
+                  {company?.email1 && (
+                    <div className="mb-4">
+                      <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Email</h4>
+                      <a href={`mailto:${company?.email1}`} className="text-solar-600 hover:text-solar-700 dark:text-solar-400">
+                        {company?.email1}
+                      </a>
+                    </div>
+                  )}
                     </div>
 
                     <Separator className="my-6" />
@@ -354,7 +370,17 @@ const CompanyDetailPage: React.FC<CompanyDetailPageProps> = () => {
             </div>
 
             {/* About Section - Full Width Below Image and Contact */}
-            <div className="mt-8">
+            <div className="mt-8 space-y-4">
+              {company?.business_products_services && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Business Products & Services</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-800 dark:text-gray-200">{company.business_products_services}</p>
+                  </CardContent>
+                </Card>
+              )}
               <Card>
                 <CardHeader>
                   <CardTitle>About {company?.name}</CardTitle>

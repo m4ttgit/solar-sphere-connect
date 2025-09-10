@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/hooks/useAuth';
+import { useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { TablesInsert } from '@/integrations/supabase/types';
 
@@ -71,12 +72,21 @@ const businessFormSchema = z.object({
 type BusinessFormValues = z.infer<typeof businessFormSchema>;
 
 const SubmitBusinessPage: React.FC = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user, isLoading: isAuthLoading } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthLoading && (!user || (user.role !== 'business' && user.role !== 'admin'))) {
+      console.log('User role:', user?.role);
+
+      toast.error('You must be a business user to access this page.');
+      navigate('/');
+    }
+  }, [user, isAuthLoading, navigate]);
 
   const { data: categories, isLoading: isLoadingCategories } = useQuery({
-    queryKey: ['businessCategories'],
+    queryKey: ['business_categories'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('business_categories')
@@ -108,12 +118,6 @@ const SubmitBusinessPage: React.FC = () => {
   });
 
   const onSubmit = async (data: BusinessFormValues) => {
-    if (!user) {
-      toast.error('You must be logged in to submit a business.');
-      navigate('/auth');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
@@ -123,7 +127,7 @@ const SubmitBusinessPage: React.FC = () => {
       const businessData: TablesInsert<'solar_businesses'> = {
         name: formData.name,
         description: formData.description,
-        user_id: user.id,
+        user_id: user?.id,
         approved: false, // New businesses are not approved by default
         // Optional fields
         phone: formData.phone || null,

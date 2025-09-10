@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -6,9 +5,10 @@ import { toast } from 'sonner';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
+  userType?: 'business';
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, userType }) => {
   const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
@@ -16,8 +16,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     if (!isLoading && !user) {
       toast.error('You must be logged in to access this page');
       navigate('/auth');
+      return;
     }
-  }, [user, isLoading, navigate]);
+
+    if (userType && user?.userType !== userType) {
+      toast.error('Your account type does not have access to this page');
+      navigate('/');
+    }
+  }, [user, isLoading, navigate, userType]);
 
   if (isLoading) {
     return (

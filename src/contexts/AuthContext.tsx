@@ -3,7 +3,7 @@ import { Session, User } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
-import { AuthState } from "@/types/auth";
+import { AuthState, AuthUser } from "@/types/auth";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query"; // Import useQueryClient
@@ -13,8 +13,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [authState, setAuthState] = useState<AuthState>({
     session: null,
-    user: null,
+    user: null as AuthUser | null,
     isLoading: true,
+    role: null,
   });
   const navigate = useNavigate();
   const queryClient = useQueryClient(); // Initialize useQueryClient
@@ -78,10 +79,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth state changed:", event);
+      console.log("AuthContext: session?.user?.user_metadata:", session?.user?.user_metadata);
+      const role = session?.user?.user_metadata?.role || null;
+      console.log("AuthContext: Extracted role:", role);
       setAuthState({
         session,
         user: session?.user ?? null,
         isLoading: false,
+        role: role as 'user' | 'business' | 'admin' | null,
       });
 
       // Show toast notifications for auth events
@@ -98,8 +103,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     supabase.auth.getSession().then(({ data: { session } }) => {
       setAuthState({
         session,
-        user: session?.user ?? null,
+        user: (session?.user as AuthUser) ?? null,
         isLoading: false,
+        role: (session?.user?.user_metadata?.role as 'user' | 'business' | 'admin' | null) || null,
       });
     }).catch(err => {
       console.error("Error getting session:", err);
@@ -107,6 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         session: null,
         user: null,
         isLoading: false,
+        role: null,
       });
     });
 
@@ -132,7 +139,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, options?: { data?: { role: 'user' | 'business' | 'admin' } }) => {
     try {
       // Update to use confirmationURL option
       const { error } = await supabase.auth.signUp({
@@ -140,6 +147,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/auth?verification=success`,
+          data: {
+            role: options?.data?.role || null,
+          },
         },
       });
       if (error) throw error;
@@ -221,17 +231,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <AuthContext.Provider
       value={{
-        session: authState.session,
-        user: authState.user,
-        signIn,
-        signUp,
-        signOut,
-        resetPasswordForEmail, // Add this line
-        isLoading: authState.isLoading,
-        isAdmin: !!isAdmin,
-        isCheckingAdmin,
-        refreshAdminStatus,
-      }}
+            session: authState.session,
+            user: authState.user ? { ...authState.user, role: authState.role } : null,
+            signIn,
+            signUp,
+            signOut,
+            resetPasswordForEmail,
+            isLoading: authState.isLoading,
+            isAdmin: !!isAdmin,
+            isCheckingAdmin,
+            refreshAdminStatus,
+            role: authState.role,
+          }}
     >
       {children}
     </AuthContext.Provider>

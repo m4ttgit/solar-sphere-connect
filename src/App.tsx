@@ -6,11 +6,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async"; // Add this import
 import Index from "./pages/Index";
+import EiaDataPage from "./pages/EiaDataPage";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import AuthPage from "./pages/AuthPage";
-import SubmitBusinessPage from "./pages/SubmitBusinessPage";
+import SubmitBusinessPage from "./pages/SubmitBusinessPage.tsx"; // Enforce .tsx resolution for Windows
+// Add explicit component directory to verify path correctness
 import DirectoryPage from "./pages/DirectoryPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AboutPage from "./pages/AboutPage";
@@ -29,7 +31,9 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import ComparisonPage from "./pages/ComparisonPage";
 import SolarSystemToolsPage from "./pages/SolarSystemToolsPage";
+import ShopPage from "./pages/ShopPage";
 
+// Ensure no duplicate SubmitBusinessPage imports
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -63,13 +67,13 @@ const App = () => {
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/blog" element={<ArticlePage />} />
                   <Route path="/blog/:slug" element={<BlogPostDetail />} />
-                  <Route 
-                    path="/submit" 
+                  <Route
+                    path="/submit"
                     element={
                       <ProtectedRoute>
                         <SubmitBusinessPage />
-                      </ProtectedRoute>
-                    } 
+                    </ProtectedRoute>
+                    }
                   />
                   
                   {/* Admin Routes */}
@@ -135,8 +139,10 @@ const App = () => {
 
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="/compare" element={<ComparisonPage />} /> {/* Add this route */}
-  <Route path="/solar-tools" element={<SolarSystemToolsPage />} />
-  <Route path="*" element={<NotFound />} />
+                  <Route path="/solar-tools" element={<SolarSystemToolsPage />} />
+                  <Route path="/eia-data" element={<EiaDataPage />} />
+                  <Route path="/shop" element={<ShopPage />} />
+                  <Route path="*" element={<NotFound />} />
                   
                   <Route 
                     path="/profile" 

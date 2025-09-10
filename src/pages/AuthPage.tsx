@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 const AuthPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState<'user' | 'business' | 'admin'>('user');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState<string | null>(null);
   const { signIn, signUp, user } = useAuth();
@@ -64,7 +65,7 @@ const AuthPage: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await signUp(email, password);
+      await signUp(email, password, { data: { role } });
     } finally {
       setIsSubmitting(false);
     }
@@ -182,6 +183,18 @@ const AuthPage: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="role" className="dark:text-gray-200">Account Type</Label>
+                      <select
+                        id="role"
+                        value={role}
+                        onChange={(e) => setRole(e.target.value as 'user' | 'business' | 'admin')}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                      >
+                        <option value="user">Normal User</option>
+                        <option value="business">Business User</option>
+                      </select>
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-col gap-2">

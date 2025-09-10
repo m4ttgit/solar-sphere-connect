@@ -6,6 +6,13 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// New user_type field for User model
+interface SupabaseUser {
+  id: string
+  email: string
+  user_type?: string  // New user type field
+}
+
 export type Database = {
   public: {
     Tables: {
@@ -263,10 +270,67 @@ export type Database = {
             foreignKeyName: "user_favorites_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
-            referencedRelation: "solar_contacts"
-            referencedColumns: ["uuid_id"]
+            referencedRelation: "solarhub_db"
+            referencedColumns: ["id"]
           },
         ]
+      },
+      solarhub_db: {
+        Row: {
+          id: string
+          name: string
+          name_slug: string
+          description: string | null
+          address: string | null
+          city: string | null
+          state: string | null
+          zip_code: string | null
+          phone: string | null
+          email: string | null
+          website: string | null
+          website_screenshot_url: string | null
+          services: Json | null
+          certifications: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          name_slug: string
+          description?: string | null
+          address?: string | null
+          city?: string | null
+          state?: string | null
+          zip_code?: string | null
+          phone?: string | null
+          email?: string | null
+          website?: string | null
+          website_screenshot_url?: string | null
+          services?: Json | null
+          certifications?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          name_slug?: string
+          description?: string | null
+          address?: string | null
+          city?: string | null
+          state?: string | null
+          zip_code?: string | null
+          phone?: string | null
+          email?: string | null
+          website?: string | null
+          website_screenshot_url?: string | null
+          services?: Json | null
+          certifications?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {

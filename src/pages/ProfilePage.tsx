@@ -16,16 +16,22 @@ import { Tables } from '@/integrations/supabase/types'; // Import Tables type
 interface SavedBlogPosts {
   post_id: string;
   blog_posts: {
-    id: string | null;
-    title: string | null;
-    slug: string | null;
-    image: string | null;
+    id: string;
+    title: string;
+    slug: string;
+    image: string;
   };
 }
 
 // Extend the Tables type to include logo_url
-interface SolarContacts extends Tables<'solar_contacts'> {
+interface SolarContacts extends Tables<'solarhub_db'> {
   logo_url?: string;
+}
+
+// Define the type for the join result
+interface FavoriteJoinResult {
+  company_id: string;
+  solarhub_db: SolarContacts;
 }
 
 const ProfilePage: React.FC = () => {
@@ -84,7 +90,7 @@ const ProfilePage: React.FC = () => {
       try {
         const { data, error } = await supabase
           .from('user_favorites')
-          .select('company_id, solar_contacts(*)')
+          .select('company_id, solarhub_db(*)')
           .eq('user_id', user.id);
 
         if (error) {
@@ -97,11 +103,11 @@ const ProfilePage: React.FC = () => {
           return [];
         }
 
-        // Extract the solar_contacts objects from the join and filter out any null values
+        // Extract the solarhub_db objects from the join and filter out any null values
         return data
           .map(fav => {
-            if (!fav.solar_contacts) return null;
-            return fav.solar_contacts as unknown as SolarContacts;
+            if (!fav.solarhub_db) return null;
+            return fav.solarhub_db as unknown as SolarContacts;
           })
           .filter(Boolean) as SolarContacts[];
       } catch (err) {

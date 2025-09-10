@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label'; // Added Label import
 import { toast } from 'sonner';
+import { Tables } from '@/integrations/supabase/types';
 
 interface DirectoryPageProps {
   // Add a dummy prop to satisfy the linter
@@ -40,6 +41,7 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
     },
     retry: 2,
     retryDelay: 1000,
+    staleTime: 0, // Ensure data is always fetched fresh
   });
 
   useEffect(() => {
@@ -48,7 +50,11 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
     
     if (search) setSearchTerm(search);
     if (field) setSearchField(field);
-  }, [searchParams]);
+
+    if (contacts && contacts.length > 0) {
+      console.log('First contact name_slug:', contacts[0].name_slug);
+    }
+  }, [searchParams, contacts]);
 
   const filteredContacts = contacts?.filter(contact => {
     if (!searchTerm) return true;
@@ -62,9 +68,10 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
         (typeof contact.city === 'string' && String(contact.city).toLowerCase().includes(term)) ||
         (typeof contact.state === 'string' && String(contact.state).toLowerCase().includes(term)) ||
         (typeof contact.zip_code === 'string' && String(contact.zip_code).toLowerCase().includes(term)) ||
-        (Array.isArray(contact.services) && contact.services.some(service => 
+        (Array.isArray(contact.services) && contact.services.some((service: string) => 
           typeof service === 'string' && service?.toLowerCase().includes(term)
-        ))
+        )) ||
+        (typeof contact.certifications === 'string' && String(contact.certifications).toLowerCase().includes(term))
       );
     }
     
@@ -80,9 +87,11 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
       case 'zip':
         return typeof contact.zip_code === 'string' && String(contact.zip_code).toLowerCase().includes(term);
       case 'services':
-        return Array.isArray(contact.services) && contact.services.some(service => 
+        return Array.isArray(contact.services) && contact.services.some((service: string) => 
           typeof service === 'string' && service?.toLowerCase().includes(term)
         );
+      case 'certifications':
+        return typeof contact.certifications === 'string' && String(contact.certifications).toLowerCase().includes(term);
       default:
         return false;
     }
@@ -227,14 +236,14 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
                 paginatedContacts.map((contact) => (
                   <Card key={contact.id} className="overflow-hidden hover:shadow-md transition-shadow duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-<Link to={`/directory/${contact.name_slug}`} className="block flex-grow">
+                      <Link to={`/directory/${contact.name_slug}`} className="block flex-grow">
                         <CardTitle className="text-lg font-semibold">{contact.name}</CardTitle>
                       </Link>
-<Checkbox
+                      <Checkbox
                         id={`compare-${contact.id}`}
-                        checked={selectedCompanies.includes(String(contact.id))}
-                        onCheckedChange={(checked) => handleCompareChange(String(contact.id), checked as boolean)}
-                        disabled={selectedCompanies.length >= 3 && !selectedCompanies.includes(String(contact.id))}
+                        checked={selectedCompanies.includes(contact.id)}
+                        onCheckedChange={(checked) => handleCompareChange(contact.id, checked as boolean)}
+                        disabled={selectedCompanies.length >= 3 && !selectedCompanies.includes(contact.id)}
                         className="ml-4"
                       />
                       <Label htmlFor={`compare-${contact.id}`} className="sr-only">Compare {contact.name}</Label>
