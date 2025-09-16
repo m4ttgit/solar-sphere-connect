@@ -1,0 +1,1202 @@
+[
+  {
+    "name": "Alpha & Omega Solar Consulting",
+    "name_slug": "alpha-omega-solar-consulting",
+    "website": "https://www.alphaomegasolar.com",
+    "url": "http://localhost:8080/directory/alpha-omega-solar-consulting"
+  },
+  {
+    "name": "Alpha Energy",
+    "name_slug": "alpha-energy",
+    "website": "https://www.alpha-energy.com",
+    "url": "http://localhost:8080/directory/alpha-energy"
+  },
+  {
+    "name": "American Energy Solar",
+    "name_slug": "american-energy-solar",
+    "website": "https://www.americanenergy.solar",
+    "url": "http://localhost:8080/directory/american-energy-solar"
+  },
+  {
+    "name": "American Power Inc.",
+    "name_slug": "american-power-inc",
+    "website": "https://www.americanpowerinc.net",
+    "url": "http://localhost:8080/directory/american-power-inc"
+  },
+  {
+    "name": "Atlas Home Power",
+    "name_slug": "atlas-home-power",
+    "website": "https://www.atlashomepower.com",
+    "url": "http://localhost:8080/directory/atlas-home-power"
+  },
+  {
+    "name": "Bwick Energy",
+    "name_slug": "bwick-energy",
+    "website": "https://www.bwickenergy.com",
+    "url": "http://localhost:8080/directory/bwick-energy"
+  },
+  {
+    "name": "Bucks County Clean Energy",
+    "name_slug": "bucks-county-clean-energy",
+    "website": "https://www.buckscountycleanenergy.com/",
+    "url": "http://localhost:8080/directory/bucks-county-clean-energy"
+  },
+  {
+    "name": "Benson Electric",
+    "name_slug": "benson-electric",
+    "website": "https://www.bensonelectric.com/",
+    "url": "http://localhost:8080/directory/benson-electric"
+  },
+  {
+    "name": "Best Electric",
+    "name_slug": "best-electric",
+    "website": "https://www.bestelectric.us/",
+    "url": "http://localhost:8080/directory/best-electric"
+  },
+  {
+    "name": "Big Sky Power & Solar",
+    "name_slug": "big-sky-power-solar",
+    "website": "https://www.bigskypowerandsolar.com",
+    "url": "http://localhost:8080/directory/big-sky-power-solar"
+  },
+  {
+    "name": "Black Creek Electric",
+    "name_slug": "black-creek-electric",
+    "website": "https://www.blackcreekelectric.com",
+    "url": "http://localhost:8080/directory/black-creek-electric"
+  },
+  {
+    "name": "Boyd Jones Construction",
+    "name_slug": "boyd-jones-construction",
+    "website": "https://www.boydjones.biz",
+    "url": "http://localhost:8080/directory/boyd-jones-construction"
+  },
+  {
+    "name": "Browning Electric Company",
+    "name_slug": "browning-electric-company",
+    "website": "https://www.browningelectrickc.com",
+    "url": "http://localhost:8080/directory/browning-electric-company"
+  },
+  {
+    "name": "Cali Energy",
+    "name_slug": "cali-energy",
+    "website": "cali-energy.com",
+    "url": "http://localhost:8080/directory/cali-energy"
+  },
+  {
+    "name": "Carnino Electric LLC",
+    "name_slug": "carnino-electric-llc",
+    "website": "https://www.carnino-electric-enumclaw.square.site",
+    "url": "http://localhost:8080/directory/carnino-electric-llc"
+  },
+  {
+    "name": "Carolina Diversified Builders",
+    "name_slug": "carolina-diversified-builders",
+    "website": "https://www.carolinadiversifiedbuilders.com",
+    "url": "http://localhost:8080/directory/carolina-diversified-builders"
+  },
+  {
+    "name": "Catalyst Solar",
+    "name_slug": "catalyst-solar",
+    "website": "https://www.catalystsol.com",
+    "url": "http://localhost:8080/directory/catalyst-solar"
+  },
+  {
+    "name": "Aurora Solar Panels",
+    "name_slug": "aurora-solar-panels",
+    "website": "http://www.aurorasolarpanels.com",
+    "url": "http://localhost:8080/directory/aurora-solar-panels"
+  },
+  {
+    "name": "Elite Roofing & Gutters",
+    "name_slug": "elite-roofing-gutters",
+    "website": "https://www.completeexteriorsms.com",
+    "url": "http://localhost:8080/directory/elite-roofing-gutters"
+  },
+  {
+    "name": "Absolutely Energized Power Systems, LLC",
+    "name_slug": "absolutely-energized-power-systems-llc",
+    "website": "https://www.certifiedsolarandelectric.com",
+    "url": "http://localhost:8080/directory/absolutely-energized-power-systems-llc"
+  },
+  {
+    "name": "Evolution Energy",
+    "name_slug": "evolution-energy",
+    "website": "https://www.evoenergyus.com",
+    "url": "http://localhost:8080/directory/evolution-energy"
+  },
+  {
+    "name": "Klaus Larsen Roofing",
+    "name_slug": "klaus-larsen-roofing",
+    "website": "https://www.klauslarsen.com",
+    "url": "http://localhost:8080/directory/klaus-larsen-roofing"
+  },
+  {
+    "name": "Lake Michigan Wind & Sun, LTD.",
+    "name_slug": "lake-michigan-wind-sun-ltd",
+    "website": "https://www.solar-flairs.net",
+    "url": "http://localhost:8080/directory/lake-michigan-wind-sun-ltd"
+  },
+  {
+    "name": "Legacy Renewable Energy",
+    "name_slug": "legacy-renewable-energy",
+    "website": "https://www.legacyrenewableenergy.com",
+    "url": "http://localhost:8080/directory/legacy-renewable-energy"
+  },
+  {
+    "name": "Litchfield Hills Solar",
+    "name_slug": "litchfield-hills-solar",
+    "website": "https://www.litchfieldhillssolar.com",
+    "url": "http://localhost:8080/directory/litchfield-hills-solar"
+  },
+  {
+    "name": "Light It Up Electric LLC",
+    "name_slug": "light-it-up-electric-llc",
+    "website": "https://www.lightitupelectricllc.com",
+    "url": "http://localhost:8080/directory/light-it-up-electric-llc"
+  },
+  {
+    "name": "Tech Solutions Inc.",
+    "name_slug": "tech-solutions-inc",
+    "website": "https://www.lightingelectric.co",
+    "url": "http://localhost:8080/directory/tech-solutions-inc"
+  },
+  {
+    "name": "Lime Roofing and Solar",
+    "name_slug": "lime-roofing-and-solar",
+    "website": "https://www.limeroofingandsolar.com",
+    "url": "http://localhost:8080/directory/lime-roofing-and-solar"
+  },
+  {
+    "name": "Majors Electric Inc.",
+    "name_slug": "majors-electric-inc",
+    "website": "https://www.sarasotaelectrical.services/",
+    "url": "http://localhost:8080/directory/majors-electric-inc"
+  },
+  {
+    "name": "Max Exteriors",
+    "name_slug": "max-exteriors",
+    "website": "https://www.maxexteriors.com",
+    "url": "http://localhost:8080/directory/max-exteriors"
+  },
+  {
+    "name": "Maxx Roof LLC",
+    "name_slug": "maxx-roof-llc",
+    "website": "https://www.maxxroof.com",
+    "url": "http://localhost:8080/directory/maxx-roof-llc"
+  },
+  {
+    "name": "McWilliams Electric Company",
+    "name_slug": "mcwilliams-electric-company",
+    "website": "https://www.mcwilliamselectric.com",
+    "url": "http://localhost:8080/directory/mcwilliams-electric-company"
+  },
+  {
+    "name": "MegaWatt Solar",
+    "name_slug": "megawatt-solar",
+    "website": "https://www.megawattsolar.com",
+    "url": "http://localhost:8080/directory/megawatt-solar"
+  },
+  {
+    "name": "Maine Energy Performance Solutions",
+    "name_slug": "maine-energy-performance-solutions",
+    "website": "https://www.mepsenergy.com",
+    "url": "http://localhost:8080/directory/maine-energy-performance-solutions"
+  },
+  {
+    "name": "Merica Solar Panels",
+    "name_slug": "merica-solar-panels",
+    "website": "https://www.mericasolarpanelsbridgeportct.com",
+    "url": "http://localhost:8080/directory/merica-solar-panels"
+  },
+  {
+    "name": "Mission Green Solar LLC",
+    "name_slug": "mission-green-solar-llc",
+    "website": "https://www.missiongreensolar.com",
+    "url": "http://localhost:8080/directory/mission-green-solar-llc"
+  },
+  {
+    "name": "Modern Solar",
+    "name_slug": "modern-solar",
+    "website": "https://www.modernsolar.org",
+    "url": "http://localhost:8080/directory/modern-solar"
+  },
+  {
+    "name": "Monarch Energy",
+    "name_slug": "monarch-energy",
+    "website": "https://www.monarch-solar.com",
+    "url": "http://localhost:8080/directory/monarch-energy"
+  },
+  {
+    "name": "Morrison Geothermal",
+    "name_slug": "morrison-geothermal",
+    "website": "https://www.morrisongeothermal.com",
+    "url": "http://localhost:8080/directory/morrison-geothermal"
+  },
+  {
+    "name": "Mountain Power Solutions",
+    "name_slug": "mountain-power-solutions",
+    "website": "https://www.mountainpowersolutions.com",
+    "url": "http://localhost:8080/directory/mountain-power-solutions"
+  },
+  {
+    "name": "Natural Environments Inc",
+    "name_slug": "natural-environments-inc",
+    "website": "https://www.naturalenvironments.net",
+    "url": "http://localhost:8080/directory/natural-environments-inc"
+  },
+  {
+    "name": "New America Power",
+    "name_slug": "new-america-power",
+    "website": "https://www.newamericapower.com",
+    "url": "http://localhost:8080/directory/new-america-power"
+  },
+  {
+    "name": "Next-Gen Solar",
+    "name_slug": "next-gen-solar",
+    "website": "https://www.next-gen-solar.com/",
+    "url": "http://localhost:8080/directory/next-gen-solar"
+  },
+  {
+    "name": "North County Electric, LLC",
+    "name_slug": "north-county-electric-llc",
+    "website": "https://www.nceidaho.com",
+    "url": "http://localhost:8080/directory/north-county-electric-llc"
+  },
+  {
+    "name": "North Idaho Solar",
+    "name_slug": "north-idaho-solar",
+    "website": "https://www.northidahosolar.co",
+    "url": "http://localhost:8080/directory/north-idaho-solar"
+  },
+  {
+    "name": "North Texas Renewable Energy Institute",
+    "name_slug": "north-texas-renewable-energy-institute",
+    "website": "https://www.ntrei.com",
+    "url": "http://localhost:8080/directory/north-texas-renewable-energy-institute"
+  },
+  {
+    "name": "New York State Solar Farm",
+    "name_slug": "new-york-state-solar-farm",
+    "website": "https://www.nyssf.com",
+    "url": "http://localhost:8080/directory/new-york-state-solar-farm"
+  },
+  {
+    "name": "Oasis Montana Inc.",
+    "name_slug": "oasis-montana-inc",
+    "website": "https://www.oasismontana.com/",
+    "url": "http://localhost:8080/directory/oasis-montana-inc"
+  },
+  {
+    "name": "Orbit Energy",
+    "name_slug": "orbit-energy",
+    "website": "https://www.orbitenergy.us",
+    "url": "http://localhost:8080/directory/orbit-energy"
+  },
+  {
+    "name": "Perfect Energy",
+    "name_slug": "perfect-energy",
+    "website": "https://www.perfectenergy.us",
+    "url": "http://localhost:8080/directory/perfect-energy"
+  },
+  {
+    "name": "Poly Energy",
+    "name_slug": "poly-energy",
+    "website": "https://www.mypolyenergy.com",
+    "url": "http://localhost:8080/directory/poly-energy"
+  },
+  {
+    "name": "PowerHouse",
+    "name_slug": "powerhouse",
+    "website": "https://www.powerhouse.kimeplex.com",
+    "url": "http://localhost:8080/directory/powerhouse"
+  },
+  {
+    "name": "PV Guru",
+    "name_slug": "pv-guru",
+    "website": "https://www.pvguru.com",
+    "url": "http://localhost:8080/directory/pv-guru"
+  },
+  {
+    "name": "Photovoltaic Resources International Corp.",
+    "name_slug": "photovoltaic-resources-international-corp",
+    "website": "https://www.pvri.biz",
+    "url": "http://localhost:8080/directory/photovoltaic-resources-international-corp"
+  },
+  {
+    "name": "JG Power Company",
+    "name_slug": "jg-power-company",
+    "website": "http://www.jgpowercompany.com",
+    "url": "http://localhost:8080/directory/jg-power-company"
+  },
+  {
+    "name": "RARE ELECTRIC",
+    "name_slug": "rare-electric",
+    "website": "https://www.rareelectric.com",
+    "url": "http://localhost:8080/directory/rare-electric"
+  },
+  {
+    "name": "Rcm Global Energy Consultants",
+    "name_slug": "rcm-global-energy-consultants",
+    "website": "https://www.rcm-global-energy-consultants.ueniweb.com/",
+    "url": "http://localhost:8080/directory/rcm-global-energy-consultants"
+  },
+  {
+    "name": "Redemption Power",
+    "name_slug": "redemption-power",
+    "website": "https://www.redemptionpower.com",
+    "url": "http://localhost:8080/directory/redemption-power"
+  },
+  {
+    "name": "Reliable Solar Energy LLC",
+    "name_slug": "reliable-solar-energy-llc",
+    "website": "https://www.reliable-solar-energy-llc.ueniweb.com",
+    "url": "http://localhost:8080/directory/reliable-solar-energy-llc"
+  },
+  {
+    "name": "Renew Electric LLC",
+    "name_slug": "renew-electric-llc",
+    "website": "https://www.facebook.com/renewelctricllc/",
+    "url": "http://localhost:8080/directory/renew-electric-llc"
+  },
+  {
+    "name": "REPOWER TriValley",
+    "name_slug": "repower-trivalley",
+    "website": "https://www.repowerlivermore.squarespace.com",
+    "url": "http://localhost:8080/directory/repower-trivalley"
+  },
+  {
+    "name": "Responsible Energy Partners",
+    "name_slug": "responsible-energy-partners",
+    "website": "https://www.repllcglobal.com",
+    "url": "http://localhost:8080/directory/responsible-energy-partners"
+  },
+  {
+    "name": "Revolve Solutions",
+    "name_slug": "revolve-solutions",
+    "website": "https://www.revolvesolutions.cc",
+    "url": "http://localhost:8080/directory/revolve-solutions"
+  },
+  {
+    "name": "Rhema Electric LLC",
+    "name_slug": "rhema-electric-llc",
+    "website": "https://www.rhemaelectric.com",
+    "url": "http://localhost:8080/directory/rhema-electric-llc"
+  },
+  {
+    "name": "RICE Renewables",
+    "name_slug": "rice-renewables",
+    "website": "https://www.ricerenewables.com",
+    "url": "http://localhost:8080/directory/rice-renewables"
+  },
+  {
+    "name": "Rio West Development & Construction, Inc.",
+    "name_slug": "rio-west-development-construction-inc",
+    "website": "https://www.riowestinc.com",
+    "url": "http://localhost:8080/directory/rio-west-development-construction-inc"
+  },
+  {
+    "name": "SAL Electric Company, Inc.",
+    "name_slug": "sal-electric-company-inc",
+    "website": "https://www.salelectric.com",
+    "url": "http://localhost:8080/directory/sal-electric-company-inc"
+  },
+  {
+    "name": "San Antonio Solar Stars",
+    "name_slug": "san-antonio-solar-stars",
+    "website": "https://www.san-antonio-solar-stars.ueniweb.com",
+    "url": "http://localhost:8080/directory/san-antonio-solar-stars"
+  },
+  {
+    "name": "Santa Fe Electricians",
+    "name_slug": "santa-fe-electricians",
+    "website": "https://www.santafe-electricians.com/",
+    "url": "http://localhost:8080/directory/santa-fe-electricians"
+  },
+  {
+    "name": "Shields Electric",
+    "name_slug": "shields-electric",
+    "website": "https://www.shieldselectric.net",
+    "url": "http://localhost:8080/directory/shields-electric"
+  },
+  {
+    "name": "Solar Independence",
+    "name_slug": "solar-independence",
+    "website": "https://www.sielectric.biz",
+    "url": "http://localhost:8080/directory/solar-independence"
+  },
+  {
+    "name": "Skymark Power",
+    "name_slug": "skymark-power",
+    "website": "https://www.skymarksolarpower.com",
+    "url": "http://localhost:8080/directory/skymark-power"
+  },
+  {
+    "name": "Skyview Exteriors",
+    "name_slug": "skyview-exteriors",
+    "website": "https://www.skyviewexteriors.com",
+    "url": "http://localhost:8080/directory/skyview-exteriors"
+  },
+  {
+    "name": "SL Home Designs, Inc",
+    "name_slug": "sl-home-designs-inc",
+    "website": "https://www.facebook.com/slhomedesigns/",
+    "url": "http://localhost:8080/directory/sl-home-designs-inc"
+  },
+  {
+    "name": "SLO Craft Inc.",
+    "name_slug": "slo-craft-inc",
+    "website": "https://www.slocraftinc.com",
+    "url": "http://localhost:8080/directory/slo-craft-inc"
+  },
+  {
+    "name": "Smart Green Solar",
+    "name_slug": "smart-green-solar",
+    "website": "https://www.smartgreensolar.com",
+    "url": "http://localhost:8080/directory/smart-green-solar"
+  },
+  {
+    "name": "Smith Electric",
+    "name_slug": "smith-electric",
+    "website": "https://www.smithelectric-llc.com",
+    "url": "http://localhost:8080/directory/smith-electric"
+  },
+  {
+    "name": "Sol Coast Companies",
+    "name_slug": "sol-coast-companies",
+    "website": "https://www.solcoast.com",
+    "url": "http://localhost:8080/directory/sol-coast-companies"
+  },
+  {
+    "name": "Atom",
+    "name_slug": "atom",
+    "website": "https://www.solarpanelinstallersdallas.com",
+    "url": "http://localhost:8080/directory/atom"
+  },
+  {
+    "name": "Solare Energy, Inc.",
+    "name_slug": "solare-energy-inc",
+    "website": "https://www.solareenergy.com",
+    "url": "http://localhost:8080/directory/solare-energy-inc"
+  },
+  {
+    "name": "Solarium Energy",
+    "name_slug": "solarium-energy",
+    "website": "https://www.solariumenergy.com",
+    "url": "http://localhost:8080/directory/solarium-energy"
+  },
+  {
+    "name": "SOLENERGY ® Corporation",
+    "name_slug": "solenergy-corporation",
+    "website": "https://www.solenergycorporation.com/",
+    "url": "http://localhost:8080/directory/solenergy-corporation"
+  },
+  {
+    "name": "SolarWorks NJ",
+    "name_slug": "solarworks-nj",
+    "website": "https://www.solarworksnj.com",
+    "url": "http://localhost:8080/directory/solarworks-nj"
+  },
+  {
+    "name": "Soltric Energy",
+    "name_slug": "soltric-energy",
+    "website": "https://www.soltricenergy.wixsite.com/energy",
+    "url": "http://localhost:8080/directory/soltric-energy"
+  },
+  {
+    "name": "Source Electric",
+    "name_slug": "source-electric",
+    "website": "https://www.sourceelectric.com",
+    "url": "http://localhost:8080/directory/source-electric"
+  },
+  {
+    "name": "Southeast SolarPros",
+    "name_slug": "southeast-solarpros",
+    "website": "https://www.southeastsolarpros.com",
+    "url": "http://localhost:8080/directory/southeast-solarpros"
+  },
+  {
+    "name": "Southern Illinois Solar",
+    "name_slug": "southern-illinois-solar",
+    "website": "https://www.southernillinoissolar.com",
+    "url": "http://localhost:8080/directory/southern-illinois-solar"
+  },
+  {
+    "name": "Southern Lights",
+    "name_slug": "southern-lights",
+    "website": "https://www.southernlights.biz",
+    "url": "http://localhost:8080/directory/southern-lights"
+  },
+  {
+    "name": "SoCal Solar Power Inc.",
+    "name_slug": "socal-solar-power-inc",
+    "website": "https://www.socalsolarpowerinc.com",
+    "url": "http://localhost:8080/directory/socal-solar-power-inc"
+  },
+  {
+    "name": "St. Romain Electric, LLC",
+    "name_slug": "st-romain-electric-llc",
+    "website": "https://www.stromainelectric.com",
+    "url": "http://localhost:8080/directory/st-romain-electric-llc"
+  },
+  {
+    "name": "STARCORP GROUP",
+    "name_slug": "starcorp-group",
+    "website": "https://www.starcorp-group.com",
+    "url": "http://localhost:8080/directory/starcorp-group"
+  },
+  {
+    "name": "Steve Carter Electric",
+    "name_slug": "steve-carter-electric",
+    "website": "https://www.stevecarterelectric.com",
+    "url": "http://localhost:8080/directory/steve-carter-electric"
+  },
+  {
+    "name": "HVAC Service and Seasonal AC/Furnace Repair in Austin TX",
+    "name_slug": "hvac-service-and-seasonal-ac-furnace-repair-in-austin-tx",
+    "website": "https://www.strandbrothers.com",
+    "url": "http://localhost:8080/directory/hvac-service-and-seasonal-ac-furnace-repair-in-austin-tx"
+  },
+  {
+    "name": "Summit Construction Group",
+    "name_slug": "summit-construction-group",
+    "website": "scgmn.com",
+    "url": "http://localhost:8080/directory/summit-construction-group"
+  },
+  {
+    "name": "Sun Systems US",
+    "name_slug": "sun-systems-us",
+    "website": "sunsystemsus.com",
+    "url": "http://localhost:8080/directory/sun-systems-us"
+  },
+  {
+    "name": "Sundance Solar Designs",
+    "name_slug": "sundance-solar-designs",
+    "website": "https://www.sundancesolardesigns.com",
+    "url": "http://localhost:8080/directory/sundance-solar-designs"
+  },
+  {
+    "name": "iSolar, LLC.",
+    "name_slug": "isolar-llc",
+    "website": "https://www.isolarnc.com",
+    "url": "http://localhost:8080/directory/isolar-llc"
+  },
+  {
+    "name": "SunTrust Remodeling",
+    "name_slug": "suntrust-remodeling",
+    "website": "https://www.suntrustremodeling.com",
+    "url": "http://localhost:8080/directory/suntrust-remodeling"
+  },
+  {
+    "name": "Sustainable Energy Systems LLC",
+    "name_slug": "sustainable-energy-systems-llc",
+    "website": "https://www.sustainableenergysystems.net",
+    "url": "http://localhost:8080/directory/sustainable-energy-systems-llc"
+  },
+  {
+    "name": "Synergy FL",
+    "name_slug": "synergy-fl",
+    "website": "synergyfl.com/",
+    "url": "http://localhost:8080/directory/synergy-fl"
+  },
+  {
+    "name": "System Select Electric LLC",
+    "name_slug": "system-select-electric-llc",
+    "website": "systemselectricllc.net",
+    "url": "http://localhost:8080/directory/system-select-electric-llc"
+  },
+  {
+    "name": "TGE Solutions",
+    "name_slug": "tge-solutions",
+    "website": "https://www.tgesolar.com",
+    "url": "http://localhost:8080/directory/tge-solutions"
+  },
+  {
+    "name": "The Free Energy Store",
+    "name_slug": "the-free-energy-store",
+    "website": "https://www.freeenergystore.com",
+    "url": "http://localhost:8080/directory/the-free-energy-store"
+  },
+  {
+    "name": "Thirsty Lake Solar",
+    "name_slug": "thirsty-lake-solar",
+    "website": "https://www.thirstylakesolar.com",
+    "url": "http://localhost:8080/directory/thirsty-lake-solar"
+  },
+  {
+    "name": "Tribe Solar and Electric",
+    "name_slug": "tribe-solar-and-electric",
+    "website": "https://www.tribesolar.io/",
+    "url": "http://localhost:8080/directory/tribe-solar-and-electric"
+  },
+  {
+    "name": "Trig Builders Inc.",
+    "name_slug": "trig-builders-inc",
+    "website": "trigbuilders.com",
+    "url": "http://localhost:8080/directory/trig-builders-inc"
+  },
+  {
+    "name": "Trinity Power",
+    "name_slug": "trinity-power",
+    "website": "trinitypowerca.com/",
+    "url": "http://localhost:8080/directory/trinity-power"
+  },
+  {
+    "name": "Tron Solar",
+    "name_slug": "tron-solar",
+    "website": "https://www.tron.solar",
+    "url": "http://localhost:8080/directory/tron-solar"
+  },
+  {
+    "name": "Unique Electrical Contractors",
+    "name_slug": "unique-electrical-contractors",
+    "website": "https://www.uniqueelectrical.com",
+    "url": "http://localhost:8080/directory/unique-electrical-contractors"
+  },
+  {
+    "name": "United Energy Partners",
+    "name_slug": "united-energy-partners",
+    "website": "https://www.uepsolar.com",
+    "url": "http://localhost:8080/directory/united-energy-partners"
+  },
+  {
+    "name": "Universal Electric PNW LLC",
+    "name_slug": "universal-electric-pnw-llc",
+    "website": "https://www.universalelectricpnw.com",
+    "url": "http://localhost:8080/directory/universal-electric-pnw-llc"
+  },
+  {
+    "name": "Upgrade Electrical",
+    "name_slug": "upgrade-electrical",
+    "website": "https://www.upgrade-electrical.com",
+    "url": "http://localhost:8080/directory/upgrade-electrical"
+  },
+  {
+    "name": "Upstate AE",
+    "name_slug": "upstate-ae",
+    "website": "https://www.upstate-ae.com",
+    "url": "http://localhost:8080/directory/upstate-ae"
+  },
+  {
+    "name": "V.H. Energy",
+    "name_slug": "v-h-energy",
+    "website": "https://www.vh-energy.com",
+    "url": "http://localhost:8080/directory/v-h-energy"
+  },
+  {
+    "name": "Valor Home",
+    "name_slug": "valor-home",
+    "website": "https://www.valorhome.com/",
+    "url": "http://localhost:8080/directory/valor-home"
+  },
+  {
+    "name": "GreenTech Solutions",
+    "name_slug": "greentech-solutions",
+    "website": "https://www.vistasolarsolutions.com",
+    "url": "http://localhost:8080/directory/greentech-solutions"
+  },
+  {
+    "name": "Western Maryland Solar, LLC",
+    "name_slug": "western-maryland-solar-llc",
+    "website": "https://www.westernmarylandsolar.com",
+    "url": "http://localhost:8080/directory/western-maryland-solar-llc"
+  },
+  {
+    "name": "Wofford Roofing",
+    "name_slug": "wofford-roofing",
+    "website": "https://www.woffordroofing.com",
+    "url": "http://localhost:8080/directory/wofford-roofing"
+  },
+  {
+    "name": "Your Energy Source",
+    "name_slug": "your-energy-source",
+    "website": "https://www.4-yes.com/",
+    "url": "http://localhost:8080/directory/your-energy-source"
+  },
+  {
+    "name": "Zero Point Development",
+    "name_slug": "zero-point-development",
+    "website": "https://www.zpeenergy.com",
+    "url": "http://localhost:8080/directory/zero-point-development"
+  },
+  {
+    "name": "ZeroBase Energy",
+    "name_slug": "zerobase-energy",
+    "website": "https://www.zerobaseenergy.com",
+    "url": "http://localhost:8080/directory/zerobase-energy"
+  },
+  {
+    "name": "Zig Energy Solar",
+    "name_slug": "zig-energy-solar",
+    "website": "https://www.zigenergysolar.com",
+    "url": "http://localhost:8080/directory/zig-energy-solar"
+  },
+  {
+    "name": "Acme Corp",
+    "name_slug": "acme-corp",
+    "website": "https://www.ziggelectricandsolar.com/",
+    "url": "http://localhost:8080/directory/acme-corp"
+  },
+  {
+    "name": "Zuni Electric, Inc.",
+    "name_slug": "zuni-electric-inc",
+    "website": "https://www.zunielectric.com/",
+    "url": "http://localhost:8080/directory/zuni-electric-inc"
+  },
+  {
+    "name": "Freedom Power",
+    "name_slug": "freedom-power",
+    "website": "http://www.freedompowerar.com",
+    "url": "http://localhost:8080/directory/freedom-power"
+  },
+  {
+    "name": "A-Tech Electric",
+    "name_slug": "a-tech-electric",
+    "website": "http://www.atechelectric.us",
+    "url": "http://localhost:8080/directory/a-tech-electric"
+  },
+  {
+    "name": "Affordable Solar Energy",
+    "name_slug": "affordable-solar-energy",
+    "website": "not available",
+    "url": "http://localhost:8080/directory/affordable-solar-energy"
+  },
+  {
+    "name": "Infinity Electric LLC",
+    "name_slug": "infinity-electric-llc",
+    "website": "http://www.infinityelectricnd.com",
+    "url": "http://localhost:8080/directory/infinity-electric-llc"
+  },
+  {
+    "name": "A & A Quality Roofing",
+    "name_slug": "a-a-quality-roofing",
+    "website": "http://aaqualityroofing.com",
+    "url": "http://localhost:8080/directory/a-a-quality-roofing"
+  },
+  {
+    "name": "Green Nation Solar",
+    "name_slug": "green-nation-solar",
+    "website": "not available",
+    "url": "http://localhost:8080/directory/green-nation-solar"
+  },
+  {
+    "name": "Handymen of America Inc.",
+    "name_slug": "handymen-of-america-inc",
+    "website": "http://www.handymen-of-america.com",
+    "url": "http://localhost:8080/directory/handymen-of-america-inc"
+  },
+  {
+    "name": "FOUR ELEMENTS ENERGY, Inc.",
+    "name_slug": "four-elements-energy-inc",
+    "website": "https://www.fourelementsenergy.com",
+    "url": "http://localhost:8080/directory/four-elements-energy-inc"
+  },
+  {
+    "name": "Adam T. Inc.",
+    "name_slug": "adam-t-inc",
+    "website": "http://www.adamtinc.com",
+    "url": "http://localhost:8080/directory/adam-t-inc"
+  },
+  {
+    "name": "Entech Engineering Incorporated",
+    "name_slug": "entech-engineering-incorporated",
+    "website": "https://www.entechengineering.com",
+    "url": "http://localhost:8080/directory/entech-engineering-incorporated"
+  },
+  {
+    "name": "H&K Energy Solutions LLC",
+    "name_slug": "h-k-energy-solutions-llc",
+    "website": "http://www.handkenergy.com",
+    "url": "http://localhost:8080/directory/h-k-energy-solutions-llc"
+  },
+  {
+    "name": "Jamar Power Systems",
+    "name_slug": "jamar-power-systems",
+    "website": "http://www.jamarpower.com",
+    "url": "http://localhost:8080/directory/jamar-power-systems"
+  },
+  {
+    "name": "Horizon Green Energy",
+    "name_slug": "horizon-green-energy",
+    "website": "http://www.horizongreenenergy.com",
+    "url": "http://localhost:8080/directory/horizon-green-energy"
+  },
+  {
+    "name": "Good Faith Energy",
+    "name_slug": "good-faith-energy",
+    "website": "http://www.goodfaithenergy.com",
+    "url": "http://localhost:8080/directory/good-faith-energy"
+  },
+  {
+    "name": "Aten Concepts",
+    "name_slug": "aten-concepts",
+    "website": "https://www.example.com",
+    "url": "http://localhost:8080/directory/aten-concepts"
+  },
+  {
+    "name": "Copiague Commercial Solar Clean Energy Systems",
+    "name_slug": "copiague-commercial-solar-clean-energy-systems",
+    "website": "http://www.copiaguesolarcleanenergysystems.com",
+    "url": "http://localhost:8080/directory/copiague-commercial-solar-clean-energy-systems"
+  },
+  {
+    "name": "Earth Wind and Solar Energy",
+    "name_slug": "earth-wind-and-solar-energy",
+    "website": "https://www.earthwindsolarenergy.com",
+    "url": "http://localhost:8080/directory/earth-wind-and-solar-energy"
+  },
+  {
+    "name": "Jackpot Electric",
+    "name_slug": "jackpot-electric",
+    "website": "https://www.jackpot-electric.com",
+    "url": "http://localhost:8080/directory/jackpot-electric"
+  },
+  {
+    "name": "Accel Federal Energy Services LLC",
+    "name_slug": "accel-federal-energy-services-llc",
+    "website": "http://www.afes.us",
+    "url": "http://localhost:8080/directory/accel-federal-energy-services-llc"
+  },
+  {
+    "name": "Georgia Solar Company | Local Solar Installer | Locally Owned & Operated",
+    "name_slug": "georgia-solar-company-local-solar-installer-locally-owned-operated",
+    "website": "http://www.creativesolarusa.com",
+    "url": "http://localhost:8080/directory/georgia-solar-company-local-solar-installer-locally-owned-operated"
+  },
+  {
+    "name": "Green Prepper",
+    "name_slug": "green-prepper",
+    "website": "http://www.greenprepper.com",
+    "url": "http://localhost:8080/directory/green-prepper"
+  },
+  {
+    "name": "DDP Electric, Inc.",
+    "name_slug": "ddp-electric-inc",
+    "website": "http://www.electricianelcentroca.com",
+    "url": "http://localhost:8080/directory/ddp-electric-inc"
+  },
+  {
+    "name": "Accura Electrical",
+    "name_slug": "accura-electrical",
+    "website": "http://www.accuraelectrical.com",
+    "url": "http://localhost:8080/directory/accura-electrical"
+  },
+  {
+    "name": "Adis Electric",
+    "name_slug": "adis-electric",
+    "website": "http://www.adiselectric.com",
+    "url": "http://localhost:8080/directory/adis-electric"
+  },
+  {
+    "name": "Elevate Energy",
+    "name_slug": "elevate-energy",
+    "website": "https://elevateenergy.us/",
+    "url": "http://localhost:8080/directory/elevate-energy"
+  },
+  {
+    "name": "Daylight Power Co",
+    "name_slug": "daylight-power-co",
+    "website": "http://www.daylightpowerco.com",
+    "url": "http://localhost:8080/directory/daylight-power-co"
+  },
+  {
+    "name": "Innovation Construction",
+    "name_slug": "innovation-construction",
+    "website": "https://www.innovationconstruction.com",
+    "url": "http://localhost:8080/directory/innovation-construction"
+  },
+  {
+    "name": "All Tech Energy, Inc",
+    "name_slug": "all-tech-energy-inc",
+    "website": "http://www.alltechenergy.com/",
+    "url": "http://localhost:8080/directory/all-tech-energy-inc"
+  },
+  {
+    "name": "Energy Industries Corporation",
+    "name_slug": "energy-industries-corporation",
+    "website": "http://www.energy-industries.com",
+    "url": "http://localhost:8080/directory/energy-industries-corporation"
+  },
+  {
+    "name": "Advanced Solar Integration Technologies",
+    "name_slug": "advanced-solar-integration-technologies",
+    "website": "http://www.adv-solar.com",
+    "url": "http://localhost:8080/directory/advanced-solar-integration-technologies"
+  },
+  {
+    "name": "ACMatthews Roofing and construction",
+    "name_slug": "acmatthews-roofing-and-construction",
+    "website": "http://acmatthews.com",
+    "url": "http://localhost:8080/directory/acmatthews-roofing-and-construction"
+  },
+  {
+    "name": "ACECON ENERGY SOLUTIONS",
+    "name_slug": "acecon-energy-solutions",
+    "website": "http://www.aceconenergy.com",
+    "url": "http://localhost:8080/directory/acecon-energy-solutions"
+  },
+  {
+    "name": "A-1 Contractors",
+    "name_slug": "a-1-contractors",
+    "website": "http://a-1contractors.co/",
+    "url": "http://localhost:8080/directory/a-1-contractors"
+  },
+  {
+    "name": "Academia Roofing and Solar",
+    "name_slug": "academia-roofing-and-solar",
+    "website": "http://academiaroofingandsolar.com",
+    "url": "http://localhost:8080/directory/academia-roofing-and-solar"
+  },
+  {
+    "name": "Advanced Solar Technologies",
+    "name_slug": "advanced-solar-technologies",
+    "website": "http://advancedsolartec.com",
+    "url": "http://localhost:8080/directory/advanced-solar-technologies"
+  },
+  {
+    "name": "G.K.S. Electric L.L.C.",
+    "name_slug": "g-k-s-electric-l-l-c",
+    "website": "gkselectric.com",
+    "url": "http://localhost:8080/directory/g-k-s-electric-l-l-c"
+  },
+  {
+    "name": "Coastal Solar & Home Improvement, Inc",
+    "name_slug": "coastal-solar-home-improvement-inc",
+    "website": "https://www.coastalhomeinc.com",
+    "url": "http://localhost:8080/directory/coastal-solar-home-improvement-inc"
+  },
+  {
+    "name": "Greenleaf Renewables",
+    "name_slug": "greenleaf-renewables",
+    "website": "http://www.greenleafrenewables.com",
+    "url": "http://localhost:8080/directory/greenleaf-renewables"
+  },
+  {
+    "name": "Green Force Electric, LLC",
+    "name_slug": "green-force-electric-llc",
+    "website": "http://www.greenforceelectric.com",
+    "url": "http://localhost:8080/directory/green-force-electric-llc"
+  },
+  {
+    "name": "Element Electrical Contractors",
+    "name_slug": "element-electrical-contractors",
+    "website": "http://www.energ.solar",
+    "url": "http://localhost:8080/directory/element-electrical-contractors"
+  },
+  {
+    "name": "Freedom Solar Group, LLC",
+    "name_slug": "freedom-solar-group-llc",
+    "website": "https://freedomsolargroup.com",
+    "url": "http://localhost:8080/directory/freedom-solar-group-llc"
+  },
+  {
+    "name": "Energy Systems Consulting LLC",
+    "name_slug": "energy-systems-consulting-llc",
+    "website": "http://www.rainbowsolar.com",
+    "url": "http://localhost:8080/directory/energy-systems-consulting-llc"
+  },
+  {
+    "name": "John E. Rozzo & Sons Electrical Contractors",
+    "name_slug": "john-e-rozzo-sons-electrical-contractors",
+    "website": "http://www.rozzoelectric.com/",
+    "url": "http://localhost:8080/directory/john-e-rozzo-sons-electrical-contractors"
+  },
+  {
+    "name": "All State Solar Construction",
+    "name_slug": "all-state-solar-construction",
+    "website": "http://allstatesolarconstruction.com",
+    "url": "http://localhost:8080/directory/all-state-solar-construction"
+  },
+  {
+    "name": "J.L. Adler Roofing & Sheet Metal, Inc.",
+    "name_slug": "j-l-adler-roofing-sheet-metal-inc",
+    "website": "http://www.adlerroofing.com/",
+    "url": "http://localhost:8080/directory/j-l-adler-roofing-sheet-metal-inc"
+  },
+  {
+    "name": "CW Electric",
+    "name_slug": "cw-electric",
+    "website": "not available",
+    "url": "http://localhost:8080/directory/cw-electric"
+  },
+  {
+    "name": "Aegis Solar Energy",
+    "name_slug": "aegis-solar-energy",
+    "website": "http://www.aegis-solar.com",
+    "url": "http://localhost:8080/directory/aegis-solar-energy"
+  },
+  {
+    "name": "Focussolarenergyinc.com",
+    "name_slug": "focussolarenergyinc-com",
+    "website": "https://www.focussolarenergyinc.com",
+    "url": "http://localhost:8080/directory/focussolarenergyinc-com"
+  },
+  {
+    "name": "Crater Electric",
+    "name_slug": "crater-electric",
+    "website": "http://www.craterelectric.com",
+    "url": "http://localhost:8080/directory/crater-electric"
+  },
+  {
+    "name": "Energy Improvements",
+    "name_slug": "energy-improvements",
+    "website": "http://www.energyimprovements.net",
+    "url": "http://localhost:8080/directory/energy-improvements"
+  },
+  {
+    "name": "El Paso Electric",
+    "name_slug": "el-paso-electric",
+    "website": "http://www.epelectric.com",
+    "url": "http://localhost:8080/directory/el-paso-electric"
+  },
+  {
+    "name": "HomePro Solutions",
+    "name_slug": "homepro-solutions",
+    "website": "http://www.homeprosolutions.com",
+    "url": "http://localhost:8080/directory/homepro-solutions"
+  },
+  {
+    "name": "Dynamic Solar & Electrical",
+    "name_slug": "dynamic-solar-electrical",
+    "website": "https://azdynamicsolar.com/",
+    "url": "http://localhost:8080/directory/dynamic-solar-electrical"
+  },
+  {
+    "name": "Energy Systems Development",
+    "name_slug": "energy-systems-development",
+    "website": "https://www.esdevelop.com",
+    "url": "http://localhost:8080/directory/energy-systems-development"
+  },
+  {
+    "name": "Job E Roofing",
+    "name_slug": "job-e-roofing",
+    "website": "http://www.joberoofing.com",
+    "url": "http://localhost:8080/directory/job-e-roofing"
+  },
+  {
+    "name": "Above All Roofing Solutions, Inc.",
+    "name_slug": "above-all-roofing-solutions-inc",
+    "website": "http://www.aboveallroofingsolutions.com",
+    "url": "http://localhost:8080/directory/above-all-roofing-solutions-inc"
+  },
+  {
+    "name": "Greenlife Technologies",
+    "name_slug": "greenlife-technologies",
+    "website": "http://www.greenlifetechinc.com",
+    "url": "http://localhost:8080/directory/greenlife-technologies"
+  },
+  {
+    "name": "Gold Coast Electric, Inc.",
+    "name_slug": "gold-coast-electric-inc",
+    "website": "https://www.goldcoastelectric.com",
+    "url": "http://localhost:8080/directory/gold-coast-electric-inc"
+  },
+  {
+    "name": "Commercial Solar",
+    "name_slug": "commercial-solar",
+    "website": "http://www.commercialsolar.biz",
+    "url": "http://localhost:8080/directory/commercial-solar"
+  },
+  {
+    "name": "Joe Fortuna Electric Co. Inc.",
+    "name_slug": "joe-fortuna-electric-co-inc",
+    "website": "http://Not provided",
+    "url": "http://localhost:8080/directory/joe-fortuna-electric-co-inc"
+  },
+  {
+    "name": "Colonial Remodeling LLC",
+    "name_slug": "colonial-remodeling-llc",
+    "website": "http://www.colonialremodeling.com",
+    "url": "http://localhost:8080/directory/colonial-remodeling-llc"
+  },
+  {
+    "name": "410Energy Solutions, LLC",
+    "name_slug": "410energy-solutions-llc",
+    "website": "http://410energy.com/",
+    "url": "http://localhost:8080/directory/410energy-solutions-llc"
+  },
+  {
+    "name": "Geothermal Energy Systems",
+    "name_slug": "geothermal-energy-systems",
+    "website": "http://Geothermal/Geothermal.asp",
+    "url": "http://localhost:8080/directory/geothermal-energy-systems"
+  },
+  {
+    "name": "Good Energy LLC",
+    "name_slug": "good-energy-llc",
+    "website": "http://www.goodenergyllc.us",
+    "url": "http://localhost:8080/directory/good-energy-llc"
+  },
+  {
+    "name": "Horizon Solar LLC",
+    "name_slug": "horizon-solar-llc",
+    "website": "http://horizon-solar.com/",
+    "url": "http://localhost:8080/directory/horizon-solar-llc"
+  },
+  {
+    "name": "Heating & Air Conditioning New Cumberland | Daflure",
+    "name_slug": "heating-air-conditioning-new-cumberland-daflure",
+    "website": "http://www.daflure.com",
+    "url": "http://localhost:8080/directory/heating-air-conditioning-new-cumberland-daflure"
+  },
+  {
+    "name": "Haughn Electric",
+    "name_slug": "haughn-electric",
+    "website": "https://www.haughnelectric.com",
+    "url": "http://localhost:8080/directory/haughn-electric"
+  },
+  {
+    "name": "Infinity Solar Solutions, LLC",
+    "name_slug": "infinity-solar-solutions-llc",
+    "website": "https://www.infinitysolarsolutions.net",
+    "url": "http://localhost:8080/directory/infinity-solar-solutions-llc"
+  },
+  {
+    "name": "Advanced Solar Solutions",
+    "name_slug": "advanced-solar-solutions",
+    "website": "http://advancedsolarny.com",
+    "url": "http://localhost:8080/directory/advanced-solar-solutions"
+  },
+  {
+    "name": "Florida Renewable Experts",
+    "name_slug": "florida-renewable-experts",
+    "website": "http://www.floridarenewableexperts.com",
+    "url": "http://localhost:8080/directory/florida-renewable-experts"
+  },
+  {
+    "name": "3rd Rock Contracting Roofing & Solar",
+    "name_slug": "3rd-rock-contracting-roofing-solar",
+    "website": "http://www.3rdrockcontracting.com/",
+    "url": "http://localhost:8080/directory/3rd-rock-contracting-roofing-solar"
+  },
+  {
+    "name": "ev-energy",
+    "name_slug": "ev-energy",
+    "website": "http://www.ev-energy.com",
+    "url": "http://localhost:8080/directory/ev-energy"
+  },
+  {
+    "name": "Arise Solar Solutions",
+    "name_slug": "arise-solar-solutions",
+    "website": "http://www.arisesolarsolutions.com",
+    "url": "http://localhost:8080/directory/arise-solar-solutions"
+  },
+  {
+    "name": "Desert Star Power",
+    "name_slug": "desert-star-power",
+    "website": "https://desertstarpower.com/",
+    "url": "http://localhost:8080/directory/desert-star-power"
+  },
+  {
+    "name": "Front Range Renewable Energy, FRRE",
+    "name_slug": "front-range-renewable-energy-frre",
+    "website": "https://www.front-rang-renewable-energy.com",
+    "url": "http://localhost:8080/directory/front-range-renewable-energy-frre"
+  },
+  {
+    "name": "Dale's Roofing and Repair, LLC.",
+    "name_slug": "dale-s-roofing-and-repair-llc",
+    "website": "http://www.dalesroofingandrepair.com/",
+    "url": "http://localhost:8080/directory/dale-s-roofing-and-repair-llc"
+  }
+]

@@ -71,8 +71,9 @@ const NavBar = () => {
   }, [location.pathname]);
 
   return (
-    <nav className="fixed w-full z-50 bg-white dark:bg-gray-900 shadow-md px-4">
-        <div className="flex justify-between h-16 w-full">
+    <nav className="fixed top-0 w-full z-50 bg-white dark:bg-gray-900 shadow-md">
+        <div className="container mx-auto px-4">
+            <div className="flex justify-between h-16 w-full">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <span className="text-2xl font-bold text-solar-600 dark:text-solar-400">SolarHub</span>
@@ -152,8 +153,8 @@ const NavBar = () => {
                 </Button>
               </div>
             ) : (
-              <Link to="/auth">
-                <Button variant="default" className="bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600">
+              <Link to="/auth" className="w-full h-full">
+                <Button variant="default" className="w-full h-full bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600">
                   Sign In
                 </Button>
               </Link>
@@ -187,10 +188,11 @@ const NavBar = () => {
               )}
             </button>
           </div>
-        </div>
+           </div>
+       </div>
 
-      {/* Mobile menu */}
-      <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-white dark:bg-gray-900 shadow-lg`}>
+     {/* Mobile menu */}
+     <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-white dark:bg-gray-900 shadow-lg`}>
         <div className="px-2 pt-2 pb-3 space-y-1">
           <Link to="/directory" className={`${location.pathname === '/directory' ? 'bg-solar-50 dark:bg-gray-800 text-solar-600 dark:text-solar-400' : 'text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-solar-600 dark:hover:text-solar-400'} block px-3 py-2 rounded-md font-medium`}>
             Directory

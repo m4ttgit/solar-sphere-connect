@@ -102,14 +102,14 @@ const ArticlePage: React.FC = () => {
     <div className="min-h-screen flex flex-col dark:bg-gray-900">
       <NavBar />
       <div className="container mx-auto pt-32 pb-16 px-4 flex-grow">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-solar-800 dark:text-white mb-4">SolarHub Blog</h1>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Discover the latest news, insights, and guides on solar energy, sustainability, and renewable technologies.
             </p>
           </div>
-          
+
           {isLoading ? (
             <div className="flex justify-center items-center py-16">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-solar-600"></div>

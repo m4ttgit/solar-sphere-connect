@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, MapPin, ArrowRight } from 'lucide-react';
-import { fetchSolarContacts, slugify } from '../lib/utils';
+import { fetchSolarContacts, searchSolarContacts, getTotalContactsCount, getSearchResultsCount, slugify } from '../lib/utils';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -31,9 +31,13 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
   const ITEMS_PER_PAGE = 10;
   
   const { data: contacts, isLoading, error } = useQuery({
-    queryKey: ['solarContacts'],
+    queryKey: ['solarContacts', currentPage, searchTerm, searchField],
     queryFn: async () => {
-      const data = await fetchSolarContacts();
+      const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+      const data = searchTerm 
+        ? await searchSolarContacts(searchTerm, searchField, ITEMS_PER_PAGE, offset)
+        : await fetchSolarContacts(ITEMS_PER_PAGE, offset);
+      
       if (!data) {
         throw new Error('Failed to fetch contacts or no contacts returned');
       }
@@ -41,7 +45,17 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
     },
     retry: 2,
     retryDelay: 1000,
-    staleTime: 0, // Ensure data is always fetched fresh
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: totalCount } = useQuery({
+    queryKey: ['totalCount', searchTerm, searchField],
+    queryFn: async () => {
+      return searchTerm 
+        ? await getSearchResultsCount(searchTerm, searchField)
+        : await getTotalContactsCount();
+    },
+    staleTime: 10 * 60 * 1000, // Cache count for 10 minutes
   });
 
   useEffect(() => {
@@ -56,53 +70,9 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
     }
   }, [searchParams, contacts]);
 
-  const filteredContacts = contacts?.filter(contact => {
-    if (!searchTerm) return true;
-    
-    const term = searchTerm.toLowerCase();
-    
-    if (searchField === 'all') {
-      return (
-        (typeof contact.name === 'string' && String(contact.name).toLowerCase().includes(term)) ||
-        (typeof contact.description === 'string' && String(contact.description).toLowerCase().includes(term)) ||
-        (typeof contact.city === 'string' && String(contact.city).toLowerCase().includes(term)) ||
-        (typeof contact.state === 'string' && String(contact.state).toLowerCase().includes(term)) ||
-        (typeof contact.zip_code === 'string' && String(contact.zip_code).toLowerCase().includes(term)) ||
-        (Array.isArray(contact.services) && contact.services.some((service: string) => 
-          typeof service === 'string' && service?.toLowerCase().includes(term)
-        )) ||
-        (typeof contact.certifications === 'string' && String(contact.certifications).toLowerCase().includes(term))
-      );
-    }
-    
-    switch (searchField) {
-      case 'name':
-        return typeof contact.name === 'string' && String(contact.name).toLowerCase().includes(term);
-      case 'description':
-        return typeof contact.description === 'string' && String(contact.description).toLowerCase().includes(term);
-      case 'city':
-        return typeof contact.city === 'string' && String(contact.city).toLowerCase().includes(term);
-      case 'state':
-        return typeof contact.state === 'string' && String(contact.state).toLowerCase().includes(term);
-      case 'zip':
-        return typeof contact.zip_code === 'string' && String(contact.zip_code).toLowerCase().includes(term);
-      case 'services':
-        return Array.isArray(contact.services) && contact.services.some((service: string) => 
-          typeof service === 'string' && service?.toLowerCase().includes(term)
-        );
-      case 'certifications':
-        return typeof contact.certifications === 'string' && String(contact.certifications).toLowerCase().includes(term);
-      default:
-        return false;
-    }
-  }) || [];
-
-  const totalItems = filteredContacts.length;
+  const totalItems = totalCount || 0;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-  const paginatedContacts = filteredContacts.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const paginatedContacts = contacts || [];
 
   useEffect(() => {
     setCurrentPage(1);
@@ -194,7 +164,7 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
                 {isLoading ? (
                   'Loading contacts...'
                 ) : (
-                  `Showing ${paginatedContacts.length} of ${totalItems} contacts`
+                  `Showing ${(currentPage - 1) * ITEMS_PER_PAGE + 1}-${Math.min(currentPage * ITEMS_PER_PAGE, totalItems)} of ${totalItems} contacts`
                 )}
               </p>
               {selectedCompanies.length >= 1 && (
@@ -250,7 +220,6 @@ const DirectoryPage: React.FC<DirectoryPageProps> = () => {
                     </CardHeader>
                     <CardContent>
                       <Link to={`/directory/${contact.name_slug}`} className="block">
-                        <p className="line-clamp-2">{contact.description}</p>
                         <div className="mt-2 text-sm text-gray-500">
                           <span className="flex items-center">
                             <MapPin size={14} className="mr-1" />

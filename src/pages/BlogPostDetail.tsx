@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { Card } from '@/components/ui/card';
 import { useParams, useNavigate } from 'react-router-dom';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -9,6 +9,9 @@ import { Separator } from '@/components/ui/separator';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 const BlogPostDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -86,12 +89,12 @@ const BlogPostDetail: React.FC = () => {
           text: 'Check out this blog post!',
           url: window.location.href,
         });
-        console.log('Content shared successfully');
+        // Content shared successfully
       } catch (error) {
-        console.error('Error sharing:', error);
+        // Error sharing
       }
     } else {
-      alert('Web Share API is not supported in your browser.');
+      // Web Share API is not supported
     }
   };
 
@@ -192,10 +195,10 @@ const BlogPostDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col dark:bg-gray-900">
+    <div className="min-h-screen flex flex-col dark:bg-gray-900 bg-gray-100">
       <NavBar />
       <div className="container mx-auto pt-32 pb-16 px-4 flex-grow">
-        <div className="max-w-4xl mx-auto">
+        <Card className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
           <Button
             variant="outline"
             className="mb-6 dark:bg-gray-700 dark:text-white dark:border-gray-600"
@@ -230,7 +233,6 @@ const BlogPostDetail: React.FC = () => {
           </div>
 
           <div className="mb-8 rounded-xl overflow-hidden h-[400px] mt-8">
-            {/* Added mt-8 for spacing */}
             <img
               src={post.image}
               alt={post.title}
@@ -268,10 +270,49 @@ const BlogPostDetail: React.FC = () => {
             )}
           </div>
 
-          <div
-            className="prose prose-lg max-w-none prose-headings:text-solar-800 prose-a:text-solar-600 dark:prose-invert dark:prose-headings:text-solar-400 dark:prose-a:text-solar-400"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <article className="prose prose-lg max-w-none dark:prose-invert">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                h1: ({ children }) => (
+                  <h1 className="text-3xl font-bold text-solar-800 dark:text-white mb-6 mt-8 border-b border-gray-200 dark:border-gray-700 pb-2">{children}</h1>
+                ),
+                h2: ({ children }) => (
+                  <h2 className="text-2xl font-semibold text-solar-700 dark:text-solar-300 mb-4 mt-8">{children}</h2>
+                ),
+                h3: ({ children }) => (
+                  <h3 className="text-xl font-semibold text-solar-600 dark:text-solar-400 mb-3 mt-6">{children}</h3>
+                ),
+                p: ({ children }) => (
+                  <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed text-base">{children}</p>
+                ),
+                ul: ({ children }) => (
+                  <ul className="list-disc list-inside mb-6 text-gray-700 dark:text-gray-300 space-y-2 ml-4">{children}</ul>
+                ),
+                ol: ({ children }) => (
+                  <ol className="list-decimal list-inside mb-6 text-gray-700 dark:text-gray-300 space-y-2 ml-4">{children}</ol>
+                ),
+                li: ({ children }) => (
+                  <li className="text-gray-700 dark:text-gray-300 mb-1">{children}</li>
+                ),
+                strong: ({ children }) => (
+                  <strong className="font-semibold text-solar-800 dark:text-solar-300">{children}</strong>
+                ),
+                blockquote: ({ children }) => (
+                  <blockquote className="border-l-4 border-solar-500 pl-6 italic text-gray-600 dark:text-gray-400 my-6 bg-gray-50 dark:bg-gray-800 py-4 rounded-r">{children}</blockquote>
+                ),
+                code: ({ children }) => (
+                  <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono text-solar-700 dark:text-solar-300">{children}</code>
+                ),
+                pre: ({ children }) => (
+                  <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto mb-6 border">{children}</pre>
+                ),
+              }}
+            >
+              {post.content}
+            </ReactMarkdown>
+          </article>
 
           <Separator className="my-12 dark:bg-gray-700" />
 
@@ -291,7 +332,7 @@ const BlogPostDetail: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
       <Footer />
     </div>

@@ -1,0 +1,18 @@
+{
+  "valid": 2546,
+  "invalid": [],
+  "updated": [
+    {
+      "id": 612,
+      "old_slug": "malama-solar",
+      "new_slug": "m-lama-solar",
+      "name": "M?lama Solar"
+    },
+    {
+      "id": 1536,
+      "old_slug": "",
+      "new_slug": "solar-patios-and-pergolas",
+      "name": "Solar Patios and Pergolas"
+    }
+  ]
+}

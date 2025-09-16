@@ -16,29 +16,21 @@ export function slugify(str: string): string {
     .replace(/^-|-$/g, '');
 }
 
-export async function fetchSolarContacts(): Promise<Tables<'solarhub_db'>[] | null> {
+export async function fetchSolarContacts(limit = 50, offset = 0): Promise<Partial<Tables<'solarhub_db'>>[] | null> {
   try {
-    console.log('Attempting to fetch solar contacts from Supabase...');
-    
-    const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error('Request timed out')), 10000);
-    });
-    
-    const result = await Promise.race([
-      supabase.from('solarhub_db').select('*').range(0, 99999), // Fetch all contacts up to 100,000 records (0-indexed)
-      timeoutPromise
-    ]);
-    
-    console.log('Raw Supabase result:', JSON.stringify(result, null, 2)); // Log the raw result
-    const supabaseResult = result as { data: Tables<'solarhub_db'>[] | null; error: unknown };
-    const { data, error } = supabaseResult;
-    
+    const result = await supabase
+      .from('solarhub_db')
+      .select('id,name,name_slug,city,state,website') // Only essential fields
+      .range(offset, offset + limit - 1)
+      .limit(limit);
+
+    const { data, error } = result;
+
     if (error) {
       console.error('Error fetching solar contacts:', error);
       return null;
     }
-    
-    console.log('Successfully fetched solar contacts:', data?.length || 0, 'records');
+
     return data;
   } catch (error) {
     console.error('Exception when fetching solar contacts:', error);
@@ -48,31 +40,99 @@ export async function fetchSolarContacts(): Promise<Tables<'solarhub_db'>[] | nu
 
 export async function getAllSolarContacts(): Promise<Tables<'solarhub_db'>[] | null> {
   try {
-    console.log('Attempting to fetch solar contacts from Supabase...');
-    
-    const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error('Request timed out')), 10000);
-    });
-    
-    const result = await Promise.race([
-      supabase.from('solarhub_db').select('*').range(0, 99999), // Fetch all contacts up to 100,000 records (0-indexed)
-      timeoutPromise
-    ]);
-    
-    console.log('Raw Supabase result (getAllSolarContacts):', JSON.stringify(result, null, 2)); // Log the raw result
-    const supabaseResult = result as { data: Tables<'solarhub_db'>[] | null; error: unknown };
-    const { data, error } = supabaseResult;
-    
+    const { data, error } = await supabase
+      .from('solarhub_db')
+      .select('*');
+
     if (error) {
-      console.error('Error fetching solar contacts:', error);
+      console.error('Error fetching all solar contacts:', error);
       return null;
     }
-    
-    console.log('Successfully fetched solar contacts:', data?.length || 0, 'records');
+
     return data;
   } catch (error) {
-    console.error('Exception when fetching solar contacts:', error);
+    console.error('Exception when fetching all solar contacts:', error);
     return null;
+  }
+}
+
+export async function getTotalContactsCount(): Promise<number> {
+  try {
+    const { count, error } = await supabase
+      .from('solarhub_db')
+      .select('*', { count: 'exact', head: true });
+    
+    if (error) {
+      console.error('Error getting total count:', error);
+      return 0;
+    }
+    
+    return count || 0;
+  } catch (error) {
+    console.error('Error in getTotalContactsCount:', error);
+    return 0;
+  }
+}
+
+export async function searchSolarContacts(searchTerm: string, searchField: string, limit = 50, offset = 0): Promise<Partial<Tables<'solarhub_db'>>[] | null> {
+  try {
+    let query = supabase
+      .from('solarhub_db')
+      .select('id,name,name_slug,city,state,website');
+
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+
+      if (searchField === 'all') {
+        query = query.or(`name.ilike.%${term}%,city.ilike.%${term}%,state.ilike.%${term}%`);
+      } else {
+        query = query.ilike(searchField, `%${term}%`);
+      }
+    }
+
+    const { data, error } = await query
+      .range(offset, offset + limit - 1)
+      .limit(limit);
+
+    if (error) {
+      console.error('Error searching solar contacts:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Exception when searching solar contacts:', error);
+    return null;
+  }
+}
+
+export async function getSearchResultsCount(searchTerm: string, searchField: string): Promise<number> {
+  try {
+    let query = supabase
+      .from('solarhub_db')
+      .select('*', { count: 'exact', head: true });
+    
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      
+      if (searchField === 'all') {
+        query = query.or(`name.ilike.%${term}%,city.ilike.%${term}%,state.ilike.%${term}%`);
+      } else {
+        query = query.ilike(searchField, `%${term}%`);
+      }
+    }
+    
+    const { count, error } = await query;
+    
+    if (error) {
+      console.error('Error getting search results count:', error);
+      return 0;
+    }
+    
+    return count || 0;
+  } catch (error) {
+    console.error('Error in getSearchResultsCount:', error);
+    return 0;
   }
 }
 
@@ -102,7 +162,7 @@ export async function fetchSolarContactByName(companyName: string): Promise<Tabl
     ]);
     
     const supabaseResult = result as { data: Tables<'solarhub_db'> | null; error: unknown };
-    let { data, error } = supabaseResult;
+    const { data, error } = supabaseResult;
     
     if (data && typeof data.services === 'string') {
       try {
@@ -173,7 +233,7 @@ export async function fetchSolarContactById(id: string) {
     .eq('id', id)
     .single();
 
-  let { data, error } = supabaseResult;
+  const { data, error } = supabaseResult;
 
   if (data) {
     if (data.business_products_services && typeof data.business_products_services === 'string') {

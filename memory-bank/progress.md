@@ -18,3 +18,5 @@
   - [x] Fixed slug generation consistency (98% consistency achieved)
   - [x] Fixed duplicate name_slug issue with unique suffixes
   - [x] Validated slug generation logic matches TypeScript implementation
+- [x] Fixed the Sign In button in `NavBar.tsx`.
+- [x] Fixed the sidebar background color in `BlogPostDetail.tsx`.
