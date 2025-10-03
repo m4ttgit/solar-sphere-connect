@@ -32,6 +32,9 @@ import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import ComparisonPage from "./pages/ComparisonPage";
 import SolarSystemToolsPage from "./pages/SolarSystemToolsPage";
 import ShopPage from "./pages/ShopPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsOfServicePage from "./pages/TermsOfServicePage";
+import ContactPage from "./pages/ContactPage";
 
 // Ensure no duplicate SubmitBusinessPage imports
 const queryClient = new QueryClient({
@@ -142,6 +145,9 @@ const App = () => {
                   <Route path="/solar-tools" element={<SolarSystemToolsPage />} />
                   <Route path="/eia-data" element={<EiaDataPage />} />
                   <Route path="/shop" element={<ShopPage />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+                  <Route path="/terms" element={<TermsOfServicePage />} />
+                  <Route path="/contact" element={<ContactPage />} />
                   <Route path="*" element={<NotFound />} />
                   
                   <Route 

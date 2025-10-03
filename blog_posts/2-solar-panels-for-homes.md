@@ -5,7 +5,7 @@ author: Solar Energy Expert
 date: 2025-09-12
 read_time: 9 min read
 category: Home Solar
-image: /images/adiding-lights.jpg
+image: /images/eco-worthy-panel.jpg
 keywords: solar panels for homes, residential solar installation, home solar system cost, solar panel installation guide, solar energy for homeowners
 ---
 

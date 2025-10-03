@@ -5,7 +5,7 @@ author: Solar Energy Expert
 date: 2025-09-12
 read_time: 7 min read
 category: Solar Trends
-image: /images/wdtpro-lights.jpg
+image: https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80
 keywords: future of solar energy, solar technology innovations, perovskite solar cells, floating solar farms, solar energy trends, next generation solar panels
 ---
 

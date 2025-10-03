@@ -5,7 +5,7 @@ author: Solar Energy Expert
 date: 2025-09-12
 read_time: 7 min read
 category: Solar Basics
-image: /images/eco-worthy-panel.jpg
+image: https://images.unsplash.com/photo-1497440001374-f26997328c1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80
 keywords: solar energy basics, how solar energy works, solar power benefits, renewable energy guide, photovoltaic technology, solar energy explained
 ---
 

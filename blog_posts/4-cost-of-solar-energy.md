@@ -5,7 +5,7 @@ author: Solar Energy Expert
 date: 2025-09-12
 read_time: 6 min read
 category: Solar Cost
-image: /images/portable-fan.jpg
+image: https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80
 keywords: solar panel cost, solar installation cost, solar ROI, solar tax credits, solar payback period, solar financing options, solar savings calculator
 ---
 

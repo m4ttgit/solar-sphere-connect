@@ -37,6 +37,27 @@ const BlogPostDetail: React.FC = () => {
     },
   });
 
+  // Fetch next blog post (older date)
+  const { data: nextPost } = useQuery({
+    queryKey: ['next-blog-post', post?.date],
+    queryFn: async () => {
+      if (!post?.date) return null;
+
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('slug, title')
+        .eq('published', true)
+        .lt('date', post.date)
+        .order('date', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error && error.code !== 'PGRST116') throw error; // PGRST116 is "no rows returned"
+      return data;
+    },
+    enabled: !!post?.date,
+  });
+
   useEffect(() => {
     const checkLikeStatus = async () => {
       if (!user?.id || !post?.id) return;
@@ -315,6 +336,25 @@ const BlogPostDetail: React.FC = () => {
           </article>
 
           <Separator className="my-12 dark:bg-gray-700" />
+
+          <div className="flex justify-between items-center mb-8">
+            <Button
+              variant="outline"
+              className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              onClick={() => navigate('/blog')}
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" /> Back to Blog
+            </Button>
+            {nextPost && (
+              <Button
+                variant="default"
+                className="bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600"
+                onClick={() => navigate(`/blog/${nextPost.slug}`)}
+              >
+                Next Article: {nextPost.title}
+              </Button>
+            )}
+          </div>
 
           <div className="bg-solar-50 dark:bg-gray-800 rounded-lg p-8 dark:border dark:border-gray-700">
             <div className="flex items-start gap-6">
