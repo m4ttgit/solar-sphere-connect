@@ -23,7 +23,7 @@ import BlogPostsList from "./pages/admin/BlogPostsList";
 import BlogPostForm from "./pages/admin/BlogPostForm";
 import BusinessListPage from "./pages/admin/BusinessListPage";
 import BusinessDetailsPage from "./pages/admin/BusinessDetailsPage";
-import ContactsListPage from "./pages/admin/ContactsListPage";
+import InquiryPage from "./pages/admin/InquiryPage";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import CompanyDetailPage from "./pages/CompanyDetailPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -128,13 +128,13 @@ const App = () => {
                       </AdminProtectedRoute>
                     } 
                   />
-                  <Route 
-                    path="/admin/contacts" 
+                  <Route
+                    path="/admin/inquiries"
                     element={
                       <AdminProtectedRoute>
-                        <ContactsListPage />
+                        <InquiryPage />
                       </AdminProtectedRoute>
-                    } 
+                    }
                   />
                   {/* Password Reset Routes */}
                   <Route path="/forgot-password" element={<ForgotPasswordPage />} />

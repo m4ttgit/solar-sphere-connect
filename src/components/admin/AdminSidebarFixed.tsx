@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Users, Briefcase, LayoutDashboard } from 'lucide-react';
+import { Users, Briefcase, LayoutDashboard, MessageSquare } from 'lucide-react';
 
 const AdminSidebarFixed: React.FC = () => {
   return (
@@ -28,13 +28,14 @@ const AdminSidebarFixed: React.FC = () => {
             <span>Businesses</span>
           </NavLink>
           
-          <NavLink 
-            to="/admin/contacts" 
+          <NavLink
+            to="/admin/inquiries"
             className="flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
           >
-            <Users size={18} />
-            <span>Contacts</span>
+            <MessageSquare size={18} />
+            <span>Inquiries</span>
           </NavLink>
+
         </nav>
       </div>
     </aside>

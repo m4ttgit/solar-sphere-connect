@@ -26,6 +26,18 @@ This file contains the current work focus, recent changes, active decisions, imp
 
 **Recent Changes:**
 
+*   Implemented comprehensive contact form system:
+    *   Created `ContactPage.tsx` with form validation, submission handling, and user feedback.
+    *   Created Supabase Edge Function `submit-contact` for processing form submissions and sending email notifications.
+    *   Added `/contact` route to `App.tsx` for the new contact page.
+    *   Integrated Resend API for automated email notifications to administrators.
+
+*   Implemented admin inquiry management system:
+    *   Created `InquiryPage.tsx` for administrators to view, search, and manage customer inquiries.
+    *   Updated `AdminSidebar.tsx` and `AdminSidebarFixed.tsx` to include "Inquiries" navigation section.
+    *   Added `/admin/inquiries` route to `App.tsx` with proper admin protection.
+    *   Implemented CRUD operations for inquiry management including deletion functionality.
+
 *   Updated Supabase connection to use the `solar_contacts` table instead of the `solar_businesses` table.
     *   Modified `src/integrations/supabase/types.ts` to reflect the new schema.
     *   Modified `src/types/blog.ts` to use `Json[] | null` for the `services` and `certifications` properties in the `SolarBusiness` type.

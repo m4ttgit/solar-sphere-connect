@@ -7,8 +7,9 @@ Solar Sphere Connect is a web application designed to connect users with solar e
 - **User Authentication:** Secure user registration, login, and password management.
 - **Business Directory:** A searchable and filterable directory of solar companies.
 - **Company Profiles:** Detailed pages for each company, including contact information, services, and potentially reviews.
+- **Contact Form System:** Customer inquiry form with email notifications and admin management interface.
 - **Blog/Article Section:** A content management system for publishing articles related to solar energy.
-- **Admin Dashboard:** Tools for administrators to manage users, blog posts, and company listings.
+- **Admin Dashboard:** Tools for administrators to manage users, blog posts, company listings, and customer inquiries.
 - **Comparison Tool:** Functionality to compare different solar providers or solutions.
 - **Responsive Design:** Ensure the application is accessible and functional across various devices.
 - **Scalability:** Built on a robust backend (Supabase) to handle future growth.

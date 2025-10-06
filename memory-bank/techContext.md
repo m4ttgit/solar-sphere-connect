@@ -154,6 +154,7 @@ This file lists technologies and frameworks used, describes the development setu
 *   Node.js and npm/yarn for package management.
 *   Vite for local development server and build process.
 *   Supabase CLI for local Supabase development and migrations.
+*   Deno runtime for Supabase Edge Functions development.
 *   VS Code with relevant extensions for React, TypeScript, and Tailwind CSS.
 
 **Technical Constraints:**
@@ -162,6 +163,13 @@ This file lists technologies and frameworks used, describes the development setu
 *   Supabase as the primary backend for database, authentication, and edge functions.
 *   Real-time features are dependent on Supabase Realtime.
 *   Performance considerations for large datasets will require pagination and efficient querying.
+*   Email notifications dependent on Resend API service availability.
+
+**Edge Functions & External Integrations:**
+
+*   **Supabase Edge Functions:** Deno-based serverless functions for contact form processing.
+*   **Resend API:** Email service for automated notifications to administrators.
+*   **Contact Form Processing:** Server-side validation, database storage, and email notifications.
 
 **Tool Configurations:**
 

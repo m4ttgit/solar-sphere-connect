@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Users, Briefcase, LayoutDashboard } from 'lucide-react';
+import { Users, Briefcase, LayoutDashboard, MessageSquare } from 'lucide-react';
 
 const AdminSidebar: React.FC = () => {
 
@@ -41,19 +41,20 @@ const AdminSidebar: React.FC = () => {
             <span>Businesses</span>
           </NavLink>
           
-          <NavLink 
-            to="/admin/contacts" 
-            className={({ isActive }) => 
+          <NavLink
+            to="/admin/inquiries"
+            className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                isActive 
-                  ? 'bg-gray-100 text-solar-600 dark:bg-gray-700 dark:text-solar-400' 
+                isActive
+                  ? 'bg-gray-100 text-solar-600 dark:bg-gray-700 dark:text-solar-400'
                   : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
               }`
             }
           >
-            <Users size={18} />
-            <span>Contacts</span>
+            <MessageSquare size={18} />
+            <span>Inquiries</span>
           </NavLink>
+
         </nav>
         
         {/* Sign Out button removed */}

@@ -1,21 +1,66 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import { supabase } from '@/integrations/supabase/client';
 
 const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
+    phone: '',
+    company: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    alert('Thank you for your message! We\'ll get back to you soon.');
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('submit-contact', {
+        body: {
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          phone: formData.phone || undefined,
+          company: formData.company || undefined
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Success
+      setSubmitSuccess(true);
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        phone: '',
+        company: ''
+      });
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitSuccess(false);
+      }, 5000);
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitError(error?.message || 'Failed to submit form. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -37,61 +82,7 @@ const ContactPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
-              <h2 className="text-2xl font-semibold text-solar-800 dark:text-solar-300 mb-6">Get in Touch</h2>
-              
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <Mail className="w-6 h-6 text-solar-600 dark:text-solar-400 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-solar-800 dark:text-solar-300">Email</h3>
-                    <p className="text-gray-600 dark:text-gray-400">info@solarsphereconnect.com</p>
-                    <p className="text-gray-600 dark:text-gray-400">support@solarsphereconnect.com</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <Phone className="w-6 h-6 text-solar-600 dark:text-solar-400 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-solar-800 dark:text-solar-300">Phone</h3>
-                    <p className="text-gray-600 dark:text-gray-400">1-800-SOLAR-01</p>
-                    <p className="text-gray-600 dark:text-gray-400">Mon-Fri: 8AM-6PM EST</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <MapPin className="w-6 h-6 text-solar-600 dark:text-solar-400 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-solar-800 dark:text-solar-300">Address</h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      123 Solar Street<br />
-                      Green Energy City, CA 90210<br />
-                      United States
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-600">
-                <h3 className="font-semibold text-solar-800 dark:text-solar-300 mb-4">Business Hours</h3>
-                <div className="space-y-2 text-gray-600 dark:text-gray-400">
-                  <div className="flex justify-between">
-                    <span>Monday - Friday</span>
-                    <span>8:00 AM - 6:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Saturday</span>
-                    <span>9:00 AM - 4:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Sunday</span>
-                    <span>Closed</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
               <h2 className="text-2xl font-semibold text-solar-800 dark:text-solar-300 mb-6">Send us a Message</h2>
               
@@ -124,6 +115,36 @@ const ContactPage: React.FC = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-solar-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-solar-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Company (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-solar-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -163,12 +184,38 @@ const ContactPage: React.FC = () => {
                   />
                 </div>
 
+                {/* Error Message */}
+                {submitError && (
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4">
+                    <p className="text-red-800 dark:text-red-200 text-sm">{submitError}</p>
+                  </div>
+                )}
+
+                {/* Success Message */}
+                {submitSuccess && (
+                  <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4">
+                    <p className="text-green-800 dark:text-green-200 text-sm">
+                      Thank you for your message! We'll get back to you soon.
+                    </p>
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600 text-white py-3 px-6 rounded-md transition duration-200 flex items-center justify-center space-x-2"
+                  disabled={isSubmitting}
+                  className="w-full bg-solar-600 hover:bg-solar-700 dark:bg-solar-700 dark:hover:bg-solar-600 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-md transition duration-200 flex items-center justify-center space-x-2"
                 >
-                  <Send className="w-5 h-5" />
-                  <span>Send Message</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
               </form>
             </div>
