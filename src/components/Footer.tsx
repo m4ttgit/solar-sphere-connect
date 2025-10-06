@@ -68,9 +68,6 @@ const Footer = () => {
           </p>
           <div className="mt-4 md:mt-0">
             <ul className="flex space-x-6">
-              <li><a href="/privacy" className="text-gray-500 hover:text-solar-600 text-sm transition-colors">Privacy</a></li>
-              <li><a href="/terms" className="text-gray-500 hover:text-solar-600 text-sm transition-colors">Terms</a></li>
-              <li><a href="/cookies" className="text-gray-500 hover:text-solar-600 text-sm transition-colors">Cookies</a></li>
             </ul>
           </div>
         </div>
