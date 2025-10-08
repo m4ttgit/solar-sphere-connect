@@ -238,16 +238,16 @@ export async function fetchSolarContactById(id: string) {
   if (data) {
     if (data.business_products_services && typeof data.business_products_services === 'string') {
       try {
-        data.parsed_services = data.business_products_services.split(',').map(s => s.trim()).filter(s => s.length > 0);
+        (data as any).parsed_services = data.business_products_services.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
       } catch (e) {
         console.error('Error parsing business_products_services for services:', e);
-        data.parsed_services = [];
+        (data as any).parsed_services = [];
       }
     } else {
-      data.parsed_services = [];
+      (data as any).parsed_services = [];
     }
 
-    data.parsed_certifications = [];
+    (data as any).parsed_certifications = [];
   }
 
   if (error) {
@@ -257,3 +257,4 @@ export async function fetchSolarContactById(id: string) {
 
   return data;
 }
+

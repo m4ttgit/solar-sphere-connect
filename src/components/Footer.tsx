@@ -7,8 +7,8 @@ const Footer = () => {
   return (
     <footer className="bg-gray-50 border-t border-gray-100">
       <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="space-y-4 md:col-span-1">
             <h3 className="text-xl font-medium text-solar-800">
               Solar<span className="text-solar-600">Hub</span>
             </h3>
@@ -22,43 +22,26 @@ const Footer = () => {
               <SocialIcon icon={<Linkedin size={18} />} />
             </div>
           </div>
-          
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Directory</h4>
-            <ul className="space-y-2">
-              <FooterLink href="/directory" label="Browse All" />
-              <FooterLink href="/directory/installers" label="Solar Installers" />
-              <FooterLink href="/directory/manufacturers" label="Manufacturers" />
-              <FooterLink href="/directory/consultants" label="Consultants" />
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Company</h4>
-            <ul className="space-y-2">
-              <FooterLink href="/about" label="About Us" />
-              <FooterLink href="/privacy-policy" label="Privacy Policy" />
-              <FooterLink href="/terms" label="Terms of Service" />
-              <FooterLink href="/contact" label="Contact" />
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Contact</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center text-gray-600">
-                <MapPin size={16} className="mr-2 text-solar-600" />
-                <span>123 Green Street, Solar City</span>
-              </li>
-              <li className="flex items-center text-gray-600">
-                <Mail size={16} className="mr-2 text-solar-600" />
-                <a href="mailto:hello@solarhub.com" className="hover:text-solar-600 transition-colors">hello@solarhub.com</a>
-              </li>
-              <li className="flex items-center text-gray-600">
-                <Phone size={16} className="mr-2 text-solar-600" />
-                <a href="tel:+1234567890" className="hover:text-solar-600 transition-colors">(123) 456-7890</a>
-              </li>
-            </ul>
+
+          <div className="md:col-span-2">
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Directory</h4>
+                <ul className="space-y-2">
+                  <FooterLink href="/directory" label="Browse All" />
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">Company</h4>
+                <ul className="space-y-2">
+                  <FooterLink href="/about" label="About Us" />
+                  <FooterLink href="/privacy-policy" label="Privacy Policy" />
+                  <FooterLink href="/terms" label="Terms of Service" />
+                  <FooterLink href="/contact" label="Contact" />
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
         

@@ -63,10 +63,10 @@ const App = () => {
                 <Toaster />
                 <Sonner />
                 <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/auth" element={<AuthPage />} />
-                  <Route path="/directory" element={<DirectoryPage />} />
-                  <Route path="/directory/:name_slug" element={<CompanyDetailPage />} />
+                 <Route path="/" element={<Index />} />
+                 <Route path="/auth" element={<AuthPage />} />
+                 <Route path="/directory" element={<DirectoryPage />} />
+                 <Route path="/directory/:name_slug" element={<CompanyDetailPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/blog" element={<ArticlePage />} />
                   <Route path="/blog/:slug" element={<BlogPostDetail />} />
